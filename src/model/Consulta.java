@@ -99,25 +99,21 @@ public class Consulta {
         this.medico = medico;
     }
 
-    public void cadastrarConsulta() {
-
-    }
-
+    // É melhor retornar boolean para indicar sucesso ou falha na operação
     public boolean cadastrarConsulta(Paciente paciente, Medico medico) {
-        String sql = "INSERT INTO Consulta (dataConsulta, dataPrevistaParto, dataUltimaMenstruacao, tipoParto, qtdSemanas, pacienteCpf, medicoCrm) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO consulta (dataConsulta, dataPrevistaParto, dataUltimaMenstruacao, tipoParto, qtdSemanas, pacienteCpf, medicoCrm) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = ConexaoPostgres.getConexao();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conexao = ConexaoPostgres.getConexao();
+                PreparedStatement novaConsulta = conexao.prepareStatement(sql)) {
+            novaConsulta.setObject(1, dataConsulta);
+            novaConsulta.setObject(2, dataPrevistaParto);
+            novaConsulta.setObject(3, dataUltimaMenstruacao);
+            novaConsulta.setString(4, tipoParto);
+            novaConsulta.setString(5, qtdSemanas);
+            novaConsulta.setString(6, paciente.getCpf());
+            novaConsulta.setString(7, medico.getCrm());
 
-            stmt.setObject(1, dataConsulta);
-            stmt.setObject(2, dataPrevistaParto);
-            stmt.setObject(3, dataUltimaMenstruacao);
-            stmt.setString(4, tipoParto);
-            stmt.setString(5, qtdSemanas);
-            stmt.setString(6, paciente.getCpf());
-            stmt.setString(7, medico.getCrm());
-
-            stmt.executeUpdate();
+            novaConsulta.executeUpdate();
             System.out.println("Consulta cadastrada com sucesso!");
             return true;
 
