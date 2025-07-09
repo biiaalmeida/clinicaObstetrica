@@ -126,35 +126,53 @@ public class Consulta {
     public Consulta buscarConsulta(int codigoConsulta) {
         String sql = "SELECT * FROM Consulta WHERE codigoConsulta = ?";
         try (Connection conn = ConexaoPostgres.getConexao();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, codigoConsulta);
             try (java.sql.ResultSet rs = stmt.executeQuery()) {
-               if (rs.next()) {
-                  Consulta consulta = new Consulta();
-                  consulta.setCodigoConsulta(rs.getInt("codigoConsulta"));
-                  consulta.setDataConsulta(rs.getObject("dataConsulta", LocalDate.class));
-                  consulta.setDataPrevistaParto(rs.getObject("dataPrevistaParto", LocalDate.class));
-                  consulta.setDataUltimaMenstruacao(rs.getObject("dataUltimaMenstruacao", LocalDate.class));
-                  consulta.setTipoParto(rs.getString("tipoParto"));
-                  consulta.setQtdSemanas(rs.getString("qtdSemanas"));
+                if (rs.next()) {
+                    Consulta consulta = new Consulta();
+                    consulta.setCodigoConsulta(rs.getInt("codigoConsulta"));
+                    consulta.setDataConsulta(rs.getObject("dataConsulta", LocalDate.class));
+                    consulta.setDataPrevistaParto(rs.getObject("dataPrevistaParto", LocalDate.class));
+                    consulta.setDataUltimaMenstruacao(rs.getObject("dataUltimaMenstruacao", LocalDate.class));
+                    consulta.setTipoParto(rs.getString("tipoParto"));
+                    consulta.setQtdSemanas(rs.getString("qtdSemanas"));
 
-                  // Supondo que existam métodos para buscar Paciente e Medico por CPF/CRM
-                  String pacienteCpf = rs.getString("pacienteCpf");
-                  String medicoCrm = rs.getString("medicoCrm");
-                  Paciente paciente = new Paciente().buscarPaciente(pacienteCpf);
-                  Medico medico = new Medico().buscarMedico(medicoCrm);
+                    // Supondo que existam métodos para buscar Paciente e Medico por CPF/CRM
+                    String pacienteCpf = rs.getString("pacienteCpf");
+                    String medicoCrm = rs.getString("medicoCrm");
+                    Paciente paciente = new Paciente().buscarPaciente(pacienteCpf);
+                    Medico medico = new Medico().buscarMedico(medicoCrm);
 
-                  consulta.setPaciente(paciente);
-                  consulta.setMedico(medico);
+                    consulta.setPaciente(paciente);
+                    consulta.setMedico(medico);
 
-                  return consulta;
-               }
+                    return consulta;
+                }
             }
         } catch (SQLException e) {
             System.out.println("Erro ao buscar consulta: " + e.getMessage());
         }
-        return null; // Placeholder
+        return null;
+    }
+
+    public void imprimirConsultaMedico(String crm) {
+        String sql = "SELECT * FROM consulta WHERE crm = ?";
+        try (Connection conexao = ConexaoPostgres.getConexao();
+                PreparedStatement selectConsultaMed = conexao.prepareStatement(sql)) {
+
+            selectConsultaMed.setString(1, crm);
+            try (java.sql.ResultSet rs = selectConsultaMed.executeQuery()) {
+                while (rs.next()) {
+                    System.out.println("Consulta: " + rs.getInt("codigoConsulta") +
+                            ", Data: " + rs.getObject("dataConsulta", LocalDate.class) +
+                            ", Paciente: " + rs.getString("pacienteCpf"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao imprimir consultas do médico: " + e.getMessage());
+        }
     }
 
     @Override
