@@ -11,26 +11,6 @@ public class Usuario {
         this.email = email;
     }
 
-    public boolean autenticar(String email, String senha) {
-        return this.email.equals(email) && this.senha.equals(senha);
-    }
-
-    public Usuario atualizarCredenciais(String novoNomeUsuario, String novaSenha) {
-        this.nomeUsuario = novoNomeUsuario;
-        this.senha = novaSenha;
-        return this;
-    }
-
-    public String getTipoUsuario() {
-        if (email.endsWith("@medico")) {
-            return "Medico";
-        } else if (email.endsWith("@paciente")) {
-            return "Paciente";
-        } else {
-            throw new IllegalArgumentException("Email deve terminar com @medico ou @paciente");
-        }
-    }
-
     public String getNomeUsuario() {
         return nomeUsuario;
     }
@@ -54,4 +34,25 @@ public class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public boolean autenticar(String email, String senha) {
+        return this.email.equals(email) && this.senha.equals(senha);
+    }
+
+    public Usuario atualizarCredenciais(String novoNomeUsuario, String novaSenha) {
+        this.nomeUsuario = novoNomeUsuario;
+        this.senha = novaSenha;
+        return this;
+    }
+
+    public String getTipoUsuario() {
+        if (email.endsWith("@medico")) {
+            return "Medico";
+        } else if (email.endsWith("@paciente")) {
+            return "Paciente";
+        } else {
+            throw new IllegalArgumentException("Email deve terminar com @medico ou @paciente");
+        }
+    }
+
 }
