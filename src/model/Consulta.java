@@ -1,6 +1,10 @@
 package model;
 
 import java.time.LocalDate;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import util.ConexaoPostgres;
 
 public class Consulta {
     private int codigoConsulta;
@@ -97,6 +101,30 @@ public class Consulta {
 
     public void cadastrarConsulta() {
 
+    }
+
+    public boolean cadastrarConsulta(Paciente paciente, Medico medico) {
+        String sql = "INSERT INTO Consulta (dataConsulta, dataPrevistaParto, dataUltimaMenstruacao, tipoParto, qtdSemanas, pacienteCpf, medicoCrm) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = ConexaoPostgres.getConexao();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setObject(1, dataConsulta);
+            stmt.setObject(2, dataPrevistaParto);
+            stmt.setObject(3, dataUltimaMenstruacao);
+            stmt.setString(4, tipoParto);
+            stmt.setString(5, qtdSemanas);
+            stmt.setString(6, paciente.getCpf());
+            stmt.setString(7, medico.getCrm());
+
+            stmt.executeUpdate();
+            System.out.println("Consulta cadastrada com sucesso!");
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao cadastrar consulta: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
