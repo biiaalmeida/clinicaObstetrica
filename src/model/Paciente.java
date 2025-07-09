@@ -1,5 +1,8 @@
 package model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class Paciente extends Usuario{
     private String cpf;
@@ -29,7 +32,7 @@ public class Paciente extends Usuario{
         this.condicoesPreEx = condicoesPreEx;
     }
  
-}
+
 
     public String getcpf() {
         return cpf;
@@ -110,6 +113,52 @@ public class Paciente extends Usuario{
     public void setCondicoesPreEx(String condicoesPreEx) {
         this.condicoesPreEx = condicoesPreEx;
     }
+    
+    @Override
+    public String toString() {
+        return "Paciente{" +
+                "nomeUsuario='" + getNomeUsuario() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", idade=" + idade +
+                ", telefoneContato='" + telefoneContato + '\'' +
+                ", tipoPlanoSaude='" + tipoPlanoSaude + '\'' +
+                ", tipoSanguineo='" + tipoSanguineo + '\'' +
+                ", alergias='" + alergias + '\'' +
+                ", numGestacoesAnteriores=" + numGestacoesAnteriores +
+                ", vacinas='" + vacinas + '\'' +
+                ", peso=" + peso +
+                ", condicoesPreEx='" + condicoesPreEx + '\'' +
+                '}';
+    }
 
+    public boolean cadastrarPaciente() {
 
+        String sql = "INSERT INTO paciente (nome_usuario, email, senha, cpf, idade, telefone_contato, tipo_plano_saude,tipo_sanguineo, alergias, num_gestacoes_anteriores, vacinas, peso, condicoes_pre_ex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+        try (Connection connection = ConexaoPostgres.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, getNomeUsuario());
+            preparedStatement.setString(2, getEmail());
+            preparedStatement.setString(3, getSenha());
+            preparedStatement.setString(4, cpf);
+            preparedStatement.setInt(5, idade);
+            preparedStatement.setString(6, telefoneContato);
+            preparedStatement.setString(7, tipoPlanoSaude);
+            preparedStatement.setString(8, tipoSanguineo);
+            preparedStatement.setString(9, alergias);
+            preparedStatement.setInt(10, numGestacoesAnteriores);
+            preparedStatement.setString(11, vacinas);
+            preparedStatement.setFloat(12, peso);
+            preparedStatement.setString(13, condicoesPreEx);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; 
+            }
+    }   
+}
