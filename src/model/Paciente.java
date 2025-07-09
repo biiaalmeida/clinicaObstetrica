@@ -110,6 +110,24 @@ public class Paciente extends Usuario{
     public void setCondicoesPreEx(String condicoesPreEx) {
         this.condicoesPreEx = condicoesPreEx;
     }
+    
+    @Override
+    public String toString() {
+        return "Paciente{" +
+                "nomeUsuario='" + getNomeUsuario() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", idade=" + idade +
+                ", telefoneContato='" + telefoneContato + '\'' +
+                ", tipoPlanoSaude='" + tipoPlanoSaude + '\'' +
+                ", tipoSanguineo='" + tipoSanguineo + '\'' +
+                ", alergias='" + alergias + '\'' +
+                ", numGestacoesAnteriores=" + numGestacoesAnteriores +
+                ", vacinas='" + vacinas + '\'' +
+                ", peso=" + peso +
+                ", condicoesPreEx='" + condicoesPreEx + '\'' +
+                '}';
+    }   
 
 
 
