@@ -127,6 +127,40 @@ public class Consulta {
         }
     }
 
+    public Consulta buscarConsulta(int codigoConsulta) {
+        String sql = "SELECT * FROM Consulta WHERE codigoConsulta = ?";
+        try (Connection conn = ConexaoPostgres.getConexao();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, codigoConsulta);
+            try (java.sql.ResultSet rs = stmt.executeQuery()) {
+               if (rs.next()) {
+                  Consulta consulta = new Consulta();
+                  consulta.setCodigoConsulta(rs.getInt("codigoConsulta"));
+                  consulta.setDataConsulta(rs.getObject("dataConsulta", LocalDate.class));
+                  consulta.setDataPrevistaParto(rs.getObject("dataPrevistaParto", LocalDate.class));
+                  consulta.setDataUltimaMenstruacao(rs.getObject("dataUltimaMenstruacao", LocalDate.class));
+                  consulta.setTipoParto(rs.getString("tipoParto"));
+                  consulta.setQtdSemanas(rs.getString("qtdSemanas"));
+
+                  // Supondo que existam métodos para buscar Paciente e Medico por CPF/CRM
+                  String pacienteCpf = rs.getString("pacienteCpf");
+                  String medicoCrm = rs.getString("medicoCrm");
+                  Paciente paciente = new Paciente().buscarPaciente(pacienteCpf);
+                  Medico medico = new Medico().buscarMedico(medicoCrm);
+
+                  consulta.setPaciente(paciente);
+                  consulta.setMedico(medico);
+
+                  return consulta;
+               }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar consulta: " + e.getMessage());
+        }
+        return null; // Placeholder
+    }
+
     @Override
     public String toString() {
         return "Consulta{" +
