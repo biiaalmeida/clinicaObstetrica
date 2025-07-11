@@ -34,91 +34,91 @@ public class Paciente extends Usuario{
  
 
 
-    public String getcpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setcpf(String cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
-    public int getidade() {
+    public int getIdade() {
         return idade;
     }
 
-    public void setidade(int idade) {
+    public void setIdade(int idade) {
         this.idade = idade;
     }
 
-    public String gettelefoneContato() {
+    public String getTelefoneContato() {
         return telefoneContato;
     }
 
-    public void settelefoneContato(String telefoneContato) {
+    public void setTelefoneContato(String telefoneContato) {
         this.telefoneContato = telefoneContato;
     }
 
-    public String gettipoPlanoSaude() {
+    public String getTipoPlanoSaude() {
         return tipoPlanoSaude;
     }
 
-    public void settipoPlanoSaude(String tipoPlanoSaude) {
+    public void setTipoPlanoSaude(String tipoPlanoSaude) {
         this.tipoPlanoSaude = tipoPlanoSaude;
     }
 
-    public String gettipoSanguineo() {
+    public String getTipoSanguineo() {
         return tipoSanguineo;
     }
 
-    public void settipoSanguineo(String tipoSanguineo) {
+    public void setTipoSanguineo(String tipoSanguineo) {
         this.tipoSanguineo = tipoSanguineo;
     }
 
-    public String getalergias() {
+    public String getAlergias() {
         return alergias;
     }
 
-    public void setalergias(String alergias) {
+    public void setAlergias(String alergias) {
         this.alergias = alergias;
     }
 
-    public int getnumGestacoesAnteriores() {
+    public int getNumGestacoesAnteriores() {
         return numGestacoesAnteriores;
     }
 
-    public void setnumGestacoesAnteriores(int numGestacoesAnteriores) {
+    public void setNumGestacoesAnteriores(int numGestacoesAnteriores) {
         this.numGestacoesAnteriores = numGestacoesAnteriores;
     }
 
-    public String getvacinas() {
+    public String getVacinas() {
         return vacinas;
     }
 
-    public void setvacinas(String vacinas) {
+    public void setVacinas(String vacinas) {
         this.vacinas = vacinas;
     }
 
-    public Float getpeso() {
+    public Float getPeso() {
         return peso;
     }
 
-    public void setpeso(Float peso) {
+    public void setPeso(Float peso) {
         this.peso = peso;
     }
 
-    public String getcondicoesPreEx() {
+    public String getCondicoesPreEx() {
         return condicoesPreEx;
     }   
 
-    public void setcondicoesPreEx(String condicoesPreEx) {
+    public void setCondicoesPreEx(String condicoesPreEx) {
         this.condicoesPreEx = condicoesPreEx;
     }
     
     @Override
     public String toString() {
         return "Paciente{" +
-                "nomeUsuario='" + getnomeUsuario() + '\'' +
-                ", email='" + getemail() + '\'' +
+                "nomeUsuario='" + getNomeUsuario() + '\'' +
+                ", email='" + getEmail() + '\'' +
                 ", cpf='" + cpf + '\'' +
                 ", idade=" + idade +
                 ", telefoneContato='" + telefoneContato + '\'' +
@@ -137,28 +137,29 @@ public class Paciente extends Usuario{
         String sql = "INSERT INTO paciente (nome_usuario, email, senha, cpf, idade, telefone_contato, tipo_plano_saude,tipo_sanguineo, alergias, num_gestacoes_anteriores, vacinas, peso, condicoes_pre_ex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ConexaoPostgres.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement novoPaciente = connection.prepareStatement(sql)) {
 
-            preparedStatement.setString(1, getNomeUsuario());
-            preparedStatement.setString(2, getEmail());
-            preparedStatement.setString(3, getSenha());
-            preparedStatement.setString(4, cpf);
-            preparedStatement.setInt(5, idade);
-            preparedStatement.setString(6, telefoneContato);
-            preparedStatement.setString(7, tipoPlanoSaude);
-            preparedStatement.setString(8, tipoSanguineo);
-            preparedStatement.setString(9, alergias);
-            preparedStatement.setInt(10, numGestacoesAnteriores);
-            preparedStatement.setString(11, vacinas);
-            preparedStatement.setFloat(12, peso);
-            preparedStatement.setString(13, condicoesPreEx);
+            novoPaciente.setString(1, getNomeUsuario());
+            novoPaciente.setString(2, getEmail());
+            novoPaciente.setString(3, getSenha());
+            novoPaciente.setString(4, cpf);
+            novoPaciente.setInt(5, idade);
+            novoPaciente.setString(6, telefoneContato);
+            novoPaciente.setString(7, tipoPlanoSaude);
+            novoPaciente.setString(8, tipoSanguineo);
+            novoPaciente.setString(9, alergias);
+            novoPaciente.setInt(10, numGestacoesAnteriores);
+            novoPaciente.setString(11, vacinas);
+            novoPaciente.setFloat(12, peso);
+            novoPaciente.setString(13, condicoesPreEx);
 
-            int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected > 0;
+            novoPaciente.executeUpdate();
+            System.out.println("Paciente cadastrado com sucesso!");
+            return true;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Erro ao cadastrar paciente: " + e.getMessage());
             return false; 
-            }
+        }
     }   
 }
