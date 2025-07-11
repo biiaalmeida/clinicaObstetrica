@@ -42,83 +42,83 @@ public class Paciente extends Usuario{
         this.cpf = cpf;
     }
 
-    public int getIdade() {
+    public int getidade() {
         return idade;
     }
 
-    public void setIdade(int idade) {
+    public void setidade(int idade) {
         this.idade = idade;
     }
 
-    public String getTelefoneContato() {
+    public String gettelefoneContato() {
         return telefoneContato;
     }
 
-    public void setTelefoneContato(String telefoneContato) {
+    public void settelefoneContato(String telefoneContato) {
         this.telefoneContato = telefoneContato;
     }
 
-    public String getTipoPlanoSaude() {
+    public String gettipoPlanoSaude() {
         return tipoPlanoSaude;
     }
 
-    public void setTipoPlanoSaude(String tipoPlanoSaude) {
+    public void settipoPlanoSaude(String tipoPlanoSaude) {
         this.tipoPlanoSaude = tipoPlanoSaude;
     }
 
-    public String getTipoSanguineo() {
+    public String gettipoSanguineo() {
         return tipoSanguineo;
     }
 
-    public void setTipoSanguineo(String tipoSanguineo) {
+    public void settipoSanguineo(String tipoSanguineo) {
         this.tipoSanguineo = tipoSanguineo;
     }
 
-    public String getAlergias() {
+    public String getalergias() {
         return alergias;
     }
 
-    public void setAlergias(String alergias) {
+    public void setalergias(String alergias) {
         this.alergias = alergias;
     }
 
-    public int getNumGestacoesAnteriores() {
+    public int getnumGestacoesAnteriores() {
         return numGestacoesAnteriores;
     }
 
-    public void setNumGestacoesAnteriores(int numGestacoesAnteriores) {
+    public void setnumGestacoesAnteriores(int numGestacoesAnteriores) {
         this.numGestacoesAnteriores = numGestacoesAnteriores;
     }
 
-    public String getVacinas() {
+    public String getvacinas() {
         return vacinas;
     }
 
-    public void setVacinas(String vacinas) {
+    public void setvacinas(String vacinas) {
         this.vacinas = vacinas;
     }
 
-    public Float getPeso() {
+    public Float getpeso() {
         return peso;
     }
 
-    public void setPeso(Float peso) {
+    public void setpeso(Float peso) {
         this.peso = peso;
     }
 
-    public String getCondicoesPreEx() {
+    public String getcondicoesPreEx() {
         return condicoesPreEx;
     }   
 
-    public void setCondicoesPreEx(String condicoesPreEx) {
+    public void setcondicoesPreEx(String condicoesPreEx) {
         this.condicoesPreEx = condicoesPreEx;
     }
     
     @Override
     public String toString() {
         return "Paciente{" +
-                "nomeUsuario='" + getNomeUsuario() + '\'' +
-                ", email='" + getEmail() + '\'' +
+                "nomeUsuario='" + getnomeUsuario() + '\'' +
+                ", email='" + getemail() + '\'' +
                 ", cpf='" + cpf + '\'' +
                 ", idade=" + idade +
                 ", telefoneContato='" + telefoneContato + '\'' +
