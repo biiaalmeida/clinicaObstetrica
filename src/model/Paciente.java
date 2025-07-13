@@ -194,4 +194,56 @@ public class Paciente extends Usuario{
         }
     
     }
+
+    public Paciente buscarPaciente(String cpf) {
+        String sql = "SELECT * FROM paciente WHERE cpf = ?";
+        Paciente paciente = null;
+        try (Connection connection = ConexaoPostgres.getConnection();
+             PreparedStatement buscarPaciente = connection.prepareStatement(sql)) {
+
+            buscarPaciente.setString(1, cpf);
+            var resultSet = buscarPaciente.executeQuery();
+
+            if (resultSet.next()) {
+                paciente = new Paciente(
+                        resultSet.getString("nome_usuario"),
+                        resultSet.getString("email"),
+                        resultSet.getString("senha"),
+                        resultSet.getString("cpf"),
+                        resultSet.getInt("idade"),
+                        resultSet.getString("telefone_contato"),
+                        resultSet.getString("tipo_plano_saude"),
+                        resultSet.getString("tipo_sanguineo"),
+                        resultSet.getString("alergias"),
+                        resultSet.getInt("num_gestacoes_anteriores"),
+                        resultSet.getString("vacinas"),
+                        resultSet.getFloat("peso"),
+                        resultSet.getString("condicoes_pre_ex")
+                );
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar paciente: " + e.getMessage());
+        }
+
+        return paciente;
+
+    }
+
+    public void imprimirDadosPaciente() {
+        System.out.println("Dados do Paciente:");
+        System.out.println("Nome de Usuário: " + getNomeUsuario());
+        System.out.println("Email: " + getEmail());
+        System.out.println("CPF: " + cpf);
+        System.out.println("Idade: " + idade);
+        System.out.println("Telefone de Contato: " + telefoneContato);
+        System.out.println("Tipo de Plano de Saúde: " + tipoPlanoSaude);
+        System.out.println("Tipo Sanguíneo: " + tipoSanguineo);
+        System.out.println("Alergias: " + alergias);
+        System.out.println("Número de Gestações Anteriores: " + numGestacoesAnteriores);
+        System.out.println("Vacinas: " + vacinas);
+        System.out.println("Peso: " + peso);
+        System.out.println("Condições Pré-existentes: " + condicoesPreEx);
+        System.out.println("-----------------------------");
+    }
 }
