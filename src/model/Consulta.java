@@ -167,11 +167,67 @@ public class Consulta {
                 while (rs.next()) {
                     System.out.println("Consulta: " + rs.getInt("codigoConsulta") +
                             ", Data: " + rs.getObject("dataConsulta", LocalDate.class) +
-                            ", Paciente: " + rs.getString("pacienteCpf"));
+                            ", Paciente: " + rs.getString("cpf"));
                 }
             }
         } catch (SQLException e) {
             System.out.println("Erro ao imprimir consultas do médico: " + e.getMessage());
+        }
+    }
+
+    public void imprimirConsultaPaciente(String cpf){
+        String sql = "SELECT * FROM consulta WHERE cpf = ?";
+        try (Connection conexao = ConexaoPostgres.getConexao();
+                PreparedStatement selectConsultaPac = conexao.prepareStatement(sql)) {
+
+            selectConsultaPac.setString(1, cpf);
+            try (java.sql.ResultSet rs = selectConsultaPac.executeQuery()) {
+                while (rs.next()) {
+                    System.out.println("Consulta: " + rs.getInt("codigoConsulta") +
+                            ", Data: " + rs.getObject("dataConsulta", LocalDate.class) +
+                            ", Médico: " + rs.getString("crm"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao imprimir consultas do paciente: " + e.getMessage());
+        }
+    }
+
+    public void imprimirConsulta(String cpf, String crm){
+        String sql = "SELECT * FROM consulta WHERE cpf = ? AND crm = ?";
+        try (Connection conexao = ConexaoPostgres.getConexao();
+                PreparedStatement selectConsulta = conexao.prepareStatement(sql)) {
+
+            selectConsulta.setString(1, cpf);
+            selectConsulta.setString(2, crm);
+            try (java.sql.ResultSet rs = selectConsulta.executeQuery()) {
+                while (rs.next()) {
+                    System.out.println("Consulta: " + rs.getInt("codigoConsulta") +
+                            ", Data: " + rs.getObject("dataConsulta", LocalDate.class) +
+                            ", Paciente: " + rs.getString("cpf") +
+                            ", Médico: " + rs.getString("crm"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao imprimir consulta: " + e.getMessage());
+        }
+    }
+
+    public void listarConsulta(String cpf){
+        String sql = "SELECT * FROM consulta WHERE cpf = ?";
+        try (Connection conexao = ConexaoPostgres.getConexao();
+                PreparedStatement selectConsulta = conexao.prepareStatement(sql)) {
+
+            selectConsulta.setString(1, cpf);
+            try (java.sql.ResultSet rs = selectConsulta.executeQuery()) {
+                while (rs.next()) {
+                    System.out.println("Consulta: " + rs.getInt("codigoConsulta") +
+                            ", Data: " + rs.getObject("dataConsulta", LocalDate.class) +
+                            ", Médico: " + rs.getString("crm"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar consultas do paciente: " + e.getMessage());
         }
     }
 
