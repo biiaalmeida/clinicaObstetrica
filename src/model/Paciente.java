@@ -162,4 +162,36 @@ public class Paciente extends Usuario{
             return false; 
         }
     }   
+
+    public boolean editarPaciente() {
+        String sql = "UPDATE paciente SET nome_usuario = ?, email = ?, senha = ?, cpf = ?, idade = ?, telefone_contato = ?, tipo_plano_saude = ?, tipo_sanguineo = ?, alergias = ?, num_gestacoes_anteriores = ?, vacinas = ?, peso = ?, condicoes_pre_ex = ? WHERE cpf = ?";
+
+        try (Connection connection = ConexaoPostgres.getConnection();
+             PreparedStatement editarPaciente = connection.prepareStatement(sql)) {
+
+            editarPaciente.setString(1, getNomeUsuario());
+            editarPaciente.setString(2, getEmail());
+            editarPaciente.setString(3, getSenha());
+            editarPaciente.setString(4, cpf);
+            editarPaciente.setInt(5, idade);
+            editarPaciente.setString(6, telefoneContato);
+            editarPaciente.setString(7, tipoPlanoSaude);
+            editarPaciente.setString(8, tipoSanguineo);
+            editarPaciente.setString(9, alergias);
+            editarPaciente.setInt(10, numGestacoesAnteriores);
+            editarPaciente.setString(11, vacinas);
+            editarPaciente.setFloat(12, peso);
+            editarPaciente.setString(13, condicoesPreEx);
+            editarPaciente.setString(14, cpf);
+
+            editarPaciente.executeUpdate();
+            System.out.println("Paciente editado com sucesso!");
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao editar paciente: " + e.getMessage());
+            return false; 
+        }
+    
+    }
 }
