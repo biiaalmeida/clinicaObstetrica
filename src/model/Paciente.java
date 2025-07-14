@@ -230,20 +230,13 @@ public class Paciente extends Usuario{
 
     }
 
-    public void imprimirDadosPaciente() {
-        System.out.println("Dados do Paciente:");
-        System.out.println("Nome de Usuário: " + getNomeUsuario());
-        System.out.println("Email: " + getEmail());
-        System.out.println("CPF: " + cpf);
-        System.out.println("Idade: " + idade);
-        System.out.println("Telefone de Contato: " + telefoneContato);
-        System.out.println("Tipo de Plano de Saúde: " + tipoPlanoSaude);
-        System.out.println("Tipo Sanguíneo: " + tipoSanguineo);
-        System.out.println("Alergias: " + alergias);
-        System.out.println("Número de Gestações Anteriores: " + numGestacoesAnteriores);
-        System.out.println("Vacinas: " + vacinas);
-        System.out.println("Peso: " + peso);
-        System.out.println("Condições Pré-existentes: " + condicoesPreEx);
-        System.out.println("-----------------------------");
+    public void imprimirDadosPaciente(string cpf) {
+        Paciente paciente = buscarPaciente(cpf);
+        if (paciente != null) {
+            System.out.println(paciente.toString());
+        } else {
+            System.out.println("Paciente não encontrado.");
+        }
+    
     }
 }
