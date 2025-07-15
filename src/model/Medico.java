@@ -44,9 +44,9 @@ public boolean cadastrarMedico (){
     try (Connection connection = ConexaoPostegres.getConnection();
         PreparedStatement novoMedico = connection.prepareStatement(sql)) {
 
-            novoMedico.setString(1, this.crm);
-            novoMedico.setString(2, this.especialidade);
-            
+            novoMedico.setString(1, getCrm());
+            novoMedico.setString(2, getEspecialidade());
+
             novoMedico.executeUpdate();
             System.out.println("Médico cadastrado com sucesso!");
             return true;
