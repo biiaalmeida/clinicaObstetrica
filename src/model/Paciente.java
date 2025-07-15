@@ -3,6 +3,7 @@ package model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import util.ConexaoPostgres;
 
 public class Paciente extends Usuario{
     private String cpf;
