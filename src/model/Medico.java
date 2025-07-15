@@ -46,15 +46,25 @@ public class Medico extends Usuario {
     }   
     
     public boolean cadastrarMedico (){
-        String sql = "INSERT INTO medico (crm, especialidade) VALUES (?, ?)";
-        
-        try (Connection connection = ConexaoPostgres.getConexao();
-            PreparedStatement novoMedico = connection.prepareStatement(sql)) {
-
-            novoMedico.setString(1, this.crm);
-            novoMedico.setString(2, this.especialidade);
+        try (Connection connection = ConexaoPostgres.getConexao()) {
+            // Primeiro inserir na tabela usuario
+            String sqlUsuario = "INSERT INTO usuario (email, senha, nomeusuario) VALUES (?, ?, ?)";
+            try (PreparedStatement stmtUsuario = connection.prepareStatement(sqlUsuario)) {
+                stmtUsuario.setString(1, this.getEmail());
+                stmtUsuario.setString(2, this.getSenha());
+                stmtUsuario.setString(3, this.getNomeUsuario());
+                stmtUsuario.executeUpdate();
+            }
             
-            novoMedico.executeUpdate();
+            // Depois inserir na tabela medico
+            String sqlMedico = "INSERT INTO medico (crm, especialidade, email) VALUES (?, ?, ?)";
+            try (PreparedStatement stmtMedico = connection.prepareStatement(sqlMedico)) {
+                stmtMedico.setString(1, this.crm);
+                stmtMedico.setString(2, this.especialidade);
+                stmtMedico.setString(3, this.getEmail());
+                stmtMedico.executeUpdate();
+            }
+            
             System.out.println("Médico cadastrado com sucesso!");
             return true;
         } catch (SQLException e) {
