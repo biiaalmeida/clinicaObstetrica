@@ -114,29 +114,13 @@ public class Paciente extends Usuario{
         this.condicoesPreEx = condicoesPreEx;
     }
     
-    @Override
-    public String toString() {
-        return "Paciente{" +
-                "nomeUsuario='" + getNomeUsuario() + '\'' +
-                ", email='" + getEmail() + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", idade=" + idade +
-                ", telefoneContato='" + telefoneContato + '\'' +
-                ", tipoPlanoSaude='" + tipoPlanoSaude + '\'' +
-                ", tipoSanguineo='" + tipoSanguineo + '\'' +
-                ", alergias='" + alergias + '\'' +
-                ", numGestacoesAnteriores=" + numGestacoesAnteriores +
-                ", vacinas='" + vacinas + '\'' +
-                ", peso=" + peso +
-                ", condicoesPreEx='" + condicoesPreEx + '\'' +
-                '}';
-    }
+
 
     public boolean cadastrarPaciente() {
 
         String sql = "INSERT INTO paciente (nome_usuario, email, senha, cpf, idade, telefone_contato, tipo_plano_saude,tipo_sanguineo, alergias, num_gestacoes_anteriores, vacinas, peso, condicoes_pre_ex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection connection = ConexaoPostgres.getConnection();
+        try (Connection connection = ConexaoPostgres.getConexao();
              PreparedStatement novoPaciente = connection.prepareStatement(sql)) {
 
             novoPaciente.setString(1, getNomeUsuario());
@@ -166,7 +150,7 @@ public class Paciente extends Usuario{
     public boolean editarPaciente() {
         String sql = "UPDATE paciente SET nome_usuario = ?, email = ?, senha = ?, cpf = ?, idade = ?, telefone_contato = ?, tipo_plano_saude = ?, tipo_sanguineo = ?, alergias = ?, num_gestacoes_anteriores = ?, vacinas = ?, peso = ?, condicoes_pre_ex = ? WHERE cpf = ?";
 
-        try (Connection connection = ConexaoPostgres.getConnection();
+        try (Connection connection = ConexaoPostgres.getConexao();
              PreparedStatement editarPaciente = connection.prepareStatement(sql)) {
 
             editarPaciente.setString(1, getNomeUsuario());
@@ -198,7 +182,7 @@ public class Paciente extends Usuario{
     public Paciente buscarPaciente(String cpf) {
         String sql = "SELECT * FROM paciente WHERE cpf = ?";
         Paciente paciente = null;
-        try (Connection connection = ConexaoPostgres.getConnection();
+        try (Connection connection = ConexaoPostgres.getConexao();
              PreparedStatement buscarPaciente = connection.prepareStatement(sql)) {
 
             buscarPaciente.setString(1, cpf);
@@ -238,5 +222,23 @@ public class Paciente extends Usuario{
             System.out.println("Paciente não encontrado.");
         }
     
+    }
+    
+    @Override   
+    public String toString() {
+        return "Paciente{" +
+                "nomeUsuario='" + getNomeUsuario() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", idade=" + idade +
+                ", telefoneContato='" + telefoneContato + '\'' +
+                ", tipoPlanoSaude='" + tipoPlanoSaude + '\'' +
+                ", tipoSanguineo='" + tipoSanguineo + '\'' +
+                ", alergias='" + alergias + '\'' +
+                ", numGestacoesAnteriores=" + numGestacoesAnteriores +
+                ", vacinas='" + vacinas + '\'' +
+                ", peso=" + peso +
+                ", condicoesPreEx='" + condicoesPreEx + '\'' +
+                '}';
     }
 }
