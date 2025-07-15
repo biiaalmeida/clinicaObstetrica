@@ -8,11 +8,12 @@ public class Medico {
     private String crm;
     private String especialidade;
 
-    public Medico(String nomeUsuario, String email, String senha,String crm, String especialidade) {
-        super(nomeUsuario, senha, email);
+    public Medico(String crm, String especialidade) {
         this.crm = crm;
         this.especialidade = especialidade;
     }
+
+    // Coloque todos os métodos (getters, setters, cadastrarMedico, etc) aqui dentro
 }
     public String getCrm() {
         return crm;
@@ -62,8 +63,8 @@ public boolean editarMedico(){
     try (Connection connection = ConexaoPostegres.getConnection();
         PreparedStatement editarMedico = connection.prepareStatement(sql)) {
 
-            editarMedico.setString(1, this.especialidade);
-            editarMedico.setString(2, this.crm);
+            editarMedico.setString(1, getCrm());
+            editarMedico.setString(2, getEspecialidade());
             
             editarMedico.executeUpdate();
             System.out.println("Médico editado com sucesso!");
@@ -86,7 +87,7 @@ public Medico buscarMedico(String crm){
         
         if (resultSet.next()) {
             String especialidade = resultSet.getString("especialidade");
-            return new Medico(crm, especialidade);
+            return new Medico(crm, especialidade, especialidade, especialidade, especialidade);
         } else {
             System.out.println("Médico não encontrado.");
             return null;
@@ -97,7 +98,7 @@ public Medico buscarMedico(String crm){
     }
 }
 
-public vois imprimirMedico(String crm){
+public void imprimirMedico(String crm){
     Medico medico = buscarMedico(crm);
     if (medico != null) {
         System.out.println(medico.toString());
