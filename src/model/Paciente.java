@@ -230,7 +230,7 @@ public class Paciente extends Usuario{
 
     }
 
-    public void imprimirDadosPaciente(string cpf) {
+    public void imprimirDadosPaciente(String cpf) {
         Paciente paciente = buscarPaciente(cpf);
         if (paciente != null) {
             System.out.println(paciente.toString());
