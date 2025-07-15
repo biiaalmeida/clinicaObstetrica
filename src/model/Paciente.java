@@ -32,9 +32,11 @@ public class Paciente extends Usuario{
         this.peso = peso;
         this.condicoesPreEx = condicoesPreEx;
     }
+
+    public Paciente() {
+        super("", "", "");
+    }
  
-
-
     public String getCpf() {
         return cpf;
     }
