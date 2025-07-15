@@ -175,7 +175,7 @@ public class Consulta {
         }
     }
 
-    public void imprimirConsultaPaciente(String cpf){
+    public void imprimirConsultaPaciente(String cpf) {
         String sql = "SELECT * FROM consulta WHERE cpf = ?";
         try (Connection conexao = ConexaoPostgres.getConexao();
                 PreparedStatement selectConsultaPac = conexao.prepareStatement(sql)) {
@@ -193,7 +193,7 @@ public class Consulta {
         }
     }
 
-    public void imprimirConsulta(String cpf, String crm){
+    public void imprimirConsulta(String cpf, String crm) {
         String sql = "SELECT * FROM consulta WHERE cpf = ? AND crm = ?";
         try (Connection conexao = ConexaoPostgres.getConexao();
                 PreparedStatement selectConsulta = conexao.prepareStatement(sql)) {
@@ -213,7 +213,7 @@ public class Consulta {
         }
     }
 
-    public void listarConsulta(String cpf){
+    public void listarConsulta(String cpf) {
         String sql = "SELECT * FROM consulta WHERE cpf = ?";
         try (Connection conexao = ConexaoPostgres.getConexao();
                 PreparedStatement selectConsulta = conexao.prepareStatement(sql)) {
