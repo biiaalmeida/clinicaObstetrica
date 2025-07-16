@@ -89,5 +89,8 @@ public class MenuSistema {
         System.out.println("Cadastro de médico iniciado.");
         // Implementar lógica de cadastro de médico
     }
-
+    private void CadastrarPaciente(String email){
+        System.out.println("Cadastro de paciente iniciado.");
+        // Implementar lógica de cadastro de paciente
+    }
 }
