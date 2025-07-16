@@ -55,7 +55,24 @@ public class MenuSistema {
                 }
                 break;
             case 2:
-                menuLogin();// Implementar método de login
+                menuLogin();
+                private void menuLogin(){
+                    System.out.println("\n=== LOGIN ===");
+                    System.out.print("Digite seu email: ");
+                    String email = scanner.nextLine();
+                    System.out.print("Digite sua senha: ");
+                    String senha = scanner.nextLine();
+
+                   boolean autenticado = false;
+                   for (Usuario usuario : usuarios){
+                        if (usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
+                            autenticado = true;
+                            System.out.println("Login realizado com sucesso!");
+                            // Implementar lógica de acesso ao sistema
+                            break;
+                        }
+                   }
+                }
                 break;
             case 3:
                 System.out.println("Encerrando sistema...");
