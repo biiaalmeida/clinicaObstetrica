@@ -107,4 +107,16 @@ public class MenuSistema {
         System.out.println("Cadastro de paciente iniciado.");
         // Implementar lógica de cadastro de paciente
     }
+
+    private void loginMedico(String email, String senha){
+        System.out.println(x:"=== LOGIN MÉDICO ===");
+        boolean autenticado = false;
+        for (Usuario usuario : usuarios) {
+            if (usuario instanceof Medico && usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
+                autenticado = true;
+                System.out.println("Login de médico realizado com sucesso!");
+    
+            }       
+        }
+    }
 }
