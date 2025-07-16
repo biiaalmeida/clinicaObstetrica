@@ -5,10 +5,16 @@ import util.ConexaoPostgres;
 
 public class DemoClinica {
     public static void main(String[] args) {
+        // Testar conexão básica
         try (Connection conexao = ConexaoPostgres.getConexao()) {
-            System.out.println("Conexão com o banco realizada com sucesso!");
+            System.out.println("Conexão com o banco estabelecida!");
         } catch (SQLException e) {
-            System.out.println("Erro ao conectar no banco: " + e.getMessage());
+            System.out.println("Erro de conexão: " + e.getMessage());
+            return; // Sair se não conseguir conectar
         }
+
+        // Iniciar o sistema com menus
+        MenuSistema menu = new MenuSistema();
+        menu.iniciar();
     }
 }
