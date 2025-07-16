@@ -1,6 +1,5 @@
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import util.ConexaoPostgres;
 
 public class DemoClinica {

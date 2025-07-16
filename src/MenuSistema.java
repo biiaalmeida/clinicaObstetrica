@@ -30,7 +30,29 @@ public class MenuSistema {
 
         switch (opcao) {
             case 1:
-                menuCadastrarUsuario(); // Implementar método de cadastro
+                menuCadastrarUsuario(); 
+                 public void menuCadastrarUsuario() {
+                    System.out.println("\n=== CADASTRO DE USUÁRIO ===");
+                    System.out.print("Digite seu email para identificar o tipo de usuário: ");
+                    System.out.println();
+
+                    try {
+                        System.out.print("Email: ");
+                        String email = scanner.nextLine();
+
+                        if (email.contains("@medico")){
+                            System.out.println("Cadastro de médico iniciado.");
+                            // Implementar lógica de cadastro de médico
+                        } else if (email.contains("@paciente")) {
+                            System.out.println("Cadastro de paciente iniciado.");
+                            // Implementar lógica de cadastro de paciente
+                        } else {
+                            System.out.println("Tipo de usuário não reconhecido. Por favor, use '@medico' ou '@paciente' no email.");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
+                        }
+                }
                 break;
             case 2:
                 menuLogin();// Implementar método de login
