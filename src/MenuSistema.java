@@ -1,4 +1,8 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.Medico;
+import java.Paciente;
+import java.Usuario;
 
 public class MenuSistema {
     private Scanner scanner;
@@ -85,9 +89,19 @@ public class MenuSistema {
                    }
                 }
 
-    private void CadastrarMedico(String email){
-        System.out.println("Cadastro de médico iniciado.");
-        // Implementar lógica de cadastro de médico
+    private void cadastrarMedico(String email){
+        System.out.println(x:"=== CADASTRO DE MÉDICO ===");
+        System.out.print("Nome: ");
+        String nome = scanner.nextLine();
+        System.out.print("CRM: ");
+        String crm = scanner.nextLine();   
+        System.out.print("Especialidade: ");
+        String especialidade = scanner.nextLine(); 
+
+        Medico medico = new Medico(nome, email, crm, especialidade);
+        usuarios.add(medico);
+        System.out.println("Médico cadastrado com sucesso!");
+        
     }
     private void CadastrarPaciente(String email){
         System.out.println("Cadastro de paciente iniciado.");
