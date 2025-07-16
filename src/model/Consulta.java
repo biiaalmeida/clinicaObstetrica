@@ -198,7 +198,7 @@ public class Consulta {
     }
 
     // Método para imprimir a última consulta de um paciente
-    public void imprimirUltimaConsultaPaciente(String cpf) {
+    public void imprimirUltimaConsulta(String cpf) {
         String sql = "SELECT * FROM consulta WHERE pacienteCpf = ? ORDER BY dataConsulta DESC LIMIT 1";
         try (Connection conexao = ConexaoPostgres.getConexao();
                 PreparedStatement stmt = conexao.prepareStatement(sql)) {
