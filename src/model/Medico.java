@@ -45,14 +45,6 @@ public class Medico extends Usuario {
                 '}';
     }   
 
-    public void imprimirMedico(String crm){
-        Medico medico = buscarMedico(crm);
-        if (medico != null) {
-            System.out.println(medico.toString());
-        } else {
-            System.out.println("Médico não encontrado.");
-        }
-    }
 
 }
     
