@@ -1,4 +1,8 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.Medico;
+import java.Paciente;
+import java.Usuario;
 
 public class MenuSistema {
     private Scanner scanner;
@@ -85,12 +89,61 @@ public class MenuSistema {
                    }
                 }
 
-    private void CadastrarMedico(String email){
-        System.out.println("Cadastro de médico iniciado.");
-        // Implementar lógica de cadastro de médico
+    private void cadastrarMedico(String email){
+        System.out.println(x:"=== CADASTRO DE MÉDICO ===");
+        System.out.print("Nome: ");
+        String nome = scanner.nextLine();
+        System.out.print("CRM: ");
+        String crm = scanner.nextLine();   
+        System.out.print("Especialidade: ");
+        String especialidade = scanner.nextLine(); 
+
+        Medico medico = new Medico(nome, email, crm, especialidade);
+        usuarios.add(medico);
+        System.out.println("Médico cadastrado com sucesso!");
+        
     }
+   
     private void CadastrarPaciente(String email){
+        system.out.println("=== CADASTRO DE PACIENTE ===");
+        system.out.print("Nome: ");
+        system.nome = scanner.nextLine();
+        system.out.print("Email: ");
+        system.email = scanner.nextLine();
+        system.out.print("Data de Nascimento (dd/mm/aaaa): ");
+        system.nascimento = scanner.nextLine();
+        system.out.print("Telefone: ");
+        system.telefone = scanner.nextLine();
+        system.out.print("Endereço: "); 
+        String endereco = scanner.nextLine();  
+
+        Paciente paciente = new Paciente(nome, email, nascimento, telefone, endereco);
+        usuarios.add(paciente);
         System.out.println("Cadastro de paciente iniciado.");
-        // Implementar lógica de cadastro de paciente
+        
+    }
+
+    private void loginMedico(String email, String senha){
+        System.out.println(x:"=== LOGIN MÉDICO ===");
+        boolean autenticado = false;
+        for (Usuario usuario : usuarios) {
+            if (usuario instanceof Medico && usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
+                autenticado = true;
+                System.out.println("Login de médico realizado com sucesso!");
+    
+            }       
+        }
+    }
+
+    private void loginPaciente(String email, String senha){
+        System.out.println("=== LOGIN PACIENTE ===");
+        boolean autenticado = false;
+        for (Usuario usuario : usuarios) {
+            if (usuario instanceof Paciente && usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
+                autenticado = true;
+                System.out.println("Login de paciente realizado com sucesso!");
+    
+            }       
+        }
     }
 }
