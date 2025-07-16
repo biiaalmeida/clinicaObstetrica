@@ -1,14 +1,19 @@
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.Medico;
-import java.Paciente;
-import java.Usuario;
+import model.Medico;
+import model.Paciente;
+import model.Usuario;
+import controle.UsuarioControle;
 
 public class MenuSistema {
     private Scanner scanner;
+    private ArrayList<Usuario> usuarios;
+    private UsuarioControle usuarioControle;
 
     public MenuSistema() {
         this.scanner = new Scanner(System.in);
+        this.usuarios = new ArrayList<>();
+        this.usuarioControle = new UsuarioControle();
     }
 
     public void iniciar() {
@@ -49,27 +54,21 @@ public class MenuSistema {
         return true;
     }
     public void menuCadastrarUsuario() {
-                    System.out.println("\n=== CADASTRO DE USUÁRIO ===");
-                    System.out.print("Digite seu email para identificar o tipo de usuário: ");
-                    System.out.println();
+        System.out.println("\n=== CADASTRO DE USUÁRIO ===");
+        System.out.println("Digite seu email para identificar o tipo de usuário:");
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
 
-                    try {
-                        System.out.print("Email: ");
-                        String email = scanner.nextLine();
-
-                        if (email.contains("@medico")){
-                            System.out.println("Cadastro de médico iniciado.");
-                            // Implementar lógica de cadastro de médico
-                        } else if (email.contains("@paciente")) {
-                            System.out.println("Cadastro de paciente iniciado.");
-                            // Implementar lógica de cadastro de paciente
-                        } else {
-                            System.out.println("Tipo de usuário não reconhecido. Por favor, use '@medico' ou '@paciente' no email.");
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
-                        }
-                }
+        if (email.contains("@medico")) {
+            System.out.println("Cadastro de médico iniciado.");
+            cadastrarMedico(email);
+        } else if (email.contains("@paciente")) {
+            System.out.println("Cadastro de paciente iniciado.");
+            cadastrarPaciente(email);
+        } else {
+            System.out.println("Tipo de usuário não reconhecido. Use '@medico' ou '@paciente' no email.");
+        }
+    }
      
      private void menuLogin(){
                     System.out.println("\n=== LOGIN ===");
@@ -90,7 +89,7 @@ public class MenuSistema {
                 }
 
     private void cadastrarMedico(String email){
-        System.out.println(x:"=== CADASTRO DE MÉDICO ===");
+        System.out.println("=== CADASTRO DE MÉDICO ===");
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
         System.out.print("CRM: ");
