@@ -31,7 +31,20 @@ public class MenuSistema {
         switch (opcao) {
             case 1:
                 menuCadastrarUsuario(); 
-                 public void menuCadastrarUsuario() {
+                break;
+            case 2:
+                menuLogin();
+                break;
+            case 3:
+                System.out.println("Encerrando sistema...");
+                return false;
+            default:
+                System.out.println("Opção inválida!");
+        }
+        System.out.println();
+        return true;
+    }
+    public void menuCadastrarUsuario() {
                     System.out.println("\n=== CADASTRO DE USUÁRIO ===");
                     System.out.print("Digite seu email para identificar o tipo de usuário: ");
                     System.out.println();
@@ -53,10 +66,8 @@ public class MenuSistema {
                         System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
                         }
                 }
-                break;
-            case 2:
-                menuLogin();
-                private void menuLogin(){
+     
+     private void menuLogin(){
                     System.out.println("\n=== LOGIN ===");
                     System.out.print("Digite seu email: ");
                     String email = scanner.nextLine();
@@ -73,14 +84,10 @@ public class MenuSistema {
                         }
                    }
                 }
-                break;
-            case 3:
-                System.out.println("Encerrando sistema...");
-                return false;
-            default:
-                System.out.println("Opção inválida!");
-        }
-        System.out.println();
-        return true;
+
+    private void CadastrarMedico(String email){
+        System.out.println("Cadastro de médico iniciado.");
+        // Implementar lógica de cadastro de médico
     }
+
 }
