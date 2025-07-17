@@ -1,6 +1,4 @@
 package view;
-
-import controle.UsuarioControle;
 import java.util.Scanner;
 import model.Usuario;
 
@@ -13,7 +11,7 @@ public class UsuarioView {
         this.usuarioControle = new UsuarioControle();
     }
 
-    private boolean menuLogin() {
+    private boolean realizaLogin() {
         System.out.println("=== ACESSO AO SISTEMA ===");
         System.out.println("1. Fazer Login");
         System.out.println("2. Cadastrar Usuário");
@@ -37,7 +35,7 @@ public class UsuarioView {
         return true;
     }
 
-    private void fazerLogin() {
+    private void menuLogin() {
         System.out.println("\n=== LOGIN ===");
         
         System.out.print("Email: ");
