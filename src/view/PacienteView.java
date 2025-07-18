@@ -9,14 +9,30 @@ public class PacienteView {
         system.nome = scanner.nextLine();
         system.out.print("Email: ");
         system.email = scanner.nextLine();
-        system.out.print("Data de Nascimento (dd/mm/aaaa): ");
-        system.nascimento = scanner.nextLine();
+        system.out.print("CPF: ");
+        system.cpf = scanner.nextLine();
+        system.out.print("Idade: ");
+        system.idade = scanner.nextLine();
         system.out.print("Telefone: ");
         system.telefone = scanner.nextLine();
         system.out.print("Endereço: "); 
-        String endereco = scanner.nextLine();  
+        system.endereco = scanner.nextLine();
+        system.out.print("Tipo de Plano de Saúde: ");
+        system.tipoPlanoSaude = scanner.nextLine();
+        system.out.print("Tipo Sanguíneo: ");
+        system.tipoSanguineo = scanner.nextLine();
+        system.out.print("Alergias: ");
+        system.alergias = scanner.nextLine();
+        system.out.print("Número de Gestações Anteriores: ");
+        system.numGestacoesAnteriores = scanner.nextLine();
+        system.out.print("Vacinas: ");
+        system.vacinas = scanner.nextLine();
+        system.out.print("Peso: ");
+        system.peso = scanner.nextLine();
+        system.out.print("Condições Pré-existentes: ");
+        system.condicoesPreEx = scanner.nextLine();
 
-        Paciente paciente = new Paciente(nome, email, nascimento, telefone, endereco);
+        Paciente paciente = new Paciente(nome, email, cpf, idade, telefone, endereco, tipoPlanoSaude, tipoSanguineo, alergias, numGestacoesAnteriores, vacinas, peso, condicoesPreEx);
         usuarios.add(paciente);
         System.out.println("Cadastro de paciente iniciado.");
         
@@ -64,16 +80,24 @@ public class PacienteView {
         }
     }
 
-    private void exibirPaciente(String email){
+    private void exibirPaciente(String cpf){
         System.out.println("=== EXIBIR PACIENTE ===");
         for (Usuario usuario : usuarios) {
-            if (usuario instanceof Paciente && usuario.getEmail().equals(email)) {
+            if (usuario instanceof Paciente && usuario.getCpf().equals(cpf)) {
                 Paciente paciente = (Paciente) usuario;
                 System.out.println("Nome: " + paciente.getNome());
                 System.out.println("Email: " + paciente.getEmail());
-                System.out.println("Data de Nascimento: " + paciente.getNascimento());
-                System.out.println("Telefone: " + paciente.getTelefone());
+                System.out.println("CPF: " + paciente.getCpf());
+                System.out.println("Idade: " + paciente.getIdade());
+                System.out.println("Telefone: " + paciente.getTelefoneContato());
                 System.out.println("Endereço: " + paciente.getEndereco());
+                System.out.println("Tipo de Plano de Saúde: " + paciente.getTipoPlanoSaude());
+                System.out.println("Tipo Sanguíneo: " + paciente.getTipoSanguineo());
+                System.out.println("Alergias: " + paciente.getAlergias());
+                System.out.println("Número de Gestações Anteriores: " + paciente.getNumGestacoesAnteriores());
+                System.out.println("Vacinas: " + paciente.getVacinas());
+                System.out.println("Peso: " + paciente.getPeso());
+                System.out.println("Condições Pré-existentes: " + paciente.getCondicoesPreEx());
                 return;
             }
         }

@@ -9,6 +9,7 @@ public class Paciente extends Usuario{
     private String cpf;
     private int idade;
     private String telefoneContato;
+    private String endereco;
     private String tipoPlanoSaude;
     private String tipoSanguineo;
     private String alergias;
@@ -17,13 +18,14 @@ public class Paciente extends Usuario{
     private Float peso;
     private String condicoesPreEx;
 
-    public Paciente(String nomeUsuario, String email, String senha, String cpf, int idade, String telefoneContato,String tipoPlanoSaude, String tipoSanguineo, 
+    public Paciente(String nomeUsuario, String email, String senha, String cpf, int idade, String telefoneContato, String endereco, String tipoPlanoSaude, String tipoSanguineo, 
     String alergias, int numGestacoesAnteriores, String vacinas, Float peso, String condicoesPreEx) {
 
         super(nomeUsuario, email, senha);
         this.cpf = cpf;
         this.idade = idade;
         this.telefoneContato = telefoneContato;
+        this.endereco = endereco;
         this.tipoPlanoSaude = tipoPlanoSaude;
         this.tipoSanguineo = tipoSanguineo;
         this.alergias = alergias;
@@ -59,6 +61,14 @@ public class Paciente extends Usuario{
 
     public void setTelefoneContato(String telefoneContato) {
         this.telefoneContato = telefoneContato;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
     public String getTipoPlanoSaude() {
@@ -126,6 +136,7 @@ public class Paciente extends Usuario{
                 ", cpf='" + cpf + '\'' +
                 ", idade=" + idade +
                 ", telefoneContato='" + telefoneContato + '\'' +
+                ", endereco='" + endereco + '\'' +
                 ", tipoPlanoSaude='" + tipoPlanoSaude + '\'' +
                 ", tipoSanguineo='" + tipoSanguineo + '\'' +
                 ", alergias='" + alergias + '\'' +
