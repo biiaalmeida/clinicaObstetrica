@@ -1,11 +1,6 @@
 package model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import util.ConexaoPostgres;
-
-public class Paciente extends Usuario{
+public class PacienteModel extends UsuarioModel{
     private String cpf;
     private int idade;
     private String telefoneContato;
@@ -18,7 +13,7 @@ public class Paciente extends Usuario{
     private Float peso;
     private String condicoesPreEx;
 
-    public Paciente(String nomeUsuario, String email, String senha, String cpf, int idade, String telefoneContato, String endereco, String tipoPlanoSaude, String tipoSanguineo, 
+    public PacienteModel(String nomeUsuario, String email, String senha, String cpf, int idade, String telefoneContato, String endereco, String tipoPlanoSaude, String tipoSanguineo, 
     String alergias, int numGestacoesAnteriores, String vacinas, Float peso, String condicoesPreEx) {
 
         super(nomeUsuario, email, senha);
@@ -35,7 +30,7 @@ public class Paciente extends Usuario{
         this.condicoesPreEx = condicoesPreEx;
     }
 
-    public Paciente() {
+    public PacienteModel() {
         super("", "", "");
     }
  
@@ -131,8 +126,7 @@ public class Paciente extends Usuario{
     @Override   
     public String toString() {
         return "Paciente{" +
-                "nomeUsuario='" + getNomeUsuario() + '\'' +
-                ", email='" + getEmail() + '\'' +
+                super.toString() +
                 ", cpf='" + cpf + '\'' +
                 ", idade=" + idade +
                 ", telefoneContato='" + telefoneContato + '\'' +
