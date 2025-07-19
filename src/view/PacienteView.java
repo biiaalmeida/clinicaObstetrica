@@ -1,7 +1,10 @@
 package view;
 
+import DAO.ConsultaDAO;
 import controle.PacienteControle;
+import java.util.List;
 import java.util.Scanner;
+import model.ConsultaModel;
 import model.PacienteModel;
 
 
@@ -33,7 +36,7 @@ public class PacienteView{
                 case 2:
                     System.out.println("ATUALIZAR DADOS:");
                     PacienteModel paciente = new PacienteModel();
-                    paciente.setCpf(cpf); // cpf já informado
+                    paciente.setCpf(cpf);
 
                     System.out.print("Informe o novo nome: ");
                     paciente.setNomeUsuario(scanner.nextLine());
@@ -61,14 +64,32 @@ public class PacienteView{
                         System.out.println("Erro ao atualizar os dados.");
                     }
                     break;
+                    
                 case 3:
-                    // Lógica para ver o histórico de consultas
                     System.out.println("HISTÓRICO DE CONSULTAS:");
+                    List<ConsultaModel> consultas = ConsultaDAO.buscarConsultasPorPaciente(cpf);
+                    if (consultas.isEmpty()) {
+                        System.out.println("Nenhuma consulta encontrada.");
+                    } else {
+                        for (ConsultaModel consulta : consultas) {
+                            System.out.println(consulta);
+                        }
+                    }
                     break;
+                    
                 case 4:
-                    // Lógica para imprimir a última consulta
                     System.out.println("ÚLTIMA CONSULTA:");
+                    List<ConsultaModel> ultimaConsulta = ConsultaDAO.buscarUltimaConsulta(cpf);
+                    if (!ultimaConsulta.isEmpty()) {
+                        ConsultaModel consulta = ultimaConsulta.get(0);
+                        System.out.println("Consulta: " + consulta.getCodigoConsulta() +
+                                ", Data: " + consulta.getDataConsulta() +
+                                ", Médico: " + consulta.getMedico().getCrm());
+                    } else {
+                        System.out.println("Nenhuma consulta encontrada.");
+                    }
                     break;
+
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
