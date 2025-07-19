@@ -105,4 +105,9 @@ public class PacienteDAO {
 
         return paciente;
     }
+
+    public static PacienteModel buscarPorCpf(String cpf) {
+        PacienteDAO pacienteDAO = new PacienteDAO();
+        return pacienteDAO.buscarPaciente(cpf);
+    }
 }

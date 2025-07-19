@@ -4,7 +4,7 @@ import model.UsuarioModel;
 
 public class UsuarioControle {
 
-    public Usuario autenticar(String email, String senha) {
+    public UsuarioModel autenticar(String email, String senha) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'autenticar'");
     }

@@ -2,11 +2,11 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.ResultSet; 
+import model.MedicoModel;
+import util.ConexaoPostgres; 
 
-import util.ConexaoPostgres;
-import model.MedicoModel; 
 
 public class MedicoDAO {
     
@@ -56,7 +56,7 @@ public class MedicoDAO {
         }
     }
 
-    public MedicoModel buscarMedico(String crm) {
+    public static MedicoModel buscarMedico(String crm) {
         String sql = "SELECT m.crm, m.especialidade, u.email, u.senha, u.nomeusuario " +
                     "FROM medico m JOIN usuario u ON m.email = u.email WHERE m.crm = ?"; //usar join para pegar dados do usuário
     
@@ -85,7 +85,7 @@ public class MedicoDAO {
         }
     }
 
-    public MedicoModel buscarPorCrm(String crm) {
+    public static MedicoModel buscarPorCrm(String crm) {
         return buscarMedico(crm); 
     }
 

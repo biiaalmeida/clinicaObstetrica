@@ -1,9 +1,14 @@
 package controle;
 import DAO.PacienteDAO;
+import model.PacienteModel;
 
 public class PacienteControle {
+    public PacienteModel buscarPaciente(String cpf) {
+        return PacienteDAO.buscarPorCpf(cpf);
+    }
+
     public void imprimirDadosPaciente(String cpf) {
-        PacienteControle paciente = buscarPaciente(cpf);
+        PacienteModel paciente = buscarPaciente(cpf);
         if (paciente != null) {
             System.out.println(paciente.toString());
         } else {
