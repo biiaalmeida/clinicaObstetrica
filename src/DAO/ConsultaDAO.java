@@ -10,7 +10,7 @@ import util.ConexaoPostgres;
 
 import model.ConsultaModel;
 import model.MedicoModel;
-import model.Paciente;
+import model.PacienteModel;
 
 public class ConsultaDAO {
     public boolean cadastrarConsulta(ConsultaModel consulta) {

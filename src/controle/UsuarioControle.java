@@ -1,6 +1,6 @@
 package controle;
 
-import model.Usuario;
+import model.UsuarioModel;
 
 public class UsuarioControle {
 
