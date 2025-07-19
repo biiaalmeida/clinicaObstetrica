@@ -1,6 +1,6 @@
 package model;
 
-public class MedicoModel extends Usuario {
+public class MedicoModel extends UsuarioModel {
     private String crm;
     private String especialidade;
 
