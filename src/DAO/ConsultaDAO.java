@@ -38,8 +38,9 @@ public class ConsultaDAO {
         }
     }
 
-    public ConsultaModel buscarConsulta(int codigoConsulta) {
+    public static ConsultaModel buscarConsulta(int codigoConsulta) {
         String sql = "SELECT * FROM consulta WHERE codigoConsulta = ?";
+        ConsultaDAO dao = new ConsultaDAO(); // Cria uma instância
         
         try (Connection conexao = ConexaoPostgres.getConexao();
              PreparedStatement buscaConsulta = conexao.prepareStatement(sql)) {
@@ -48,7 +49,7 @@ public class ConsultaDAO {
             
             try (ResultSet rs = buscaConsulta.executeQuery()) {
                 if (rs.next()) {
-                    return criarConsultaFromResultSet(rs);
+                    return dao.criarConsultaFromResultSet(rs);
                 }
             }
         } catch (SQLException e) {
@@ -79,9 +80,10 @@ public class ConsultaDAO {
         return consultas;
     }
     
-    public List<ConsultaModel> buscarConsultasPorPaciente(String cpf) {
+    public static List<ConsultaModel> buscarConsultasPorPaciente(String cpf) {
         List<ConsultaModel> consultas = new ArrayList<>();
         String sql = "SELECT * FROM consulta WHERE cpf = ?";
+        ConsultaDAO dao = new ConsultaDAO(); // Cria uma instância
         
         try (Connection conexao = ConexaoPostgres.getConexao();
              PreparedStatement buscaConsultasPorPaciente = conexao.prepareStatement(sql)) {
@@ -90,7 +92,7 @@ public class ConsultaDAO {
             
             try (ResultSet rs = buscaConsultasPorPaciente.executeQuery()) {
                 while (rs.next()) {
-                    ConsultaModel consulta = criarConsultaFromResultSet(rs);
+                    ConsultaModel consulta = dao.criarConsultaFromResultSet(rs);
                     if (consulta != null) {
                         consultas.add(consulta);
                     }
@@ -122,5 +124,82 @@ public class ConsultaDAO {
         consulta.setMedico(medico);
 
         return consulta;
+    }
+
+    public static List<ConsultaModel> buscarConsultasPorMedico(String crm) {
+        List<ConsultaModel> consultas = new ArrayList<>();
+        String sql = "SELECT * FROM consulta WHERE crm = ?";
+        ConsultaDAO dao = new ConsultaDAO(); // Cria uma instância
+
+        try (Connection conexao = ConexaoPostgres.getConexao();
+             PreparedStatement buscaConsultasPorMedico = conexao.prepareStatement(sql)) {
+        
+             buscaConsultasPorMedico.setString(1, crm);
+        
+            try (ResultSet rs = buscaConsultasPorMedico.executeQuery()) {
+                while (rs.next()) {
+                    ConsultaModel consulta = dao.criarConsultaFromResultSet(rs); // Chama o método de instância
+                    if (consulta != null) {
+                        consultas.add(consulta);
+                    }
+                }
+            }
+        
+        } catch (SQLException e) {
+        System.out.println("Erro ao buscar consultas por médico: " + e.getMessage());
+        }
+    
+        return consultas;
+    }
+
+    public static List<ConsultaModel> buscarConsultaMedPac(String cpf, String crm) {
+        List<ConsultaModel> consultas = new ArrayList<>();
+        String sql = "SELECT * FROM consulta WHERE cpf = ? AND crm = ?";
+        ConsultaDAO dao = new ConsultaDAO(); // Cria uma instância
+
+        try (Connection conexao = ConexaoPostgres.getConexao();
+            PreparedStatement buscaConsultaMedPac = conexao.prepareStatement(sql)) {
+            
+            buscaConsultaMedPac.setString(1, cpf);
+            buscaConsultaMedPac.setString(2, crm);
+            
+            try (ResultSet rs = buscaConsultaMedPac.executeQuery()) {
+                while (rs.next()) {
+                    ConsultaModel consulta = dao.criarConsultaFromResultSet(rs); // Chama o método de instância
+                    if (consulta != null) {
+                        consultas.add(consulta);
+                    }
+                }
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar consulta médico-paciente: " + e.getMessage());
+        }
+        
+        return consultas;
+    }
+
+    public static List<ConsultaModel> buscarUltimaConsulta(String cpf) {
+        List<ConsultaModel> consultas = new ArrayList<>();
+        String sql = "SELECT * FROM consulta WHERE cpf = ? ORDER BY dataConsulta DESC LIMIT 1";
+        ConsultaDAO dao = new ConsultaDAO(); // Cria uma instância
+
+        try (Connection conexao = ConexaoPostgres.getConexao();
+            PreparedStatement buscaUltimaConsulta = conexao.prepareStatement(sql)) {
+            
+            buscaUltimaConsulta.setString(1, cpf);
+            
+            try (ResultSet rs = buscaUltimaConsulta.executeQuery()) {
+                if (rs.next()) {
+                    ConsultaModel consulta = dao.criarConsultaFromResultSet(rs); // Chama o método de instância
+                    consultas.add(consulta);
+                }
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar última consulta: " + e.getMessage());
+        }
+        
+        return consultas;
     }
 }
