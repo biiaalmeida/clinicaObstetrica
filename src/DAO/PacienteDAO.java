@@ -105,4 +105,30 @@ public class PacienteDAO {
 
         return paciente;
     }
+
+    public static PacienteModel buscarPorEmail(String email){
+        String sql = "SELECT * FROM paciente WHERE email = ?";
+        PacienteModel paciente = null;
+
+        try (Connection connection = ConexaoPostgres.getConexao();
+             PreparedStatement buscarPaciente = connection.prepareStatement(sql)) {
+
+            buscarPaciente.setString(1, email);
+            ResultSet resultSet = buscarPaciente.executeQuery();
+
+            if (resultSet.next()) {
+                paciente = new PacienteModel();
+                paciente.setNomeUsuario(resultSet.getString("nome_usuario"));
+                paciente.setEmail(resultSet.getString("email"));
+                paciente.setSenha(resultSet.getString("senha"));
+                paciente.setCpf(resultSet.getString("cpf"));
+                // Preencher outros campos conforme necessário
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar paciente por email: " + e.getMessage());
+        }
+
+        return paciente;
+    }
 }

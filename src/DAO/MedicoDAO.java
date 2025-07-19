@@ -85,8 +85,33 @@ public class MedicoDAO {
         }
     }
 
-    public static MedicoModel buscarPorCrm(String crm) {
-        return buscarMedico(crm); 
+    public static MedicoModel buscarMedPorEmail(String email) {
+        String sql = "SELECT m.crm, m.especialidade, u.email, u.senha, u.nomeusuario " +
+                    "FROM medico m JOIN usuario u ON m.email = u.email WHERE u.email = ?"; //usar join para pegar dados do usuário
+    
+        try (Connection connection = ConexaoPostgres.getConexao();
+             PreparedStatement buscarMedico = connection.prepareStatement(sql)) {
+        
+            buscarMedico.setString(1, email);
+            try (ResultSet resultSet = buscarMedico.executeQuery()) { 
+                if (resultSet.next()) {
+                    MedicoModel medico = new MedicoModel();
+                    medico.setCrm(resultSet.getString("crm"));
+                    medico.setEspecialidade(resultSet.getString("especialidade"));
+                    medico.setEmail(resultSet.getString("email"));
+                    medico.setSenha(resultSet.getString("senha"));
+                    medico.setNomeUsuario(resultSet.getString("nomeusuario"));
+                    
+                    return medico;
+                } else {
+                    System.out.println("Médico não encontrado.");
+                    return null;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar médico: " + e.getMessage());
+            return null;
+        }
     }
 
 }
