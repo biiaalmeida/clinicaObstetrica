@@ -112,23 +112,15 @@ public class ConsultaDAO {
         consulta.setDataUltimaMenstruacao(rs.getObject("dataUltimaMenstruacao", LocalDate.class));
         consulta.setTipoParto(rs.getString("tipoParto"));
         consulta.setQtdSemanas(rs.getString("qtdSemanas"));
-        
+
         String cpfPaciente = rs.getString("cpf");
+        PacienteModel paciente = PacienteDAO.buscarPaciente(cpfPaciente);
+        consulta.setPaciente(paciente);
+
         String crmMedico = rs.getString("crm");
-        
-        PacienteDAO pacienteDAO = new PacienteDAO();
-        MedicoDAO medicoDAO = new MedicoDAO();
-        
-        PacienteModel paciente = pacienteDAO.buscarPaciente(cpfPaciente);
-        MedicoModel medico = medicoDAO.buscarMedico(crmMedico);
-        
-        if (paciente != null && medico != null) {
-            consulta.setPaciente(paciente);
-            consulta.setMedico(medico);
-            return consulta;
-        } else {
-            System.out.println("Aviso: Paciente ou médico não encontrado para consulta " + rs.getInt("codigoConsulta"));
-            return null; 
-        }
+        MedicoModel medico = MedicoDAO.buscarMedico(crmMedico);
+        consulta.setMedico(medico);
+
+        return consulta;
     }
 }
