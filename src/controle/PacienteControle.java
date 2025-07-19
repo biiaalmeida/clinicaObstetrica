@@ -1,4 +1,5 @@
 package controle;
+import DAO.PacienteDAO;
 
 public class PacienteControle {
     public void imprimirDadosPaciente(String cpf) {
