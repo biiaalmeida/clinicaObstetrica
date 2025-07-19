@@ -1,3 +1,4 @@
+package dao;
 public class MedicoDAO  {
     public boolean cadastrarMedico (){
         try (Connection connection = ConexaoPostgres.getConexao()) {
@@ -44,7 +45,7 @@ public class MedicoDAO  {
         }
     }
 
-    public Medico buscarMedico(String crm){
+    public MedicoModel buscarMedico(String crm){
         String sql = "SELECT * FROM medico WHERE crm = ?";
     
         try (Connection connection = ConexaoPostgres.getConexao();
@@ -55,7 +56,7 @@ public class MedicoDAO  {
               if (resultSet.next()) {
             String especialidade = resultSet.getString("especialidade");
             // Criar médico usando construtor vazio e setters
-            Medico medico = new Medico();
+            MedicoModel medico = new MedicoModel();
             medico.setCrm(crm);
             medico.setEspecialidade(especialidade);
             return medico;

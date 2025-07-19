@@ -1,5 +1,11 @@
 package controle;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import util.ConexaoPostgres;
+
 public class ConsultaControle {
     // Método para imprimir todas as consultas de um médico
     public void imprimirConsultaMedico(String crm) {

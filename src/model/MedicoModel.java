@@ -1,23 +1,17 @@
 package model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import util.ConexaoPostgres;
-
-public class Medico extends Usuario {
+public class MedicoModel extends Usuario {
     private String crm;
     private String especialidade;
 
-    public Medico(String nomeUsuario, String email, String senha, String crm, String especialidade) {
+    public MedicoModel(String nomeUsuario, String email, String senha, String crm, String especialidade) {
         super(nomeUsuario, email, senha);
         this.crm = crm;
         this.especialidade = especialidade;
     }
 
     // Construtor vazio
-    public Medico() {
+    public MedicoModel() {
         super("", "", "");
     }
     

@@ -1,9 +1,9 @@
 package view;
 import java.util.Scanner;
-import model.Medico;
+import model.MedicoModel;
 
 public class MedicoView {
-    public Medico cadastrarMedico() {
+    public MedicoModel cadastrarMedico() {
         System.out.println("=== CADASTRO DE MÉDICO ===");
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
@@ -14,7 +14,7 @@ public class MedicoView {
         System.out.print("Especialidade: ");
         String especialidade = scanner.nextLine();
 
-        Medico medico = new Medico(nome, email, crm, especialidade);
+        MedicoModel medico = new MedicoModel(nome, email, crm, especialidade);
         usuarios.add(medico);
         System.out.println("Cadastro de paciente iniciado.");
     }
@@ -23,7 +23,7 @@ public class MedicoView {
         System.out.println("=== LOGIN MEDICO ===");
         boolean autenticado = false;
         for (Usuario usuario : usuarios) {
-            if (usuario instanceof Medico && usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
+            if (usuario instanceof MedicoModel && usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
                 autenticado = true;
                 System.out.println("Login realizado com sucesso!");
             }
@@ -33,8 +33,8 @@ public class MedicoView {
     public void exibirMedico(String crm) {
         System.out.println("=== EXIBIR MÉDICO ===");
         for (Usuario usuario : usuarios) {
-            if (usuario instanceof Medico && usuario.getCrm().equals(crm)) {
-                Medico medico = (Medico) usuario;
+            if (usuario instanceof MedicoModel && usuario.getCrm().equals(crm)) {
+                MedicoModel medico = (MedicoModel) usuario;
                 System.out.println("Nome: " + medico.getNome());
                 System.out.println("Email: " + medico.getEmail());
                 System.out.println("CRM: " + medico.getCrm());

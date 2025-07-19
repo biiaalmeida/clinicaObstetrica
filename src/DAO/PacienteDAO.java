@@ -1,3 +1,4 @@
+package dao;
 public class PacienteDAO  {
      public boolean cadastrarPaciente() {
 

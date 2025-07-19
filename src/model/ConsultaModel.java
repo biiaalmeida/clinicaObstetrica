@@ -1,12 +1,8 @@
 package model;
 
 import java.time.LocalDate;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import util.ConexaoPostgres;
 
-public class Consulta {
+public class ConsultaModel {
     private int codigoConsulta;
     private LocalDate dataConsulta;
     private LocalDate dataPrevistaParto;
@@ -15,11 +11,11 @@ public class Consulta {
     private String qtdSemanas;
 
     private Paciente paciente;
-    private Medico medico;
+    private MedicoModel medico;
 
-    public Consulta(int codigoConsulta, LocalDate dataConsulta, LocalDate dataPrevistaParto,
+    public ConsultaModel(int codigoConsulta, LocalDate dataConsulta, LocalDate dataPrevistaParto,
             LocalDate dataUltimaMenstruacao, String tipoParto, String qtdSemanas,
-            Paciente paciente, Medico medico) {
+            Paciente paciente, MedicoModel medico) {
         this.codigoConsulta = codigoConsulta;
         this.dataConsulta = dataConsulta;
         this.dataPrevistaParto = dataPrevistaParto;
@@ -31,7 +27,7 @@ public class Consulta {
     }
 
     // Construtor vazio
-    public Consulta() {
+    public ConsultaModel() {
     }
 
     // Getters e Setters
@@ -91,11 +87,11 @@ public class Consulta {
         this.paciente = paciente;
     }
 
-    public Medico getMedico() {
+    public MedicoModel getMedico() {
         return medico;
     }
 
-    public void setMedico(Medico medico) {
+    public void setMedico(MedicoModel medico) {
         this.medico = medico;
     }
 
