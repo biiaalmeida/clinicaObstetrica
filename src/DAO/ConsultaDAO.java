@@ -1,4 +1,4 @@
-package dao;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,10 +11,8 @@ import util.ConexaoPostgres;
 import model.ConsultaModel;
 import model.MedicoModel;
 import model.Paciente;
-import util.ConexaoPostgres;
 
 public class ConsultaDAO {
-    
     public boolean cadastrarConsulta(ConsultaModel consulta) {
         String sql = "INSERT INTO consulta (dataConsulta, dataPrevistaParto, dataUltimaMenstruacao, tipoParto, qtdSemanas, cpf, crm) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -26,7 +24,7 @@ public class ConsultaDAO {
             novaConsulta.setObject(3, consulta.getDataUltimaMenstruacao());
             novaConsulta.setString(4, consulta.getTipoParto());
             novaConsulta.setString(5, consulta.getQtdSemanas());
-            novaConsulta.setString(6, consulta.getPaciente().getcpf());
+            novaConsulta.setString(6, consulta.getPaciente().getCpf());
             novaConsulta.setString(7, consulta.getMedico().getCrm());
 
             novaConsulta.executeUpdate();

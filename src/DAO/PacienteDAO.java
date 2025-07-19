@@ -2,11 +2,11 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.ResultSet;
-
-import util.ConexaoPostgres;
+import java.sql.SQLException;
 import model.PacienteModel;
+import util.ConexaoPostgres;
+
 public class PacienteDAO {
      
     public boolean cadastrarPaciente(PacienteModel paciente) {
@@ -15,7 +15,6 @@ public class PacienteDAO {
         try (Connection connection = ConexaoPostgres.getConexao();
              PreparedStatement novoPaciente = connection.prepareStatement(sql)) {
 
-            // CORRIGIDO: usar os métodos getter do objeto paciente
             novoPaciente.setString(1, paciente.getNomeUsuario());
             novoPaciente.setString(2, paciente.getEmail());
             novoPaciente.setString(3, paciente.getSenha());
@@ -41,14 +40,12 @@ public class PacienteDAO {
         }
     }   
 
-    // CORRIGIDO: método agora recebe um objeto PacienteModel como parâmetro
     public boolean editarPaciente(PacienteModel paciente) {
         String sql = "UPDATE paciente SET nome_usuario = ?, email = ?, senha = ?, idade = ?, telefone_contato = ?, endereco = ?, tipo_plano_saude = ?, tipo_sanguineo = ?, alergias = ?, num_gestacoes_anteriores = ?, vacinas = ?, peso = ?, condicoes_pre_ex = ? WHERE cpf = ?";
 
         try (Connection connection = ConexaoPostgres.getConexao();
              PreparedStatement editarPaciente = connection.prepareStatement(sql)) {
 
-            // CORRIGIDO: usar os métodos getter do objeto paciente
             editarPaciente.setString(1, paciente.getNomeUsuario());
             editarPaciente.setString(2, paciente.getEmail());
             editarPaciente.setString(3, paciente.getSenha());
@@ -62,7 +59,7 @@ public class PacienteDAO {
             editarPaciente.setString(11, paciente.getVacinas());
             editarPaciente.setFloat(12, paciente.getPeso());
             editarPaciente.setString(13, paciente.getCondicoesPreEx());
-            editarPaciente.setString(14, paciente.getcpf()); // WHERE clause
+            editarPaciente.setString(14, paciente.getCpf()); 
 
             editarPaciente.executeUpdate();
             System.out.println("Paciente editado com sucesso!");
