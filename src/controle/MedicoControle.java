@@ -1,4 +1,6 @@
 package controle;
+import DAO.MedicoDAO;
+
 
 public class MedicoControle {
     public void imprimirMedico(String crm){
