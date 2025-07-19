@@ -8,7 +8,10 @@ import java.time.LocalDate;
 import model.ConsultaModel;
 import model.MedicoModel;
 import model.PacienteModel;
+<<<<<<< HEAD
 import util.ConexaoPostgres;
+=======
+>>>>>>> 624783df2c3f323be60e8414a38aa564226317b2
 
 public class ConsultaDAO {
     

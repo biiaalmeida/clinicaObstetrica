@@ -1,8 +1,8 @@
 import java.util.Scanner;
 import java.util.ArrayList;
-import model.Medico;
-import model.Paciente;
-import model.Usuario;
+import model.MedicoModel;
+import model.PacienteModel;
+import model.UsuarioModel;
 import controle.UsuarioControle;
 
 public class MenuSistema {

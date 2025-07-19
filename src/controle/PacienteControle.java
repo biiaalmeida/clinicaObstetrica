@@ -2,7 +2,7 @@ package controle;
 
 public class PacienteControle {
     public void imprimirDadosPaciente(String cpf) {
-        Paciente paciente = buscarPaciente(cpf);
+        PacienteControle paciente = buscarPaciente(cpf);
         if (paciente != null) {
             System.out.println(paciente.toString());
         } else {
