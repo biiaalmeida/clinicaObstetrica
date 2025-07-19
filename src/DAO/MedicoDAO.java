@@ -1,8 +1,14 @@
-package dao;
+package DAO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import util.ConexaoPostgres;
+
 public class MedicoDAO  {
     public boolean cadastrarMedico (){
         try (Connection connection = ConexaoPostgres.getConexao()) {
-            // Primeiro inserir na tabela usuario
             String sqlUsuario = "INSERT INTO usuario (email, senha, nomeusuario) VALUES (?, ?, ?)";
             try (PreparedStatement stmtUsuario = connection.prepareStatement(sqlUsuario)) {
                 stmtUsuario.setString(1, this.getEmail());
