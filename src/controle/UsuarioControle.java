@@ -13,7 +13,7 @@ public class UsuarioControle {
             String tipoUsuario = identificarTipoPorEmail(email);
             
             if (tipoUsuario.equals("MEDICO")) {
-                MedicoModel medico = MedicoDAO.buscarPorEmail(email);
+                MedicoModel medico = MedicoDAO.buscarMedPorEmail(email);
                 
                 if (medico != null && medico.getSenha().equals(senha)) {
                     System.out.println("Médico autenticado com sucesso!");

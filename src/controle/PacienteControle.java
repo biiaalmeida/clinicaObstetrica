@@ -4,7 +4,7 @@ import model.PacienteModel;
 
 public class PacienteControle {
     public PacienteModel buscarPaciente(String cpf) {
-        return PacienteDAO.buscarPorCpf(cpf);
+        return PacienteDAO.buscarPaciente(cpf);
     }
 
     public void imprimirDadosPaciente(String cpf) {

@@ -4,7 +4,7 @@ import model.MedicoModel;
 
 public class MedicoControle {
     public MedicoModel buscarMedico(String crm) {
-        return MedicoDAO.buscarPorCrm(crm);
+        return MedicoDAO.buscarMedico(crm);
     }
 
     public void imprimirMedico(String crm){
