@@ -35,16 +35,6 @@ public class UsuarioModel {
         this.email = email;
     }
 
-    public boolean autenticar(String email, String senha) {
-        return this.email.equals(email) && this.senha.equals(senha);
-    }
-
-    public UsuarioModel atualizarCredenciais(String novoNomeUsuario, String novaSenha) {
-        this.nomeUsuario = novoNomeUsuario;
-        this.senha = novaSenha;
-        return this;
-    }
-
     public String getTipoUsuario() {
         if (email.endsWith("@medico")) {
             return "Medico";
