@@ -5,13 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import model.ConsultaModel;
 import model.MedicoModel;
 import model.PacienteModel;
-<<<<<<< HEAD
 import util.ConexaoPostgres;
-=======
->>>>>>> 624783df2c3f323be60e8414a38aa564226317b2
 
 public class ConsultaDAO {
     
@@ -49,26 +48,7 @@ public class ConsultaDAO {
             
             try (ResultSet rs = buscaConsulta.executeQuery()) {
                 if (rs.next()) {
-                    ConsultaModel consulta = new ConsultaModel();
-                    consulta.setCodigoConsulta(rs.getInt("codigoConsulta"));
-                    consulta.setDataConsulta(rs.getObject("dataConsulta", LocalDate.class));
-                    consulta.setDataPrevistaParto(rs.getObject("dataPrevistaParto", LocalDate.class));
-                    consulta.setDataUltimaMenstruacao(rs.getObject("dataUltimaMenstruacao", LocalDate.class));
-                    consulta.setTipoParto(rs.getString("tipoParto"));
-                    consulta.setQtdSemanas(rs.getString("qtdSemanas"));
-                    String cpfPaciente = rs.getString("cpf");
-                    String crmMedico = rs.getString("crm");
-                    
-                    PacienteDAO pacienteDAO = new PacienteDAO();
-                    MedicoDAO medicoDAO = new MedicoDAO();
-                    
-                    PacienteModel paciente = pacienteDAO.buscarPaciente(cpfPaciente);
-                    MedicoModel medico = medicoDAO.buscarMedico(crmMedico);
-                    
-                    consulta.setPaciente(paciente);
-                    consulta.setMedico(medico);
-
-                    return consulta;
+                    return criarConsultaFromResultSet(rs);
                 }
             }
         } catch (SQLException e) {
@@ -77,8 +57,8 @@ public class ConsultaDAO {
         return null;
     }
     
-    public java.util.List<ConsultaModel> listarConsultas() {
-        java.util.List<ConsultaModel> consultas = new java.util.ArrayList<>();
+    public List<ConsultaModel> listarConsultas() {
+        List<ConsultaModel> consultas = new ArrayList<>();
         String sql = "SELECT * FROM consulta";
         
         try (Connection conexao = ConexaoPostgres.getConexao();
@@ -86,27 +66,10 @@ public class ConsultaDAO {
              ResultSet rs = listaConsultas.executeQuery()) {
             
             while (rs.next()) {
-                ConsultaModel consulta = new ConsultaModel();
-                consulta.setCodigoConsulta(rs.getInt("codigoConsulta"));
-                consulta.setDataConsulta(rs.getObject("dataConsulta", LocalDate.class));
-                consulta.setDataPrevistaParto(rs.getObject("dataPrevistaParto", LocalDate.class));
-                consulta.setDataUltimaMenstruacao(rs.getObject("dataUltimaMenstruacao", LocalDate.class));
-                consulta.setTipoParto(rs.getString("tipoParto"));
-                consulta.setQtdSemanas(rs.getString("qtdSemanas"));
-                
-                String cpfPaciente = rs.getString("cpf");
-                String crmMedico = rs.getString("crm");
-                
-                PacienteDAO pacienteDAO = new PacienteDAO();
-                MedicoDAO medicoDAO = new MedicoDAO();
-                
-                PacienteModel paciente = pacienteDAO.buscarPaciente(cpfPaciente);
-                MedicoModel medico = medicoDAO.buscarMedico(crmMedico);
-                
-                consulta.setPaciente(paciente);
-                consulta.setMedico(medico);
-                
-                consultas.add(consulta);
+                ConsultaModel consulta = criarConsultaFromResultSet(rs);
+                if (consulta != null) {
+                    consultas.add(consulta);
+                }
             }
             
         } catch (SQLException e) {
@@ -116,8 +79,8 @@ public class ConsultaDAO {
         return consultas;
     }
     
-    public java.util.List<ConsultaModel> buscarConsultasPorPaciente(String cpf) {
-        java.util.List<ConsultaModel> consultas = new java.util.ArrayList<>();
+    public List<ConsultaModel> buscarConsultasPorPaciente(String cpf) {
+        List<ConsultaModel> consultas = new ArrayList<>();
         String sql = "SELECT * FROM consulta WHERE cpf = ?";
         
         try (Connection conexao = ConexaoPostgres.getConexao();
@@ -127,26 +90,10 @@ public class ConsultaDAO {
             
             try (ResultSet rs = buscaConsultasPorPaciente.executeQuery()) {
                 while (rs.next()) {
-                    ConsultaModel consulta = new ConsultaModel();
-                    consulta.setCodigoConsulta(rs.getInt("codigoConsulta"));
-                    consulta.setDataConsulta(rs.getObject("dataConsulta", LocalDate.class));
-                    consulta.setDataPrevistaParto(rs.getObject("dataPrevistaParto", LocalDate.class));
-                    consulta.setDataUltimaMenstruacao(rs.getObject("dataUltimaMenstruacao", LocalDate.class));
-                    consulta.setTipoParto(rs.getString("tipoParto"));
-                    consulta.setQtdSemanas(rs.getString("qtdSemanas"));
-                    
-                    String crmMedico = rs.getString("crm");
-                    
-                    PacienteDAO pacienteDAO = new PacienteDAO();
-                    MedicoDAO medicoDAO = new MedicoDAO();
-                    
-                    PacienteModel paciente = pacienteDAO.buscarPaciente(cpf);
-                    MedicoModel medico = medicoDAO.buscarMedico(crmMedico);
-                    
-                    consulta.setPaciente(paciente);
-                    consulta.setMedico(medico);
-                    
-                    consultas.add(consulta);
+                    ConsultaModel consulta = criarConsultaFromResultSet(rs);
+                    if (consulta != null) {
+                        consultas.add(consulta);
+                    }
                 }
             }
             
@@ -155,5 +102,33 @@ public class ConsultaDAO {
         }
         
         return consultas;
+    }
+    
+    private ConsultaModel criarConsultaFromResultSet(ResultSet rs) throws SQLException {
+        ConsultaModel consulta = new ConsultaModel();
+        consulta.setCodigoConsulta(rs.getInt("codigoConsulta"));
+        consulta.setDataConsulta(rs.getObject("dataConsulta", LocalDate.class));
+        consulta.setDataPrevistaParto(rs.getObject("dataPrevistaParto", LocalDate.class));
+        consulta.setDataUltimaMenstruacao(rs.getObject("dataUltimaMenstruacao", LocalDate.class));
+        consulta.setTipoParto(rs.getString("tipoParto"));
+        consulta.setQtdSemanas(rs.getString("qtdSemanas"));
+        
+        String cpfPaciente = rs.getString("cpf");
+        String crmMedico = rs.getString("crm");
+        
+        PacienteDAO pacienteDAO = new PacienteDAO();
+        MedicoDAO medicoDAO = new MedicoDAO();
+        
+        PacienteModel paciente = pacienteDAO.buscarPaciente(cpfPaciente);
+        MedicoModel medico = medicoDAO.buscarMedico(crmMedico);
+        
+        if (paciente != null && medico != null) {
+            consulta.setPaciente(paciente);
+            consulta.setMedico(medico);
+            return consulta;
+        } else {
+            System.out.println("Aviso: Paciente ou médico não encontrado para consulta " + rs.getInt("codigoConsulta"));
+            return null; 
+        }
     }
 }
