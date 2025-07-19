@@ -1,5 +1,5 @@
-package dao;
-public class usuarioDAO {
+package DAO;
+public class UsuarioDAO {
 
   
 }
