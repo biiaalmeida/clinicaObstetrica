@@ -10,12 +10,12 @@ public class ConsultaModel {
     private String tipoParto;
     private String qtdSemanas;
 
-    private Paciente paciente;
+    private PacienteModel paciente;
     private MedicoModel medico;
 
     public ConsultaModel(int codigoConsulta, LocalDate dataConsulta, LocalDate dataPrevistaParto,
             LocalDate dataUltimaMenstruacao, String tipoParto, String qtdSemanas,
-            Paciente paciente, MedicoModel medico) {
+            PacienteModel paciente, MedicoModel medico) {
         this.codigoConsulta = codigoConsulta;
         this.dataConsulta = dataConsulta;
         this.dataPrevistaParto = dataPrevistaParto;
@@ -79,11 +79,11 @@ public class ConsultaModel {
         this.qtdSemanas = qtdSemanas;
     }
 
-    public Paciente getPaciente() {
+    public PacienteModel getPaciente() {
         return paciente;
     }
 
-    public void setPaciente(Paciente paciente) {
+    public void setPaciente(PacienteModel paciente) {
         this.paciente = paciente;
     }
 
