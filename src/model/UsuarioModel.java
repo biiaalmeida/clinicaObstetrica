@@ -1,11 +1,11 @@
 package model;
 
-public class Usuario {
+public class UsuarioModel {
     protected String nomeUsuario;
     protected String senha;
     protected String email;
 
-    public Usuario(String nomeUsuario, String senha, String email) {
+    public UsuarioModel(String nomeUsuario, String senha, String email) {
         this.nomeUsuario = nomeUsuario;
         this.senha = senha;
         this.email = email;
@@ -39,7 +39,7 @@ public class Usuario {
         return this.email.equals(email) && this.senha.equals(senha);
     }
 
-    public Usuario atualizarCredenciais(String novoNomeUsuario, String novaSenha) {
+    public UsuarioModel atualizarCredenciais(String novoNomeUsuario, String novaSenha) {
         this.nomeUsuario = novoNomeUsuario;
         this.senha = novaSenha;
         return this;
@@ -53,6 +53,14 @@ public class Usuario {
         } else {
             throw new IllegalArgumentException("Email deve terminar com @medico ou @paciente");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "nomeUsuario='" + nomeUsuario + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 
 }
