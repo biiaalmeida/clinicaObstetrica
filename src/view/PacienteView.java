@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 
 
-public class MenuPaciente{
+public class PacienteView{
     public void exibirMenu() {
         Scanner scanner = new Scanner(System.in);
         PacienteControle pacienteControle = new PacienteControle();
