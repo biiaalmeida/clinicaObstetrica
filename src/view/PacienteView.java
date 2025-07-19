@@ -2,6 +2,7 @@ package view;
 
 import controle.PacienteControle;
 import java.util.Scanner;
+import model.PacienteModel;
 
 
 
@@ -31,6 +32,34 @@ public class PacienteView{
                     break;
                 case 2:
                     System.out.println("ATUALIZAR DADOS:");
+                    PacienteModel paciente = new PacienteModel();
+                    paciente.setCpf(cpf); // cpf já informado
+
+                    System.out.print("Informe o novo nome: ");
+                    paciente.setNomeUsuario(scanner.nextLine());
+                    System.out.print("Informe o novo email: ");
+                    paciente.setEmail(scanner.nextLine());
+                    System.out.print("Informe a nova senha: ");
+                    paciente.setSenha(scanner.nextLine());
+                    System.out.print("Informe a nova idade: ");
+                    paciente.setIdade(scanner.nextInt());
+                    scanner.nextLine();
+                    System.out.print("Informe o novo telefone de contato: ");
+                    paciente.setTelefoneContato(scanner.nextLine());   
+                    System.out.print("Informe o novo endereço: ");
+                    paciente.setEndereco(scanner.nextLine());
+                    System.out.print("Informe o novo tipo de plano de saúde: ");
+                    paciente.setTipoPlanoSaude(scanner.nextLine());
+                    System.out.print("Informe o novo tipo sanguíneo: ");
+                    paciente.setTipoSanguineo(scanner.nextLine());
+                    System.out.print("Informe as alergias: ");
+                    paciente.setAlergias(scanner.nextLine());
+                    boolean atualizado = pacienteControle.atualizarDadosPaciente(paciente);
+                    if (atualizado) {
+                        System.out.println("Dados atualizados com sucesso!");
+                    } else {
+                        System.out.println("Erro ao atualizar os dados.");
+                    }
                     break;
                 case 3:
                     // Lógica para ver o histórico de consultas

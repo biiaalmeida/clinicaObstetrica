@@ -14,6 +14,10 @@ public class PacienteControle {
         } else {
             System.out.println("Paciente não encontrado.");
         }
-    
+    }
+
+    public boolean atualizarDadosPaciente(PacienteModel paciente) {
+        PacienteDAO dao = new PacienteDAO();
+        return dao.editarPaciente(paciente);
     }
 }
