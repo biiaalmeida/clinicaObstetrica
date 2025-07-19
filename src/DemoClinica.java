@@ -11,9 +11,5 @@ public class DemoClinica {
             System.out.println("Erro de conexão: " + e.getMessage());
             return; // Sair se não conseguir conectar
         }
-
-        // Iniciar o sistema com menus
-        MenuSistema menu = new MenuSistema();
-        menu.iniciar();
     }
 }
