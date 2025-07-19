@@ -71,7 +71,7 @@ public class PacienteDAO {
         }
     }
 
-    public PacienteModel buscarPaciente(String cpf) {
+    public static PacienteModel buscarPaciente(String cpf) {
         String sql = "SELECT * FROM paciente WHERE cpf = ?";
         PacienteModel paciente = null;
         
@@ -104,10 +104,5 @@ public class PacienteDAO {
         }
 
         return paciente;
-    }
-
-    public static PacienteModel buscarPorCpf(String cpf) {
-        PacienteDAO pacienteDAO = new PacienteDAO();
-        return pacienteDAO.buscarPaciente(cpf);
     }
 }
