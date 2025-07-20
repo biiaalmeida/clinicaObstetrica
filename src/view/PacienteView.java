@@ -8,9 +8,8 @@ import model.ConsultaModel;
 import model.PacienteModel;
 
 
-
 public class PacienteView{
-    public void exibirMenu() {
+    public void exibirMenuPaciente() {
         Scanner scanner = new Scanner(System.in);
         PacienteControle pacienteControle = new PacienteControle();
         int opcao;
@@ -96,8 +95,8 @@ public class PacienteView{
 
             
         } while (opcao != 5);
-        scanner.close();
         System.out.println("Obrigado por usar o sistema!");
+        scanner.close();
     }
 }
 

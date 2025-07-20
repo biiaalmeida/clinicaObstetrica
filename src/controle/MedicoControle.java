@@ -15,4 +15,9 @@ public class MedicoControle {
             System.out.println("Médico não encontrado.");
         }
     }
+
+    public boolean atualizarDadosMedico(MedicoModel medico) {
+        MedicoDAO dao = new MedicoDAO();
+        return dao.editarMedico(medico);
+    }
 }
