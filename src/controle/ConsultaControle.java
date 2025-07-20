@@ -61,4 +61,8 @@ public class ConsultaControle {
             }
         }
     }
+    public boolean cadastrarConsulta(ConsultaModel consulta) {
+        ConsultaDAO dao = new ConsultaDAO();
+        return dao.cadastrarConsulta(consulta);
+    }
 }
