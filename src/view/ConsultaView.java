@@ -26,33 +26,33 @@ public class ConsultaView {
             scanner.nextLine();
 
             switch (opcao) {
-                case 1 -> {
+                case 1:
                     System.out.println("CADASTRAR CONSULTA:");
                     cadastrarConsulta();
-                }
-                case 2 -> {
+                    break;
+                case 2:
                     System.out.println("BUSCAR CONSULTA:");
                     buscarConsulta();
-                }
-                case 3 -> {
+                    break;
+                case 3:
                     System.out.println("IMPRIMIR CONSULTAS DO MÉDICO:");
                     imprimirConsultasMedico();
-                }
-                case 4 -> {
+                    break;
+                case 4:
                     System.out.println("IMPRIMIR CONSULTAS MÉDICO-PACIENTE:");
                     imprimirConsultasMedicoPaciente();
-                }
-                case 5 -> {
+                    break;
+                case 5:
                     System.out.println("IMPRIMIR TODAS AS CONSULTAS:");
                     listarConsultas();
-                }
-                case 6 -> {
+                    break;
+                case 6:
                     System.out.println("LISTAR CONSULTAS:");
                     imprimirUltimaConsulta();
-                }
-                default -> {
+                    break;
+                default:
                     System.out.println("Opção inválida! Tente novamente.");
-                }
+                    break;
             }
         } while (opcao != 7);
         System.out.println("Obrigado por usar o sistema!");
@@ -124,5 +124,10 @@ public class ConsultaView {
         String cpf = scanner.nextLine();
         ConsultaControle consultaControle = new ConsultaControle();
         consultaControle.imprimirUltimaConsulta(cpf);
+    }
+
+    public void iniciar() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'iniciar'");
     }
 }

@@ -25,11 +25,11 @@ public class MedicoView {
             scanner.nextLine();
             
             switch (opcao) {
-                case 1 -> {
+                case 1:
                     System.out.println(" DADOS:");
                     medicoControle.imprimirMedico(crm);
-                }
-                case 2 -> {
+                    break;
+                case 2:
                     System.out.println("ATUALIZAR DADOS:");
                     MedicoModel medico = new MedicoModel();
                     medico.setCrm(crm);
@@ -49,15 +49,15 @@ public class MedicoView {
                     } else {
                         System.out.println("Erro ao atualizar os dados.");
                     }
-                }
-                    
-                case 3 -> {
-                }
-                    
-                default -> { 
+                    break;
+                case 3:
+                    System.out.println("Abrindo Gestão de Consultas...");
+                    ConsultaView consultaView = new ConsultaView();
+                    consultaView.menuConsulta();
+                    break;
+                default:
                     System.out.println("Opção inválida! Tente novamente.");
-                }
-
+                    break;
             }
                 
         } while (opcao != 4);
@@ -81,6 +81,11 @@ public class MedicoView {
         } else {
             System.out.println("Erro ao cadastrar médico.");
         }
+    }
+
+    public void iniciar() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'iniciar'");
     }
 
 }
