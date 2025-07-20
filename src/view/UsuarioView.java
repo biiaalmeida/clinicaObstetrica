@@ -14,9 +14,9 @@ public class UsuarioView {
             do {
                 System.out.println("=== SISTEMA DE ACESSO ===");
                 System.out.println("1. Fazer Login");
-                System.out.println("2. Cadastrar Usuário");
+                System.out.println("2. Cadastrar Usuario");
                 System.out.println("3. Sair");
-                System.out.print("Escolha uma opção: ");
+                System.out.print("Escolha uma opcao: ");
                 opcao = scanner.nextInt();
                 scanner.nextLine();
                 
@@ -34,7 +34,7 @@ public class UsuarioView {
                             System.out.println("Login realizado com sucesso!");
                             System.out.println("Bem-vindo(a), " + usuario.getNomeUsuario() + "!");
                             String tipoUsuario = usuarioControle.obterTipoUsuario(usuario);
-                            System.out.println("Tipo de usuário: " + tipoUsuario);
+                            System.out.println("Tipo de usuario: " + tipoUsuario);
                             scanner.close();
                             return usuario;
                         } else {
@@ -43,7 +43,7 @@ public class UsuarioView {
                         break;
 
                     case 2:
-                        System.out.println("\n=== CADASTRO DE USUÁRIO ===");
+                        System.out.println("\n=== CADASTRO DE USUARIO ===");
                         System.out.print("Nome completo: ");
                         String nome = scanner.nextLine().trim();
                         System.out.print("Email: ");
@@ -54,15 +54,15 @@ public class UsuarioView {
                         boolean sucesso = usuarioControle.cadastrar(nome, emailCadastro, senhaCadastro);
                         
                         if (sucesso) {
-                            System.out.println("Usuário cadastrado com sucesso!");
+                            System.out.println("Usuario cadastrado com sucesso!");
                         } else {
-                            System.out.println("Erro ao cadastrar usuário!");
+                            System.out.println("Erro ao cadastrar usuario!");
                         }
                         break;
 
                     default:
                         if (opcao != 3) {
-                            System.out.println("Opção inválida. Tente novamente.");
+                            System.out.println("Opcao invalida. Tente novamente.");
                         }
                         break;
                 }
