@@ -7,27 +7,27 @@ import java.util.Scanner;
 import model.ConsultaModel;
 import model.PacienteModel;
 
+public class PacienteView {
+    private final Scanner scanner = new Scanner(System.in);
 
-public class PacienteView{
     public void exibirMenuPaciente() {
-        try (Scanner scanner = new Scanner(System.in)) {
-            PacienteControle pacienteControle = new PacienteControle();
-            int opcao;
-            
-            System.out.println("Digite seu CPF:");
-            String cpf = scanner.nextLine();
-            
-            do {
-                System.out.println("=== BEM-VINDO, PACIENTE ===");
-                System.out.println("1. Visualizar meus dados");
-                System.out.println("2. Atualizar meus dados");
-                System.out.println("3. Ver meu histórico de consultas");
-                System.out.println("4. Imprimir minha última consulta");
-                System.out.println("5. Sair");
-                opcao = scanner.nextInt();
-                scanner.nextLine();
-                
-                switch (opcao) {
+        PacienteControle pacienteControle = new PacienteControle();
+        int opcao;
+
+        System.out.println("Digite seu CPF:");
+        String cpf = scanner.nextLine();
+
+        do {
+            System.out.println("=== BEM-VINDO, PACIENTE ===");
+            System.out.println("1. Visualizar meus dados");
+            System.out.println("2. Atualizar meus dados");
+            System.out.println("3. Ver meu histórico de consultas");
+            System.out.println("4. Imprimir minha última consulta");
+            System.out.println("5. Sair");
+            opcao = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcao) {
                     case 1-> {
                         System.out.println(" DADOS:");
                         pacienteControle.imprimirDadosPaciente(cpf);
@@ -94,14 +94,37 @@ public class PacienteView{
                         System.out.println("Opção inválida! Tente novamente.");
                     }
                 }
-                
-                
-                
-            } while (opcao != 5);
-            System.out.println("Obrigado por usar o sistema!");
+        } while (opcao != 5);
+        System.out.println("Obrigado por usar o sistema!");
+    }
+
+    public void cadastrarPaciente() {
+        PacienteModel paciente = new PacienteModel();
+        PacienteControle pacienteControle = new PacienteControle();
+
+        System.out.print("Informe o CPF: ");
+        paciente.setCpf(scanner.nextLine());
+        System.out.print("Informe a idade: ");
+        paciente.setIdade(scanner.nextInt());
+        scanner.nextLine();
+        System.out.print("Informe o telefone de contato: ");
+        paciente.setTelefoneContato(scanner.nextLine());
+        System.out.print("Informe o endereço: ");
+        paciente.setEndereco(scanner.nextLine());
+        System.out.print("Informe o tipo de plano de saúde: ");
+        paciente.setTipoPlanoSaude(scanner.nextLine());
+        System.out.print("Informe o tipo sanguíneo: ");
+        paciente.setTipoSanguineo(scanner.nextLine());
+        System.out.print("Informe as alergias: ");
+        paciente.setAlergias(scanner.nextLine());
+
+        boolean cadastrado = pacienteControle.cadastrarPaciente(paciente);
+        if (cadastrado) {
+            System.out.println("Paciente cadastrado com sucesso!");
+        } else {
+            System.out.println("Erro ao cadastrar paciente.");
         }
     }
-    
 }
 
 

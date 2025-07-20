@@ -20,4 +20,9 @@ public class PacienteControle {
         PacienteDAO dao = new PacienteDAO();
         return dao.editarPaciente(paciente);
     }
+
+    public boolean cadastrarPaciente(PacienteModel paciente) {
+        PacienteDAO dao = new PacienteDAO();
+        return dao.cadastrarPaciente(paciente);
+    }
 }

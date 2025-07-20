@@ -20,4 +20,9 @@ public class MedicoControle {
         MedicoDAO dao = new MedicoDAO();
         return dao.editarMedico(medico);
     }
+
+    public boolean cadastrarMedico(MedicoModel medico) {
+        MedicoDAO dao = new MedicoDAO();
+        return dao.cadastrarMedico(medico);
+    }
 }
