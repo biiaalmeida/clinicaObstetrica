@@ -10,9 +10,9 @@ import util.ConexaoPostgres;
 public class MedicoDAO {
     
     public boolean cadastrarMedico(MedicoModel medico) {
-        String sqlUsuario = "INSERT INTO usuario (nomeUsuario, email, senha) VALUES (?, ?, ?)";
-        String sqlMedico = "INSERT INTO medico (crm, especialidade, email) VALUES (?, ?, ?)";
-
+        String sqlUsuario = "INSERT INTO Usuario (nomeUsuario, email, senha) VALUES (?, ?, ?)";
+        String sqlMedico = "INSERT INTO Medico (crm, especialidade, email) VALUES (?, ?, ?)";
+    
         try (Connection connection = ConexaoPostgres.getConexao()) {
             
             connection.setAutoCommit(false);
@@ -48,9 +48,9 @@ public class MedicoDAO {
     }
 
     public boolean editarMedico(MedicoModel medico) {
-        String sqlUsuario = "UPDATE usuario SET nomeUsuario = ?, senha = ? WHERE email = ?";
-        String sqlMedico = "UPDATE medico SET especialidade = ? WHERE crm = ?";
-
+        String sqlUsuario = "UPDATE Usuario SET nomeUsuario = ?, senha = ? WHERE email = ?";
+        String sqlMedico = "UPDATE Medico SET especialidade = ? WHERE crm = ?";
+   
         try (Connection connection = ConexaoPostgres.getConexao()) {
             
             connection.setAutoCommit(false);
@@ -86,7 +86,8 @@ public class MedicoDAO {
 
     public static MedicoModel buscarMedico(String crm) {
         String sql = "SELECT m.crm, m.especialidade, u.email, u.senha, u.nomeUsuario " +
-                    "FROM medico m JOIN usuario u ON m.email = u.email WHERE m.crm = ?";
+                "FROM Medico m JOIN Usuario u ON m.email = u.email WHERE m.crm = ?";
+   
         MedicoModel medico = null;
     
         try (Connection connection = ConexaoPostgres.getConexao();
@@ -100,7 +101,7 @@ public class MedicoDAO {
                     medico.setEspecialidade(resultSet.getString("especialidade"));
                     medico.setEmail(resultSet.getString("email"));
                     medico.setSenha(resultSet.getString("senha"));
-                    medico.setNomeUsuario(resultSet.getString("nome_usuario"));
+                    medico.setNomeUsuario(resultSet.getString("nomeUsuario"));
                 }
             }
         } catch (SQLException e) {
@@ -112,7 +113,8 @@ public class MedicoDAO {
 
     public static MedicoModel buscarMedPorEmail(String email) {
         String sql = "SELECT m.crm, m.especialidade, u.email, u.senha, u.nomeUsuario " +
-                    "FROM medico m JOIN usuario u ON m.email = u.email WHERE u.email = ?";
+                "FROM Medico m JOIN Usuario u ON m.email = u.email WHERE u.email = ?";
+   
         MedicoModel medico = null;
     
         try (Connection connection = ConexaoPostgres.getConexao();
@@ -126,7 +128,7 @@ public class MedicoDAO {
                     medico.setEspecialidade(resultSet.getString("especialidade"));
                     medico.setEmail(resultSet.getString("email"));
                     medico.setSenha(resultSet.getString("senha"));
-                    medico.setNomeUsuario(resultSet.getString("nome_usuario"));
+                    medico.setNomeUsuario(resultSet.getString("nomeUsuario"));
                 }
             }
         } catch (SQLException e) {

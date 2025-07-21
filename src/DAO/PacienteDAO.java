@@ -9,9 +9,60 @@ import util.ConexaoPostgres;
 
 public class PacienteDAO {
      
+    // Método para cadastro básico (apenas Usuario + dados mínimos)
+    public boolean cadastrarPacienteBasico(PacienteModel paciente) {
+        String sqlUsuario = "INSERT INTO Usuario (nomeUsuario, email, senha) VALUES (?, ?, ?)";
+        String sqlPaciente = "INSERT INTO paciente (cpf, nome, idade, telefonecontato, endereco, tipoplanosaude, tiposanguineo, alergias, numgestacoesanteriores, vacinas, peso, condicoespreex, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+        try (Connection connection = ConexaoPostgres.getConexao()) {
+            
+            connection.setAutoCommit(false);
+            
+            try {
+                try (PreparedStatement stmtUsuario = connection.prepareStatement(sqlUsuario)) {
+                    stmtUsuario.setString(1, paciente.getNomeUsuario());
+                    stmtUsuario.setString(2, paciente.getEmail());
+                    stmtUsuario.setString(3, paciente.getSenha());
+                    stmtUsuario.executeUpdate();
+                }
+                
+                try (PreparedStatement stmtPaciente = connection.prepareStatement(sqlPaciente)) {
+                    stmtPaciente.setString(1, paciente.getCpf());
+                    stmtPaciente.setString(2, paciente.getNomeUsuario());
+                    stmtPaciente.setInt(3, paciente.getIdade());
+                    stmtPaciente.setString(4, paciente.getTelefoneContato() != null ? paciente.getTelefoneContato() : "");
+                    stmtPaciente.setString(5, paciente.getEndereco() != null ? paciente.getEndereco() : "");
+                    stmtPaciente.setString(6, paciente.getTipoPlanoSaude() != null ? paciente.getTipoPlanoSaude() : "");
+                    stmtPaciente.setString(7, paciente.getTipoSanguineo() != null ? paciente.getTipoSanguineo() : "");
+                    stmtPaciente.setString(8, paciente.getAlergias() != null ? paciente.getAlergias() : "");
+                    stmtPaciente.setInt(9, paciente.getNumGestacoesAnteriores());
+                    stmtPaciente.setString(10, paciente.getVacinas() != null ? paciente.getVacinas() : "");
+                    
+                    // Peso deve ter um valor padrão, não pode ser null
+                    stmtPaciente.setFloat(11, paciente.getPeso() != null ? paciente.getPeso() : 0.0f);
+                    
+                    stmtPaciente.setString(12, paciente.getCondicoesPreEx() != null ? paciente.getCondicoesPreEx() : "");
+                    stmtPaciente.setString(13, paciente.getEmail());
+                    stmtPaciente.executeUpdate();
+                }
+                
+                connection.commit();
+                return true;
+                
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            }
+            
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    // Método para cadastro completo
     public boolean cadastrarPaciente(PacienteModel paciente) {
-        String sqlUsuario = "INSERT INTO usuario (nomeUsuario, email, senha) VALUES (?, ?, ?)";
-        String sqlPaciente = "INSERT INTO paciente (email, cpf, idade, telefoneContato, endereco, tipoPlanoSaude, tipoSanguineo, alergias, numGestacoesAnteriores, vacinas, peso, condicoesPreEx) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlUsuario = "INSERT INTO Usuario (nomeUsuario, email, senha) VALUES (?, ?, ?)";
+        String sqlPaciente = "INSERT INTO paciente (cpf, nome, idade, telefonecontato, endereco, tipoplanosaude, tiposanguineo, alergias, numgestacoesanteriores, vacinas, peso, condicoespreex, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ConexaoPostgres.getConexao()) {
             
@@ -26,8 +77,8 @@ public class PacienteDAO {
                 }
                 
                 try (PreparedStatement stmtPaciente = connection.prepareStatement(sqlPaciente)) {
-                    stmtPaciente.setString(1, paciente.getEmail());
-                    stmtPaciente.setString(2, paciente.getCpf());
+                    stmtPaciente.setString(1, paciente.getCpf());
+                    stmtPaciente.setString(2, paciente.getNomeUsuario());
                     stmtPaciente.setInt(3, paciente.getIdade());
                     stmtPaciente.setString(4, paciente.getTelefoneContato());
                     stmtPaciente.setString(5, paciente.getEndereco());
@@ -36,13 +87,20 @@ public class PacienteDAO {
                     stmtPaciente.setString(8, paciente.getAlergias());
                     stmtPaciente.setInt(9, paciente.getNumGestacoesAnteriores());
                     stmtPaciente.setString(10, paciente.getVacinas());
-                    stmtPaciente.setFloat(11, paciente.getPeso());
+                    
+                    // Tratamento para peso que pode ser null
+                    if (paciente.getPeso() != null) {
+                        stmtPaciente.setFloat(11, paciente.getPeso());
+                    } else {
+                        stmtPaciente.setNull(11, java.sql.Types.FLOAT);
+                    }
+                    
                     stmtPaciente.setString(12, paciente.getCondicoesPreEx());
+                    stmtPaciente.setString(13, paciente.getEmail());
                     stmtPaciente.executeUpdate();
                 }
                 
                 connection.commit();
-                System.out.println("Paciente cadastrado com sucesso!");
                 return true;
                 
             } catch (SQLException e) {
@@ -51,15 +109,14 @@ public class PacienteDAO {
             }
             
         } catch (SQLException e) {
-            System.out.println("Erro ao cadastrar paciente: " + e.getMessage());
             return false;
         }
     }   
 
     public boolean editarPaciente(PacienteModel paciente) {
-        String sqlUsuario = "UPDATE usuario SET nomeUsuario = ?, senha = ? WHERE email = ?";
-        String sqlPaciente = "UPDATE paciente SET idade = ?, telefoneContato = ?, endereco = ?, tipoPlanoSaude = ?, tipoSanguineo = ?, alergias = ?, numGestacoesAnteriores = ?, vacinas = ?, peso = ?, condicoesPreEx = ? WHERE cpf = ?";
-
+        String sqlUsuario = "UPDATE Usuario SET nomeUsuario = ?, senha = ? WHERE email = ?";
+        String sqlPaciente = "UPDATE paciente SET idade = ?, telefonecontato = ?, endereco = ?, tipoplanosaude = ?, alergias = ?, numgestacoesanteriores = ?, vacinas = ?, peso = ?, condicoespreex = ? WHERE cpf = ?";
+    
         try (Connection connection = ConexaoPostgres.getConexao()) {
             
             connection.setAutoCommit(false);
@@ -77,18 +134,23 @@ public class PacienteDAO {
                     stmtPaciente.setString(2, paciente.getTelefoneContato());
                     stmtPaciente.setString(3, paciente.getEndereco());
                     stmtPaciente.setString(4, paciente.getTipoPlanoSaude());
-                    stmtPaciente.setString(5, paciente.getTipoSanguineo());
-                    stmtPaciente.setString(6, paciente.getAlergias());
-                    stmtPaciente.setInt(7, paciente.getNumGestacoesAnteriores());
-                    stmtPaciente.setString(8, paciente.getVacinas());
-                    stmtPaciente.setFloat(9, paciente.getPeso());
-                    stmtPaciente.setString(10, paciente.getCondicoesPreEx());
-                    stmtPaciente.setString(11, paciente.getCpf());
+                    stmtPaciente.setString(5, paciente.getAlergias());
+                    stmtPaciente.setInt(6, paciente.getNumGestacoesAnteriores());
+                    stmtPaciente.setString(7, paciente.getVacinas());
+                    
+                    // Tratamento para peso que pode ser null
+                    if (paciente.getPeso() != null) {
+                        stmtPaciente.setFloat(8, paciente.getPeso());
+                    } else {
+                        stmtPaciente.setNull(8, java.sql.Types.FLOAT);
+                    }
+                    
+                    stmtPaciente.setString(9, paciente.getCondicoesPreEx());
+                    stmtPaciente.setString(10, paciente.getCpf());
                     stmtPaciente.executeUpdate();
                 }
                 
                 connection.commit();
-                System.out.println("Paciente editado com sucesso!");
                 return true;
                 
             } catch (SQLException e) {
@@ -97,14 +159,16 @@ public class PacienteDAO {
             }
             
         } catch (SQLException e) {
-            System.out.println("Erro ao editar paciente: " + e.getMessage());
+            System.out.println("Erro SQL ao editar paciente: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
 
     public static PacienteModel buscarPaciente(String cpf) {
-        String sql = "SELECT p.cpf, p.idade, p.telefoneContato, p.endereco, p.tipoPlanoSaude, p.tipoSanguineo, p.alergias, p.numGestacoesAnteriores, p.vacinas, p.peso, p.condicoesPreEx, u.email, u.senha, u.nomeUsuario " +
-                    "FROM paciente p JOIN usuario u ON p.email = u.email WHERE p.cpf = ?";
+        String sql = "SELECT p.cpf, p.nome, p.idade, p.telefonecontato, p.endereco, p.tipoplanosaude, p.tiposanguineo, p.alergias, p.numgestacoesanteriores, p.vacinas, p.peso, p.condicoespreex, u.email, u.senha, u.nomeUsuario " +
+                "FROM paciente p JOIN Usuario u ON p.email = u.email WHERE p.cpf = ?";
+    
         PacienteModel paciente = null;
         
         try (Connection connection = ConexaoPostgres.getConexao();
@@ -114,35 +178,33 @@ public class PacienteDAO {
             try (ResultSet resultSet = buscarPaciente.executeQuery()) {
                 if (resultSet.next()) {
                     paciente = new PacienteModel();
-                    paciente.setNomeUsuario(resultSet.getString("nome_usuario"));
+                    paciente.setNomeUsuario(resultSet.getString("nomeUsuario"));
                     paciente.setEmail(resultSet.getString("email"));
                     paciente.setSenha(resultSet.getString("senha"));
                     paciente.setCpf(resultSet.getString("cpf"));
                     paciente.setIdade(resultSet.getInt("idade"));
-                    paciente.setTelefoneContato(resultSet.getString("telefone_contato"));
+                    paciente.setTelefoneContato(resultSet.getString("telefonecontato"));
                     paciente.setEndereco(resultSet.getString("endereco"));
-                    paciente.setTipoPlanoSaude(resultSet.getString("tipo_plano_saude"));
-                    paciente.setTipoSanguineo(resultSet.getString("tipo_sanguineo"));
+                    paciente.setTipoPlanoSaude(resultSet.getString("tipoplanosaude"));
+                    paciente.setTipoSanguineo(resultSet.getString("tiposanguineo"));
                     paciente.setAlergias(resultSet.getString("alergias"));
-                    paciente.setNumGestacoesAnteriores(resultSet.getInt("num_gestacoes_anteriores"));
+                    paciente.setNumGestacoesAnteriores(resultSet.getInt("numgestacoesanteriores"));
                     paciente.setVacinas(resultSet.getString("vacinas"));
                     paciente.setPeso(resultSet.getFloat("peso"));
-                    paciente.setCondicoesPreEx(resultSet.getString("condicoes_pre_ex"));
-                } else {
-                    System.out.println("Paciente não encontrado com CPF: " + cpf);
+                    paciente.setCondicoesPreEx(resultSet.getString("condicoespreex"));
                 }
             }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar paciente: " + e.getMessage());
+            // Log error se necessário
         }
 
         return paciente;
     }
 
     public static PacienteModel buscarPorEmail(String email) {
-        String sql = "SELECT p.cpf, p.idade, p.telefoneContato, p.endereco, p.tipoPlanoSaude, p.tipoSanguineo, p.alergias, p.numGestacoesAnteriores, p.vacinas, p.peso, p.condicoesPreEx, u.email, u.senha, u.nomeUsuario " +
-                    "FROM paciente p JOIN usuario u ON p.email = u.email WHERE u.email = ?";
+        String sql = "SELECT p.cpf, p.nome, p.idade, p.telefonecontato, p.endereco, p.tipoplanosaude, p.tiposanguineo, p.alergias, p.numgestacoesanteriores, p.vacinas, p.peso, p.condicoespreex, u.email, u.senha, u.nomeUsuario " +
+                "FROM paciente p JOIN Usuario u ON p.email = u.email WHERE u.email = ?";
         PacienteModel paciente = null;
 
         try (Connection connection = ConexaoPostgres.getConexao();
@@ -152,25 +214,25 @@ public class PacienteDAO {
             try (ResultSet resultSet = buscarPaciente.executeQuery()) {
                 if (resultSet.next()) {
                     paciente = new PacienteModel();
-                    paciente.setNomeUsuario(resultSet.getString("nome_usuario"));
+                    paciente.setNomeUsuario(resultSet.getString("nomeUsuario"));
                     paciente.setEmail(resultSet.getString("email"));
                     paciente.setSenha(resultSet.getString("senha"));
                     paciente.setCpf(resultSet.getString("cpf"));
                     paciente.setIdade(resultSet.getInt("idade"));
-                    paciente.setTelefoneContato(resultSet.getString("telefone_contato"));
+                    paciente.setTelefoneContato(resultSet.getString("telefonecontato"));
                     paciente.setEndereco(resultSet.getString("endereco"));
-                    paciente.setTipoPlanoSaude(resultSet.getString("tipo_plano_saude"));
-                    paciente.setTipoSanguineo(resultSet.getString("tipo_sanguineo"));
+                    paciente.setTipoPlanoSaude(resultSet.getString("tipoplanosaude"));
+                    paciente.setTipoSanguineo(resultSet.getString("tiposanguineo"));
                     paciente.setAlergias(resultSet.getString("alergias"));
-                    paciente.setNumGestacoesAnteriores(resultSet.getInt("num_gestacoes_anteriores"));
+                    paciente.setNumGestacoesAnteriores(resultSet.getInt("numgestacoesanteriores"));
                     paciente.setVacinas(resultSet.getString("vacinas"));
                     paciente.setPeso(resultSet.getFloat("peso"));
-                    paciente.setCondicoesPreEx(resultSet.getString("condicoes_pre_ex"));
+                    paciente.setCondicoesPreEx(resultSet.getString("condicoespreex"));
                 }
             }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar paciente por email: " + e.getMessage());
+            // Log error se necessário
         }
 
         return paciente;

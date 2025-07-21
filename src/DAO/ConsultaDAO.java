@@ -15,18 +15,19 @@ import util.ConexaoPostgres;
 public class ConsultaDAO {
     
     public boolean cadastrarConsulta(ConsultaModel consulta) {
-        String sql = "INSERT INTO consulta (dataConsulta, dataPrevistaParto, dataUltimaMenstruacao, tipoParto, qtdSemanas, cpf, crm) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
+        String sql = "INSERT INTO Consulta (codigoConsulta, dataConsulta, dataPrevistaParto, dataUltimaMenstruacao, tipoParto, qtdSemanas, cpfPaciente, crmMedico) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    
         try (Connection conexao = ConexaoPostgres.getConexao();
              PreparedStatement novaConsulta = conexao.prepareStatement(sql)) {
             
-            novaConsulta.setObject(1, consulta.getDataConsulta());
-            novaConsulta.setObject(2, consulta.getDataPrevistaParto());
-            novaConsulta.setObject(3, consulta.getDataUltimaMenstruacao());
-            novaConsulta.setString(4, consulta.getTipoParto());
-            novaConsulta.setString(5, consulta.getQtdSemanas());
-            novaConsulta.setString(6, consulta.getPaciente().getCpf());
-            novaConsulta.setString(7, consulta.getMedico().getCrm());
+            novaConsulta.setInt(1, consulta.getCodigoConsulta());
+            novaConsulta.setObject(2, consulta.getDataConsulta());
+            novaConsulta.setObject(3, consulta.getDataPrevistaParto());
+            novaConsulta.setObject(4, consulta.getDataUltimaMenstruacao());
+            novaConsulta.setString(5, consulta.getTipoParto());
+            novaConsulta.setString(6, consulta.getQtdSemanas());
+            novaConsulta.setString(7, consulta.getPaciente().getCpf());
+            novaConsulta.setString(8, consulta.getMedico().getCrm());
 
             novaConsulta.executeUpdate();
             System.out.println("Consulta cadastrada com sucesso!");
@@ -39,8 +40,8 @@ public class ConsultaDAO {
     }
 
     public static ConsultaModel buscarConsulta(int codigoConsulta) {
-        String sql = "SELECT * FROM consulta WHERE codigoConsulta = ?";
-        ConsultaDAO dao = new ConsultaDAO(); // Cria uma instância
+        String sql = "SELECT * FROM Consulta WHERE codigoConsulta = ?";
+        ConsultaDAO dao = new ConsultaDAO();
         
         try (Connection conexao = ConexaoPostgres.getConexao();
              PreparedStatement buscaConsulta = conexao.prepareStatement(sql)) {
@@ -60,7 +61,7 @@ public class ConsultaDAO {
     
     public List<ConsultaModel> listarConsultas() {
         List<ConsultaModel> consultas = new ArrayList<>();
-        String sql = "SELECT * FROM consulta";
+        String sql = "SELECT * FROM Consulta";
         
         try (Connection conexao = ConexaoPostgres.getConexao();
              PreparedStatement listaConsultas = conexao.prepareStatement(sql);
@@ -82,8 +83,8 @@ public class ConsultaDAO {
     
     public static List<ConsultaModel> buscarConsultasPorPaciente(String cpf) {
         List<ConsultaModel> consultas = new ArrayList<>();
-        String sql = "SELECT * FROM consulta WHERE cpf = ?";
-        ConsultaDAO dao = new ConsultaDAO(); // Cria uma instância
+        String sql = "SELECT * FROM Consulta WHERE cpfPaciente = ?";
+        ConsultaDAO dao = new ConsultaDAO();
         
         try (Connection conexao = ConexaoPostgres.getConexao();
              PreparedStatement buscaConsultasPorPaciente = conexao.prepareStatement(sql)) {
@@ -115,11 +116,11 @@ public class ConsultaDAO {
         consulta.setTipoParto(rs.getString("tipoParto"));
         consulta.setQtdSemanas(rs.getString("qtdSemanas"));
 
-        String cpfPaciente = rs.getString("cpf");
+        String cpfPaciente = rs.getString("cpfPaciente");
         PacienteModel paciente = PacienteDAO.buscarPaciente(cpfPaciente);
         consulta.setPaciente(paciente);
 
-        String crmMedico = rs.getString("crm");
+        String crmMedico = rs.getString("crmMedico");
         MedicoModel medico = MedicoDAO.buscarMedico(crmMedico);
         consulta.setMedico(medico);
 
@@ -128,8 +129,8 @@ public class ConsultaDAO {
 
     public static List<ConsultaModel> buscarConsultasPorMedico(String crm) {
         List<ConsultaModel> consultas = new ArrayList<>();
-        String sql = "SELECT * FROM consulta WHERE crm = ?";
-        ConsultaDAO dao = new ConsultaDAO(); // Cria uma instância
+        String sql = "SELECT * FROM Consulta WHERE crmMedico = ?";
+        ConsultaDAO dao = new ConsultaDAO();
 
         try (Connection conexao = ConexaoPostgres.getConexao();
              PreparedStatement buscaConsultasPorMedico = conexao.prepareStatement(sql)) {
@@ -138,7 +139,7 @@ public class ConsultaDAO {
         
             try (ResultSet rs = buscaConsultasPorMedico.executeQuery()) {
                 while (rs.next()) {
-                    ConsultaModel consulta = dao.criarConsultaFromResultSet(rs); // Chama o método de instância
+                    ConsultaModel consulta = dao.criarConsultaFromResultSet(rs);
                     if (consulta != null) {
                         consultas.add(consulta);
                     }
@@ -146,7 +147,7 @@ public class ConsultaDAO {
             }
         
         } catch (SQLException e) {
-        System.out.println("Erro ao buscar consultas por médico: " + e.getMessage());
+            System.out.println("Erro ao buscar consultas por médico: " + e.getMessage());
         }
     
         return consultas;
@@ -154,8 +155,8 @@ public class ConsultaDAO {
 
     public static List<ConsultaModel> buscarConsultaMedPac(String cpf, String crm) {
         List<ConsultaModel> consultas = new ArrayList<>();
-        String sql = "SELECT * FROM consulta WHERE cpf = ? AND crm = ?";
-        ConsultaDAO dao = new ConsultaDAO(); // Cria uma instância
+        String sql = "SELECT * FROM Consulta WHERE cpfPaciente = ? AND crmMedico = ?";
+        ConsultaDAO dao = new ConsultaDAO();
 
         try (Connection conexao = ConexaoPostgres.getConexao();
             PreparedStatement buscaConsultaMedPac = conexao.prepareStatement(sql)) {
@@ -165,7 +166,7 @@ public class ConsultaDAO {
             
             try (ResultSet rs = buscaConsultaMedPac.executeQuery()) {
                 while (rs.next()) {
-                    ConsultaModel consulta = dao.criarConsultaFromResultSet(rs); // Chama o método de instância
+                    ConsultaModel consulta = dao.criarConsultaFromResultSet(rs);
                     if (consulta != null) {
                         consultas.add(consulta);
                     }
@@ -181,8 +182,8 @@ public class ConsultaDAO {
 
     public static List<ConsultaModel> buscarUltimaConsulta(String cpf) {
         List<ConsultaModel> consultas = new ArrayList<>();
-        String sql = "SELECT * FROM consulta WHERE cpf = ? ORDER BY dataConsulta DESC LIMIT 1";
-        ConsultaDAO dao = new ConsultaDAO(); // Cria uma instância
+        String sql = "SELECT * FROM Consulta WHERE cpfPaciente = ? ORDER BY dataConsulta DESC LIMIT 1";
+        ConsultaDAO dao = new ConsultaDAO();
 
         try (Connection conexao = ConexaoPostgres.getConexao();
             PreparedStatement buscaUltimaConsulta = conexao.prepareStatement(sql)) {
@@ -191,7 +192,7 @@ public class ConsultaDAO {
             
             try (ResultSet rs = buscaUltimaConsulta.executeQuery()) {
                 if (rs.next()) {
-                    ConsultaModel consulta = dao.criarConsultaFromResultSet(rs); // Chama o método de instância
+                    ConsultaModel consulta = dao.criarConsultaFromResultSet(rs);
                     consultas.add(consulta);
                 }
             }
