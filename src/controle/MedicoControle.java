@@ -16,6 +16,15 @@ public class MedicoControle {
         }
     }
 
+    public void imprimirMedicoPorEmail(String email){
+        MedicoModel medico = MedicoDAO.buscarMedPorEmail(email);
+        if (medico != null) {
+            System.out.println(medico.toString());
+        } else {
+            System.out.println("Médico não encontrado.");
+        }
+    }
+
     public boolean atualizarDadosMedico(MedicoModel medico) {
         MedicoDAO dao = new MedicoDAO();
         return dao.editarMedico(medico);
