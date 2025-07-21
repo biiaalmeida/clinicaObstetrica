@@ -69,7 +69,6 @@ public class MedicoView {
                     System.out.println("Opção inválida! Tente novamente.");
             }
         } while (opcao != 4);
-        System.out.println("Obrigado por usar o sistema!");
     }
     
     private void gerenciarConsultas(String emailMedico) {
@@ -129,47 +128,37 @@ public class MedicoView {
     private void agendarConsulta(MedicoModel medico, controle.ConsultaControle consultaControle) {
         System.out.print("CPF do paciente: ");
         String cpfPaciente = scanner.nextLine().trim();
-
+        
+        System.out.print("Data da consulta (formato: YYYY-MM-DD): ");
+        String dataConsulta = scanner.nextLine().trim();
+        
         // Buscar o paciente pelo CPF usando o método correto
         model.PacienteModel paciente = DAO.PacienteDAO.buscarPaciente(cpfPaciente);
+        
         if (paciente == null) {
             System.out.println("Paciente não encontrado com CPF: " + cpfPaciente);
             return;
         }
-
-        System.out.print("Data da consulta (YYYY-MM-DD): ");
-        String dataConsultaStr = scanner.nextLine().trim();
-        System.out.print("Data prevista do parto (YYYY-MM-DD): ");
-        String dataPrevistaPartoStr = scanner.nextLine().trim();
-        System.out.print("Data da última menstruação (YYYY-MM-DD): ");
-        String dataUltimaMenstruacaoStr = scanner.nextLine().trim();
-        System.out.print("Tipo de parto (Normal/Cesárea): ");
-        String tipoParto = scanner.nextLine().trim();
-        System.out.print("Quantidade de semanas: ");
-        String qtdSemanas = scanner.nextLine().trim();
-
+        
+        // Criar nova consulta
+        model.ConsultaModel novaConsulta = new model.ConsultaModel();
+        novaConsulta.setMedico(medico);
+        novaConsulta.setPaciente(paciente);
+        
+        // Converter String para LocalDate
         try {
-            java.time.LocalDate dataConsulta = java.time.LocalDate.parse(dataConsultaStr);
-            java.time.LocalDate dataPrevistaParto = java.time.LocalDate.parse(dataPrevistaPartoStr);
-            java.time.LocalDate dataUltimaMenstruacao = java.time.LocalDate.parse(dataUltimaMenstruacaoStr);
-
-            model.ConsultaModel novaConsulta = new model.ConsultaModel();
-            novaConsulta.setDataConsulta(dataConsulta);
-            novaConsulta.setDataPrevistaParto(dataPrevistaParto);
-            novaConsulta.setDataUltimaMenstruacao(dataUltimaMenstruacao);
-            novaConsulta.setTipoParto(tipoParto);
-            novaConsulta.setQtdSemanas(qtdSemanas);
-            novaConsulta.setPaciente(paciente);
-            novaConsulta.setMedico(medico);
-
-            boolean sucesso = consultaControle.cadastrarConsulta(novaConsulta);
-            if (sucesso) {
-                System.out.println("Consulta agendada com sucesso!");
-            } else {
-                System.out.println("Erro ao agendar consulta!");
-            }
+            java.time.LocalDate data = java.time.LocalDate.parse(dataConsulta);
+            novaConsulta.setDataConsulta(data);
         } catch (Exception e) {
             System.out.println("Formato de data inválido! Use YYYY-MM-DD");
+            return;
+        }
+        
+        boolean sucesso = consultaControle.cadastrarConsulta(novaConsulta);
+        if (sucesso) {
+            System.out.println("Consulta agendada com sucesso!");
+        } else {
+            System.out.println("Erro ao agendar consulta!");
         }
     }
 }

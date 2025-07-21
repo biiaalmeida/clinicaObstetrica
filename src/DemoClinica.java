@@ -1,11 +1,11 @@
+import controle.UsuarioControle;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
+import model.UsuarioModel;
 import util.ConexaoPostgres;
 import view.MedicoView;
 import view.PacienteViewNova;
-import controle.UsuarioControle;
-import model.UsuarioModel;
 
 public class DemoClinica {
     private static Scanner scanner = new Scanner(System.in);
@@ -27,17 +27,18 @@ public class DemoClinica {
     }
     
     private static void exibirMenuPrincipal() {
-        int opcao;
+        int opcao = -1;
         do {
             System.out.println("=== MENU PRINCIPAL ===");
             System.out.println("1. Fazer Login");
             System.out.println("2. Cadastrar Usuario");
             System.out.println("3. Sair");
             System.out.print("Escolha uma opcao: ");
-            
-            opcao = scanner.nextInt();
-            scanner.nextLine(); // limpar buffer
-            
+            try {
+                opcao = Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                opcao = -1;
+            }
             switch (opcao) {
                 case 1:
                     realizarLogin();
@@ -52,7 +53,6 @@ public class DemoClinica {
                     System.out.println("Opcao invalida! Tente novamente.");
             }
         } while (opcao != 3);
-        
         System.out.println("Sistema encerrado. Obrigado!");
     }
     
@@ -82,16 +82,12 @@ public class DemoClinica {
     private static void redirecionarPorTipo(String tipoUsuario, UsuarioModel usuario) {
         switch (tipoUsuario.toUpperCase()) {
             case "PACIENTE":
-                System.out.println("\n=== REDIRECIONANDO PARA AREA DO PACIENTE ===");
-                System.out.println("Bem-vindo(a), " + usuario.getNomeUsuario() + "!");
                 PacienteViewNova pacienteView = new PacienteViewNova();
                 // Ir direto para o menu do paciente logado, passando os dados do usuário
                 pacienteView.exibirMenuPacienteLogadoPorEmail(usuario.getEmail());
                 break;
                 
             case "MEDICO":
-                System.out.println("\n=== REDIRECIONANDO PARA AREA DO MEDICO ===");
-                System.out.println("Bem-vindo(a), Dr(a). " + usuario.getNomeUsuario() + "!");
                 MedicoView medicoView = new MedicoView();
                 // Ir direto para o menu do médico logado, passando o email do usuário
                 medicoView.exibirMenuMedicoLogadoPorEmail(usuario.getEmail());

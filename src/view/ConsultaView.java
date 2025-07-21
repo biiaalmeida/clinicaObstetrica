@@ -11,7 +11,7 @@ public class ConsultaView {
     private final Scanner scanner = new Scanner(System.in);
 
     public void menuConsulta() {
-        int opcao;
+        int opcao = -1;
         do {
             System.out.println("=== MENU DE CONSULTAS ===");
             System.out.println("1. Cadastrar Consulta");
@@ -22,40 +22,39 @@ public class ConsultaView {
             System.out.println("6. Listar Consultas");
             System.out.println("7. Sair");
             System.out.print("Escolha uma opção: ");
-            opcao = scanner.nextInt();
-            scanner.nextLine();
-
+            try {
+                opcao = Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                opcao = -1;
+            }
             switch (opcao) {
-                case 1:
+                case 1 -> {
                     System.out.println("CADASTRAR CONSULTA:");
                     cadastrarConsulta();
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     System.out.println("BUSCAR CONSULTA:");
                     buscarConsulta();
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     System.out.println("IMPRIMIR CONSULTAS DO MÉDICO:");
                     imprimirConsultasMedico();
-                    break;
-                case 4:
+                }
+                case 4 -> {
                     System.out.println("IMPRIMIR CONSULTAS MÉDICO-PACIENTE:");
                     imprimirConsultasMedicoPaciente();
-                    break;
-                case 5:
+                }
+                case 5 -> {
                     System.out.println("IMPRIMIR TODAS AS CONSULTAS:");
                     listarConsultas();
-                    break;
-                case 6:
+                }
+                case 6 -> {
                     System.out.println("LISTAR CONSULTAS:");
                     imprimirUltimaConsulta();
-                    break;
-                default:
-                    System.out.println("Opção inválida! Tente novamente.");
-                    break;
+                }
+                default -> System.out.println("Opção inválida! Tente novamente.");
             }
         } while (opcao != 7);
-        System.out.println("Obrigado por usar o sistema!");
         
     }
 

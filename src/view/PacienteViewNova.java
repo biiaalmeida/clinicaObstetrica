@@ -70,17 +70,18 @@ public class PacienteViewNova {
     public void exibirMenuPacienteLogado(PacienteModel pacienteLogado) {
         System.out.println("Bem-vindo, " + pacienteLogado.getNomeUsuario() + "!");
         
-        int opcao;
+        int opcao = -1;
         do {
-            System.out.println("=== BEM-VINDO, PACIENTE ===");
             System.out.println("1. Visualizar meus dados");
             System.out.println("2. Atualizar meus dados");
             System.out.println("3. Ver meu histórico de consultas");
             System.out.println("4. Imprimir minha última consulta");
             System.out.println("5. Sair");
-            opcao = scanner.nextInt();
-            scanner.nextLine();
-
+            try {
+                opcao = Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                opcao = -1;
+            }
             switch (opcao) {
                 case 1: {
                     // Sempre recarrega do banco antes de mostrar
@@ -220,7 +221,6 @@ public class PacienteViewNova {
                 }
             }
         } while (opcao != 5);
-        System.out.println("Obrigado por usar o sistema!");
     }
 
     public void cadastrarPaciente() {

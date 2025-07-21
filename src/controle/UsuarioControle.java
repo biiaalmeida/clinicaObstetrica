@@ -26,7 +26,7 @@ public class UsuarioControle {
                 MedicoModel medico = MedicoDAO.buscarMedPorEmail(email);
                 
                 if (medico != null && medico.getSenha().equals(senha)) {
-                    System.out.println("Médico autenticado com sucesso!");
+    
                     return medico;
                 } else {
                     System.out.println("Email ou senha incorretos para médico!");
@@ -37,10 +37,8 @@ public class UsuarioControle {
                 PacienteModel paciente = PacienteDAO.buscarPorEmail(email);
                 
                 if (paciente != null && paciente.getSenha().equals(senha)) {
-                    System.out.println("Paciente autenticado com sucesso!");
                     return paciente;
                 } else {
-                    System.out.println("Email ou senha incorretos para paciente!");
                     return null;
                 }
             }
@@ -127,14 +125,10 @@ public class UsuarioControle {
             
             MedicoDAO medicoDAO = new MedicoDAO();
             boolean sucesso = medicoDAO.cadastrarMedico(novoMedico);
+
             
-            if (sucesso) {
-                System.out.println("Médico cadastrado com dados completos!");
+        
                 return true;
-            } else {
-                System.out.println("Erro ao cadastrar médico!");
-                return false;
-            }
             
         } catch (Exception e) {
             System.out.println("Erro no cadastro do médico: " + e.getMessage());
@@ -165,18 +159,13 @@ public class UsuarioControle {
             PacienteDAO pacienteDAO = new PacienteDAO();
             boolean sucesso = pacienteDAO.cadastrarPaciente(novoPaciente);
             
-            if (sucesso) {
-                System.out.println("Paciente cadastrado com dados completos!");
-                return true;
-            } else {
-                System.out.println("Erro ao cadastrar paciente!");
-                return false;
-            }
+            return true;
             
         } catch (Exception e) {
             System.out.println("Erro no cadastro: " + e.getMessage());
             return false;
         }
+        
     }
     
     public String identificarTipoPorEmail(String email) {
