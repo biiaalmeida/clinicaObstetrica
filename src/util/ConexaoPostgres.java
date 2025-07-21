@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class ConexaoPostgres {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/clinica_obstetrica";
+    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String USUARIO = "postgres";
-    private static final String SENHA = "240604";
+    private static final String SENHA = "bebeillyriano";
 
     public static Connection getConexao() throws SQLException {
         try {

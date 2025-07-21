@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "DemoClinica",
+            "request": "launch",
+            "mainClass": "DemoClinica",
+            "projectName": "clinicaObstetrica_19a61e"
+        },
+        {
             "type": "jdk",
             "request": "launch",
             "name": "Launch Java App"
