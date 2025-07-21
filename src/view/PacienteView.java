@@ -19,10 +19,10 @@ public class PacienteView {
 
         do {
             System.out.println("=== BEM-VINDO, PACIENTE ===");
-            System.out.println("1. Visualizar meus dados");
-            System.out.println("2. Atualizar meus dados");
-            System.out.println("3. Ver meu histórico de consultas");
-            System.out.println("4. Imprimir minha última consulta");
+            System.out.println("1. Visualizar dados");
+            System.out.println("2. Atualizar dados");
+            System.out.println("3. Ver histórico de consultas");
+            System.out.println("4. Imprimir última consulta");
             System.out.println("5. Sair");
             opcao = scanner.nextInt();
             scanner.nextLine();
