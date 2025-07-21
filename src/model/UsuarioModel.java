@@ -47,10 +47,10 @@ public class UsuarioModel {
 
     @Override
     public String toString() {
-        return "Usuario{" +
-                "nomeUsuario='" + nomeUsuario + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return "\n===== USUARIO =====" +
+                "\nNome: " + nomeUsuario +
+                "\nEmail: " + email +
+                "\n===================";
     }
 
 }

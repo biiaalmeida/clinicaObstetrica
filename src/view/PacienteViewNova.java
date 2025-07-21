@@ -83,6 +83,11 @@ public class PacienteViewNova {
 
             switch (opcao) {
                 case 1: {
+                    // Sempre recarrega do banco antes de mostrar
+                    PacienteModel pacienteAtualizado = PacienteDAO.buscarPaciente(pacienteLogado.getCpf());
+                    if (pacienteAtualizado != null) {
+                        pacienteLogado = pacienteAtualizado;
+                    }
                     System.out.println("MEUS DADOS:");
                     System.out.println("Nome: " + pacienteLogado.getNomeUsuario());
                     System.out.println("Email: " + pacienteLogado.getEmail());
@@ -159,23 +164,24 @@ public class PacienteViewNova {
                     boolean atualizado = pacienteControle.atualizarDadosPaciente(paciente);
                     if (atualizado) {
                         System.out.println("Dados atualizados com sucesso!");
-                        // Recarregar os dados do paciente do banco de dados
+                        // Recarregar os dados do paciente do banco de dados e mostrar imediatamente
                         PacienteModel pacienteAtualizado = PacienteDAO.buscarPaciente(pacienteLogado.getCpf());
                         if (pacienteAtualizado != null) {
-                            // Atualizar o objeto em memória com os dados do banco
-                            pacienteLogado.setNomeUsuario(pacienteAtualizado.getNomeUsuario());
-                            pacienteLogado.setEmail(pacienteAtualizado.getEmail());
-                            pacienteLogado.setSenha(pacienteAtualizado.getSenha());
-                            pacienteLogado.setIdade(pacienteAtualizado.getIdade());
-                            pacienteLogado.setTelefoneContato(pacienteAtualizado.getTelefoneContato());
-                            pacienteLogado.setEndereco(pacienteAtualizado.getEndereco());
-                            pacienteLogado.setTipoPlanoSaude(pacienteAtualizado.getTipoPlanoSaude());
-                            pacienteLogado.setAlergias(pacienteAtualizado.getAlergias());
-                            pacienteLogado.setNumGestacoesAnteriores(pacienteAtualizado.getNumGestacoesAnteriores());
-                            pacienteLogado.setVacinas(pacienteAtualizado.getVacinas());
-                            pacienteLogado.setPeso(pacienteAtualizado.getPeso());
-                            pacienteLogado.setCondicoesPreEx(pacienteAtualizado.getCondicoesPreEx());
-                            System.out.println("Dados recarregados com sucesso!");
+                            pacienteLogado = pacienteAtualizado;
+                            System.out.println("Dados recarregados com sucesso! Veja abaixo seus dados atualizados:");
+                            System.out.println("Nome: " + pacienteLogado.getNomeUsuario());
+                            System.out.println("Email: " + pacienteLogado.getEmail());
+                            System.out.println("CPF: " + pacienteLogado.getCpf());
+                            System.out.println("Idade: " + pacienteLogado.getIdade());
+                            System.out.println("Telefone: " + pacienteLogado.getTelefoneContato());
+                            System.out.println("Endereco: " + pacienteLogado.getEndereco());
+                            System.out.println("Plano de Saude: " + pacienteLogado.getTipoPlanoSaude());
+                            System.out.println("Tipo Sanguineo: " + pacienteLogado.getTipoSanguineo());
+                            System.out.println("Alergias: " + pacienteLogado.getAlergias());
+                            System.out.println("Gestacoes Anteriores: " + pacienteLogado.getNumGestacoesAnteriores());
+                            System.out.println("Vacinas: " + pacienteLogado.getVacinas());
+                            System.out.println("Peso: " + pacienteLogado.getPeso() + " kg");
+                            System.out.println("Condicoes Pre-existentes: " + pacienteLogado.getCondicoesPreEx());
                         }
                     } else {
                         System.out.println("Erro ao atualizar os dados.");
