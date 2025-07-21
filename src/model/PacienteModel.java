@@ -125,19 +125,19 @@ public class PacienteModel extends UsuarioModel{
     
     @Override   
     public String toString() {
-        return "Paciente{" +
+        return "\n===== PACIENTE =====" +
                 super.toString() +
-                ", cpf='" + cpf + '\'' +
-                ", idade=" + idade +
-                ", telefoneContato='" + telefoneContato + '\'' +
-                ", endereco='" + endereco + '\'' +
-                ", tipoPlanoSaude='" + tipoPlanoSaude + '\'' +
-                ", tipoSanguineo='" + tipoSanguineo + '\'' +
-                ", alergias='" + alergias + '\'' +
-                ", numGestacoesAnteriores=" + numGestacoesAnteriores +
-                ", vacinas='" + vacinas + '\'' +
-                ", peso=" + peso +
-                ", condicoesPreEx='" + condicoesPreEx + '\'' +
-                '}';
+                "\nCPF: " + cpf +
+                "\nIdade: " + idade +
+                "\nTelefone: " + telefoneContato +
+                "\nEndereco: " + endereco +
+                "\nPlano de Saude: " + tipoPlanoSaude +
+                "\nTipo Sanguineo: " + tipoSanguineo +
+                "\nAlergias: " + alergias +
+                "\nGestacoes Anteriores: " + numGestacoesAnteriores +
+                "\nVacinas: " + vacinas +
+                "\nPeso: " + peso + " kg" +
+                "\nCondicoes Pre-existentes: " + condicoesPreEx +
+                "\n====================";
     }
 }

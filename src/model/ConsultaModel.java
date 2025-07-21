@@ -97,15 +97,17 @@ public class ConsultaModel {
 
     @Override
     public String toString() {
-        return "Consulta{" +
-                "codigoConsulta=" + codigoConsulta +
-                ", dataConsulta=" + dataConsulta +
-                ", dataPrevistaParto=" + dataPrevistaParto +
-                ", dataUltimaMenstruacao=" + dataUltimaMenstruacao +
-                ", tipoParto='" + tipoParto + '\'' +
-                ", qtdSemanas='" + qtdSemanas + '\'' +
-                ", paciente=" + (paciente != null ? paciente.getCpf() : "N/A") +
-                ", medico=" + (medico != null ? medico.getCrm() : "N/A") +
-                '}';
+        return "\n===== CONSULTA =====" +
+                "\nCodigo: " + codigoConsulta +
+                "\nData da Consulta: " + (dataConsulta != null ? dataConsulta : "N/A") +
+                "\nData Prevista Parto: " + (dataPrevistaParto != null ? dataPrevistaParto : "N/A") +
+                "\nData Ultima Menstruacao: " + (dataUltimaMenstruacao != null ? dataUltimaMenstruacao : "N/A") +
+                "\nTipo de Parto: " + (tipoParto != null ? tipoParto : "N/A") +
+                "\nSemanas Gestacao: " + (qtdSemanas != null ? qtdSemanas : "N/A") +
+                "\nPaciente (CPF): " + (paciente != null ? paciente.getCpf() : "N/A") +
+                "\nMedico (CRM): " + (medico != null ? medico.getCrm() : "N/A") +
+                "\n====================";
     }
+
+
 }
