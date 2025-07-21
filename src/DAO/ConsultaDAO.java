@@ -15,19 +15,18 @@ import util.ConexaoPostgres;
 public class ConsultaDAO {
     
     public boolean cadastrarConsulta(ConsultaModel consulta) {
-        String sql = "INSERT INTO Consulta (codigoConsulta, dataConsulta, dataPrevistaParto, dataUltimaMenstruacao, tipoParto, qtdSemanas, cpfPaciente, crmMedico) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO consulta (dataconsulta, dataprevistaparto, dataultimamenstruacao, tipoparto, qtdsemanas, cpfpaciente, crmmedico) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
         try (Connection conexao = ConexaoPostgres.getConexao();
              PreparedStatement novaConsulta = conexao.prepareStatement(sql)) {
             
-            novaConsulta.setInt(1, consulta.getCodigoConsulta());
-            novaConsulta.setObject(2, consulta.getDataConsulta());
-            novaConsulta.setObject(3, consulta.getDataPrevistaParto());
-            novaConsulta.setObject(4, consulta.getDataUltimaMenstruacao());
-            novaConsulta.setString(5, consulta.getTipoParto());
-            novaConsulta.setString(6, consulta.getQtdSemanas());
-            novaConsulta.setString(7, consulta.getPaciente().getCpf());
-            novaConsulta.setString(8, consulta.getMedico().getCrm());
+            novaConsulta.setObject(1, consulta.getDataConsulta());
+            novaConsulta.setObject(2, consulta.getDataPrevistaParto());
+            novaConsulta.setObject(3, consulta.getDataUltimaMenstruacao());
+            novaConsulta.setString(4, consulta.getTipoParto());
+            novaConsulta.setString(5, consulta.getQtdSemanas());
+            novaConsulta.setString(6, consulta.getPaciente().getCpf());
+            novaConsulta.setString(7, consulta.getMedico().getCrm());
 
             novaConsulta.executeUpdate();
             System.out.println("Consulta cadastrada com sucesso!");
