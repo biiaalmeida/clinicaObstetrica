@@ -219,7 +219,6 @@ public class PacienteDAO {
                     paciente.setSenha(resultSet.getString("senha"));
                     paciente.setCpf(resultSet.getString("cpf"));
                     paciente.setIdade(resultSet.getInt("idade"));
-<<<<<<< HEAD
                     paciente.setTelefoneContato(resultSet.getString("telefonecontato"));
                     paciente.setEndereco(resultSet.getString("endereco"));
                     paciente.setTipoPlanoSaude(resultSet.getString("tipoplanosaude"));
@@ -229,17 +228,7 @@ public class PacienteDAO {
                     paciente.setVacinas(resultSet.getString("vacinas"));
                     paciente.setPeso(resultSet.getFloat("peso"));
                     paciente.setCondicoesPreEx(resultSet.getString("condicoespreex"));
-=======
-                    paciente.setTelefoneContato(resultSet.getString("telefoneContato"));
-                    paciente.setEndereco(resultSet.getString("endereco"));
-                    paciente.setTipoPlanoSaude(resultSet.getString("tipoPlanoSaude"));
-                    paciente.setTipoSanguineo(resultSet.getString("tipoSanguineo"));
-                    paciente.setAlergias(resultSet.getString("alergias"));
-                    paciente.setNumGestacoesAnteriores(resultSet.getInt("numGestacoesAnteriores"));
-                    paciente.setVacinas(resultSet.getString("vacinas"));
-                    paciente.setPeso(resultSet.getFloat("peso"));
-                    paciente.setCondicoesPreEx(resultSet.getString("condicoesPreEx"));
->>>>>>> e467dcc0ac27c1887e58ba3222ae3d1babf3d718
+
                 }
             }
 
