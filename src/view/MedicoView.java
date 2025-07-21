@@ -133,12 +133,8 @@ public class MedicoView {
         System.out.print("Data da consulta (formato: YYYY-MM-DD): ");
         String dataConsulta = scanner.nextLine().trim();
         
-        System.out.print("Descrição da consulta: ");
-        String descricao = scanner.nextLine().trim();
-        
-        // Buscar o paciente pelo CPF
-        DAO.PacienteDAO pacienteDAO = new DAO.PacienteDAO();
-        model.PacienteModel paciente = pacienteDAO.buscarPorCpf(cpfPaciente);
+        // Buscar o paciente pelo CPF usando o método correto
+        model.PacienteModel paciente = DAO.PacienteDAO.buscarPaciente(cpfPaciente);
         
         if (paciente == null) {
             System.out.println("Paciente não encontrado com CPF: " + cpfPaciente);
@@ -149,8 +145,15 @@ public class MedicoView {
         model.ConsultaModel novaConsulta = new model.ConsultaModel();
         novaConsulta.setMedico(medico);
         novaConsulta.setPaciente(paciente);
-        novaConsulta.setDataConsulta(dataConsulta);
-        novaConsulta.setDescricao(descricao);
+        
+        // Converter String para LocalDate
+        try {
+            java.time.LocalDate data = java.time.LocalDate.parse(dataConsulta);
+            novaConsulta.setDataConsulta(data);
+        } catch (Exception e) {
+            System.out.println("Formato de data inválido! Use YYYY-MM-DD");
+            return;
+        }
         
         boolean sucesso = consultaControle.cadastrarConsulta(novaConsulta);
         if (sucesso) {
@@ -158,7 +161,6 @@ public class MedicoView {
         } else {
             System.out.println("Erro ao agendar consulta!");
         }
-    }
     }
 }
 
