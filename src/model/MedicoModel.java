@@ -33,12 +33,12 @@ public class MedicoModel extends UsuarioModel {
 
     @Override
     public String toString() {
-        return "Médico{" +
-                super.toString() +
-                ", email='" + getEmail() + '\'' +
-                ", crm='" + crm + '\'' +
-                ", especialidade='" + especialidade + '\'' +
-                "}";
+        return "\n=== DADOS DO MÉDICO ===" +
+                "\nNome: " + getNomeUsuario() +
+                "\nEmail: " + getEmail() +
+                "\nCRM: " + crm +
+                "\nEspecialidade: " + especialidade +
+                "\n========================";
     }
 }
     
