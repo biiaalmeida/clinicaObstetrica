@@ -10,8 +10,8 @@ import util.ConexaoPostgres;
 public class PacienteDAO {
      
     public boolean cadastrarPaciente(PacienteModel paciente) {
-        String sqlUsuario = "INSERT INTO usuario (nome_usuario, email, senha) VALUES (?, ?, ?)";
-        String sqlPaciente = "INSERT INTO paciente (email, cpf, idade, telefone_contato, endereco, tipo_plano_saude, tipo_sanguineo, alergias, num_gestacoes_anteriores, vacinas, peso, condicoes_pre_ex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlUsuario = "INSERT INTO usuario (nomeUsuario, email, senha) VALUES (?, ?, ?)";
+        String sqlPaciente = "INSERT INTO paciente (email, cpf, idade, telefoneContato, endereco, tipoPlanoSaude, tipoSanguineo, alergias, numGestacoesAnteriores, vacinas, peso, condicoesPreEx) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ConexaoPostgres.getConexao()) {
             
@@ -57,8 +57,8 @@ public class PacienteDAO {
     }   
 
     public boolean editarPaciente(PacienteModel paciente) {
-        String sqlUsuario = "UPDATE usuario SET nome_usuario = ?, senha = ? WHERE email = ?";
-        String sqlPaciente = "UPDATE paciente SET idade = ?, telefone_contato = ?, endereco = ?, tipo_plano_saude = ?, tipo_sanguineo = ?, alergias = ?, num_gestacoes_anteriores = ?, vacinas = ?, peso = ?, condicoes_pre_ex = ? WHERE cpf = ?";
+        String sqlUsuario = "UPDATE usuario SET nomeUsuario = ?, senha = ? WHERE email = ?";
+        String sqlPaciente = "UPDATE paciente SET idade = ?, telefoneContato = ?, endereco = ?, tipoPlanoSaude = ?, tipoSanguineo = ?, alergias = ?, numGestacoesAnteriores = ?, vacinas = ?, peso = ?, condicoesPreEx = ? WHERE cpf = ?";
 
         try (Connection connection = ConexaoPostgres.getConexao()) {
             
@@ -103,7 +103,7 @@ public class PacienteDAO {
     }
 
     public static PacienteModel buscarPaciente(String cpf) {
-        String sql = "SELECT p.cpf, p.idade, p.telefone_contato, p.endereco, p.tipo_plano_saude, p.tipo_sanguineo, p.alergias, p.num_gestacoes_anteriores, p.vacinas, p.peso, p.condicoes_pre_ex, u.email, u.senha, u.nome_usuario " +
+        String sql = "SELECT p.cpf, p.idade, p.telefoneContato, p.endereco, p.tipoPlanoSaude, p.tipoSanguineo, p.alergias, p.numGestacoesAnteriores, p.vacinas, p.peso, p.condicoesPreEx, u.email, u.senha, u.nomeUsuario " +
                     "FROM paciente p JOIN usuario u ON p.email = u.email WHERE p.cpf = ?";
         PacienteModel paciente = null;
         
@@ -141,7 +141,7 @@ public class PacienteDAO {
     }
 
     public static PacienteModel buscarPorEmail(String email) {
-        String sql = "SELECT p.cpf, p.idade, p.telefone_contato, p.endereco, p.tipo_plano_saude, p.tipo_sanguineo, p.alergias, p.num_gestacoes_anteriores, p.vacinas, p.peso, p.condicoes_pre_ex, u.email, u.senha, u.nome_usuario " +
+        String sql = "SELECT p.cpf, p.idade, p.telefoneContato, p.endereco, p.tipoPlanoSaude, p.tipoSanguineo, p.alergias, p.numGestacoesAnteriores, p.vacinas, p.peso, p.condicoesPreEx, u.email, u.senha, u.nomeUsuario " +
                     "FROM paciente p JOIN usuario u ON p.email = u.email WHERE u.email = ?";
         PacienteModel paciente = null;
 

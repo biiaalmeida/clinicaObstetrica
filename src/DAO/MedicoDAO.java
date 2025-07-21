@@ -10,7 +10,7 @@ import util.ConexaoPostgres;
 public class MedicoDAO {
     
     public boolean cadastrarMedico(MedicoModel medico) {
-        String sqlUsuario = "INSERT INTO usuario (nome_usuario, email, senha) VALUES (?, ?, ?)";
+        String sqlUsuario = "INSERT INTO usuario (nomeUsuario, email, senha) VALUES (?, ?, ?)";
         String sqlMedico = "INSERT INTO medico (crm, especialidade, email) VALUES (?, ?, ?)";
 
         try (Connection connection = ConexaoPostgres.getConexao()) {
@@ -48,7 +48,7 @@ public class MedicoDAO {
     }
 
     public boolean editarMedico(MedicoModel medico) {
-        String sqlUsuario = "UPDATE usuario SET nome_usuario = ?, senha = ? WHERE email = ?";
+        String sqlUsuario = "UPDATE usuario SET nomeUsuario = ?, senha = ? WHERE email = ?";
         String sqlMedico = "UPDATE medico SET especialidade = ? WHERE crm = ?";
 
         try (Connection connection = ConexaoPostgres.getConexao()) {
@@ -85,7 +85,7 @@ public class MedicoDAO {
     }
 
     public static MedicoModel buscarMedico(String crm) {
-        String sql = "SELECT m.crm, m.especialidade, u.email, u.senha, u.nome_usuario " +
+        String sql = "SELECT m.crm, m.especialidade, u.email, u.senha, u.nomeUsuario " +
                     "FROM medico m JOIN usuario u ON m.email = u.email WHERE m.crm = ?";
         MedicoModel medico = null;
     
@@ -111,7 +111,7 @@ public class MedicoDAO {
     }
 
     public static MedicoModel buscarMedPorEmail(String email) {
-        String sql = "SELECT m.crm, m.especialidade, u.email, u.senha, u.nome_usuario " +
+        String sql = "SELECT m.crm, m.especialidade, u.email, u.senha, u.nomeUsuario " +
                     "FROM medico m JOIN usuario u ON m.email = u.email WHERE u.email = ?";
         MedicoModel medico = null;
     
