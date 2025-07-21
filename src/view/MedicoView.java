@@ -4,21 +4,31 @@ import controle.MedicoControle;
 import java.util.Scanner;
 import model.MedicoModel;
 
-
 public class MedicoView {
     private final Scanner scanner = new Scanner(System.in);
 
     public void exibirMenuMedico() {
         MedicoControle medicoControle = new MedicoControle();
-        int opcao;
-            
         System.out.println("Digite seu CRM:");
         String crm = scanner.nextLine();
+        
+        // Buscar médico por CRM para obter o email
+        MedicoModel medico = medicoControle.buscarMedico(crm);
+        if (medico != null) {
+            exibirMenuMedicoLogadoPorEmail(medico.getEmail());
+        } else {
+            System.out.println("Médico não encontrado com CRM: " + crm);
+        }
+    }
+
+    public void exibirMenuMedicoLogadoPorEmail(String email) {
+        MedicoControle medicoControle = new MedicoControle();
+        int opcao;
             
         do {
             System.out.println("=== BEM-VINDO, MÉDICO ===");
             System.out.println("1. Visualizar meus dados");
-             System.out.println("2. Atualizar meus dados");
+            System.out.println("2. Atualizar meus dados");
             System.out.println("3. Gerenciar consultas");
             System.out.println("4. Sair");
             opcao = scanner.nextInt();
@@ -27,17 +37,15 @@ public class MedicoView {
             switch (opcao) {
                 case 1:
                     System.out.println(" DADOS:");
-                    medicoControle.imprimirMedico(crm);
+                    medicoControle.imprimirMedicoPorEmail(email);
                     break;
                 case 2:
                     System.out.println("ATUALIZAR DADOS:");
                     MedicoModel medico = new MedicoModel();
-                    medico.setCrm(crm);
+                    medico.setEmail(email);
                         
                     System.out.print("Informe o novo nome: ");
                     medico.setNomeUsuario(scanner.nextLine());
-                    System.out.print("Informe o novo email: ");
-                    medico.setEmail(scanner.nextLine());
                     System.out.print("Informe a nova senha: ");
                     medico.setSenha(scanner.nextLine());
                     System.out.print("Informe a nova especialidade: ");
@@ -51,43 +59,107 @@ public class MedicoView {
                     }
                     break;
                 case 3:
-                    System.out.println("Abrindo Gestão de Consultas...");
-                    ConsultaView consultaView = new ConsultaView();
-                    consultaView.menuConsulta();
+                    System.out.println("GERENCIAR CONSULTAS:");
+                    gerenciarConsultas(email);
+                    break;
+                case 4:
+                    System.out.println("Saindo...");
                     break;
                 default:
                     System.out.println("Opção inválida! Tente novamente.");
-                    break;
             }
-                
         } while (opcao != 4);
         System.out.println("Obrigado por usar o sistema!");
-        
     }
-
-    public void cadastrarMedico() {
-        MedicoModel medico = new MedicoModel();
-        
-        System.out.print("Informe o CRM: ");
-        medico.setCrm(scanner.nextLine());
-        System.out.print("Informe a especialidade: ");
-        medico.setEspecialidade(scanner.nextLine());
-
+    
+    private void gerenciarConsultas(String emailMedico) {
+        // Primeiro precisa buscar o CRM do médico pelo email
         MedicoControle medicoControle = new MedicoControle();
-        boolean cadastrado = medicoControle.cadastrarMedico(medico);
+        MedicoModel medico = DAO.MedicoDAO.buscarMedPorEmail(emailMedico);
         
-        if (cadastrado) {
-            System.out.println("Médico cadastrado com sucesso!");
+        if (medico == null) {
+            System.out.println("Erro: Médico não encontrado!");
+            return;
+        }
+        
+        String crmMedico = medico.getCrm();
+        controle.ConsultaControle consultaControle = new controle.ConsultaControle();
+        
+        int opcao;
+        do {
+            System.out.println("\n=== GERENCIAR CONSULTAS ===");
+            System.out.println("1. Listar minhas consultas");
+            System.out.println("2. Agendar nova consulta");
+            System.out.println("3. Buscar consulta por código");
+            System.out.println("4. Voltar ao menu principal");
+            System.out.print("Escolha uma opcao: ");
+            
+            opcao = scanner.nextInt();
+            scanner.nextLine(); // limpar buffer
+            
+            switch (opcao) {
+                case 1:
+                    System.out.println("\n=== SUAS CONSULTAS ===");
+                    consultaControle.imprimirConsultaMedico(crmMedico);
+                    break;
+                    
+                case 2:
+                    System.out.println("\n=== AGENDAR CONSULTA ===");
+                    agendarConsulta(medico, consultaControle);
+                    break;
+                    
+                case 3:
+                    System.out.println("\n=== BUSCAR CONSULTA ===");
+                    System.out.print("Digite o código da consulta: ");
+                    int codigoConsulta = scanner.nextInt();
+                    scanner.nextLine(); // limpar buffer
+                    consultaControle.imprimirConsulta(codigoConsulta);
+                    break;
+                    
+                case 4:
+                    System.out.println("Voltando ao menu principal...");
+                    break;
+                    
+                default:
+                    System.out.println("Opcao invalida! Tente novamente.");
+            }
+        } while (opcao != 4);
+    }
+    
+    private void agendarConsulta(MedicoModel medico, controle.ConsultaControle consultaControle) {
+        System.out.print("CPF do paciente: ");
+        String cpfPaciente = scanner.nextLine().trim();
+        
+        System.out.print("Data da consulta (formato: YYYY-MM-DD): ");
+        String dataConsulta = scanner.nextLine().trim();
+        
+        System.out.print("Descrição da consulta: ");
+        String descricao = scanner.nextLine().trim();
+        
+        // Buscar o paciente pelo CPF
+        DAO.PacienteDAO pacienteDAO = new DAO.PacienteDAO();
+        model.PacienteModel paciente = pacienteDAO.buscarPorCpf(cpfPaciente);
+        
+        if (paciente == null) {
+            System.out.println("Paciente não encontrado com CPF: " + cpfPaciente);
+            return;
+        }
+        
+        // Criar nova consulta
+        model.ConsultaModel novaConsulta = new model.ConsultaModel();
+        novaConsulta.setMedico(medico);
+        novaConsulta.setPaciente(paciente);
+        novaConsulta.setDataConsulta(dataConsulta);
+        novaConsulta.setDescricao(descricao);
+        
+        boolean sucesso = consultaControle.cadastrarConsulta(novaConsulta);
+        if (sucesso) {
+            System.out.println("Consulta agendada com sucesso!");
         } else {
-            System.out.println("Erro ao cadastrar médico.");
+            System.out.println("Erro ao agendar consulta!");
         }
     }
-
-    public void iniciar() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'iniciar'");
     }
-
 }
 
 
