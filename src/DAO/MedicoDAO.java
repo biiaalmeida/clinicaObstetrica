@@ -100,7 +100,7 @@ public class MedicoDAO {
                     medico.setEspecialidade(resultSet.getString("especialidade"));
                     medico.setEmail(resultSet.getString("email"));
                     medico.setSenha(resultSet.getString("senha"));
-                    medico.setNomeUsuario(resultSet.getString("nome_usuario"));
+                    medico.setNomeUsuario(resultSet.getString("nomeUsuario"));
                 }
             }
         } catch (SQLException e) {

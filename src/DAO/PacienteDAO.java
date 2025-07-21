@@ -152,20 +152,20 @@ public class PacienteDAO {
             try (ResultSet resultSet = buscarPaciente.executeQuery()) {
                 if (resultSet.next()) {
                     paciente = new PacienteModel();
-                    paciente.setNomeUsuario(resultSet.getString("nome_usuario"));
+                    paciente.setNomeUsuario(resultSet.getString("nomeUsuario"));
                     paciente.setEmail(resultSet.getString("email"));
                     paciente.setSenha(resultSet.getString("senha"));
                     paciente.setCpf(resultSet.getString("cpf"));
                     paciente.setIdade(resultSet.getInt("idade"));
-                    paciente.setTelefoneContato(resultSet.getString("telefone_contato"));
+                    paciente.setTelefoneContato(resultSet.getString("telefoneContato"));
                     paciente.setEndereco(resultSet.getString("endereco"));
-                    paciente.setTipoPlanoSaude(resultSet.getString("tipo_plano_saude"));
-                    paciente.setTipoSanguineo(resultSet.getString("tipo_sanguineo"));
+                    paciente.setTipoPlanoSaude(resultSet.getString("tipoPlanoSaude"));
+                    paciente.setTipoSanguineo(resultSet.getString("tipoSanguineo"));
                     paciente.setAlergias(resultSet.getString("alergias"));
-                    paciente.setNumGestacoesAnteriores(resultSet.getInt("num_gestacoes_anteriores"));
+                    paciente.setNumGestacoesAnteriores(resultSet.getInt("numGestacoesAnteriores"));
                     paciente.setVacinas(resultSet.getString("vacinas"));
                     paciente.setPeso(resultSet.getFloat("peso"));
-                    paciente.setCondicoesPreEx(resultSet.getString("condicoes_pre_ex"));
+                    paciente.setCondicoesPreEx(resultSet.getString("condicoesPreEx"));
                 }
             }
 
