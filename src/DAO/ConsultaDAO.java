@@ -15,7 +15,7 @@ import util.ConexaoPostgres;
 public class ConsultaDAO {
     
     public boolean cadastrarConsulta(ConsultaModel consulta) {
-        String sql = "INSERT INTO consulta (dataconsulta, dataprevistaparto, dataultimamenstruacao, tipoparto, qtdsemanas, cpfpaciente, crmmedico) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO consulta (dataConsulta, dataPrevistaParto, dataUltimaMenstruacao, tipoParto, qtdSemanas, cpf, crmMedico) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
         try (Connection conexao = ConexaoPostgres.getConexao();
              PreparedStatement novaConsulta = conexao.prepareStatement(sql)) {
@@ -24,7 +24,14 @@ public class ConsultaDAO {
             novaConsulta.setObject(2, consulta.getDataPrevistaParto());
             novaConsulta.setObject(3, consulta.getDataUltimaMenstruacao());
             novaConsulta.setString(4, consulta.getTipoParto());
-            novaConsulta.setString(5, consulta.getQtdSemanas());
+            // Converter qtdSemanas de String para int
+            try {
+                int qtdSemanas = Integer.parseInt(consulta.getQtdSemanas());
+                novaConsulta.setInt(5, qtdSemanas);
+            } catch (NumberFormatException e) {
+                System.out.println("Quantidade de semanas deve ser um numero inteiro");
+                return false;
+            }
             novaConsulta.setString(6, consulta.getPaciente().getCpf());
             novaConsulta.setString(7, consulta.getMedico().getCrm());
 
@@ -82,7 +89,7 @@ public class ConsultaDAO {
     
     public static List<ConsultaModel> buscarConsultasPorPaciente(String cpf) {
         List<ConsultaModel> consultas = new ArrayList<>();
-        String sql = "SELECT * FROM Consulta WHERE cpfPaciente = ?";
+        String sql = "SELECT * FROM Consulta WHERE cpf = ?";
         ConsultaDAO dao = new ConsultaDAO();
         
         try (Connection conexao = ConexaoPostgres.getConexao();
@@ -113,9 +120,10 @@ public class ConsultaDAO {
         consulta.setDataPrevistaParto(rs.getObject("dataPrevistaParto", LocalDate.class));
         consulta.setDataUltimaMenstruacao(rs.getObject("dataUltimaMenstruacao", LocalDate.class));
         consulta.setTipoParto(rs.getString("tipoParto"));
-        consulta.setQtdSemanas(rs.getString("qtdSemanas"));
+        // Converter qtdSemanas de int para String
+        consulta.setQtdSemanas(String.valueOf(rs.getInt("qtdSemanas")));
 
-        String cpfPaciente = rs.getString("cpfPaciente");
+        String cpfPaciente = rs.getString("cpf");
         PacienteModel paciente = PacienteDAO.buscarPaciente(cpfPaciente);
         consulta.setPaciente(paciente);
 
@@ -154,7 +162,7 @@ public class ConsultaDAO {
 
     public static List<ConsultaModel> buscarConsultaMedPac(String cpf, String crm) {
         List<ConsultaModel> consultas = new ArrayList<>();
-        String sql = "SELECT * FROM Consulta WHERE cpfPaciente = ? AND crmMedico = ?";
+        String sql = "SELECT * FROM Consulta WHERE cpf = ? AND crmMedico = ?";
         ConsultaDAO dao = new ConsultaDAO();
 
         try (Connection conexao = ConexaoPostgres.getConexao();
@@ -181,7 +189,7 @@ public class ConsultaDAO {
 
     public static List<ConsultaModel> buscarUltimaConsulta(String cpf) {
         List<ConsultaModel> consultas = new ArrayList<>();
-        String sql = "SELECT * FROM Consulta WHERE cpfPaciente = ? ORDER BY dataConsulta DESC LIMIT 1";
+        String sql = "SELECT * FROM Consulta WHERE cpf = ? ORDER BY dataConsulta DESC LIMIT 1";
         ConsultaDAO dao = new ConsultaDAO();
 
         try (Connection conexao = ConexaoPostgres.getConexao();

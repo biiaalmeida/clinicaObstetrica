@@ -184,21 +184,21 @@ public class MedicoView {
             java.time.LocalDate data = java.time.LocalDate.parse(dataConsulta);
             novaConsulta.setDataConsulta(data);
         } catch (Exception e) {
-            System.out.println("Formato de data da consulta inválido! Use YYYY-MM-DD");
+            System.out.println("Formato de data da consulta invalido! Use YYYY-MM-DD");
             return;
         }
         try {
             java.time.LocalDate dataParto = java.time.LocalDate.parse(dataPrevistaParto);
             novaConsulta.setDataPrevistaParto(dataParto);
         } catch (Exception e) {
-            System.out.println("Formato de data prevista do parto inválido! Use YYYY-MM-DD");
+            System.out.println("Formato de data prevista do parto invalido! Use YYYY-MM-DD");
             return;
         }
         try {
             java.time.LocalDate dataMenstruacao = java.time.LocalDate.parse(dataUltimaMenstruacao);
             novaConsulta.setDataUltimaMenstruacao(dataMenstruacao);
         } catch (Exception e) {
-            System.out.println("Formato de data da última menstruação inválido! Use YYYY-MM-DD");
+            System.out.println("Formato de data da ultima menstruacao invalido! Use YYYY-MM-DD");
             return;
         }
 
