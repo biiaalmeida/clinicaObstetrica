@@ -23,13 +23,22 @@ public class UsuarioControle {
             String tipoUsuario = identificarTipoPorEmail(email);
             
             if (tipoUsuario.equals("MEDICO")) {
+                System.out.println("DEBUG: Buscando medico com email: " + email);
                 MedicoModel medico = MedicoDAO.buscarMedPorEmail(email);
                 
-                if (medico != null && medico.getSenha().equals(senha)) {
-    
-                    return medico;
+                if (medico != null) {
+                    System.out.println("DEBUG: Medico encontrado. Verificando senha...");
+                    if (medico.getSenha().equals(senha)) {
+                        System.out.println("DEBUG: Senha correta!");
+                        return medico;
+                    } else {
+                        System.out.println("DEBUG: Senha incorreta. Esperado: '" + medico.getSenha() + "', Recebido: '" + senha + "'");
+                        System.out.println("Email ou senha incorretos para medico!");
+                        return null;
+                    }
                 } else {
-                    System.out.println("Email ou senha incorretos para médico!");
+                    System.out.println("DEBUG: Medico nao encontrado no banco de dados!");
+                    System.out.println("Email ou senha incorretos para medico!");
                     return null;
                 }
                 
