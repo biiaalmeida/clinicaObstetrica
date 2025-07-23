@@ -62,7 +62,7 @@ public class PacienteDAO {
     // Método para cadastro completo
     public boolean cadastrarPaciente(PacienteModel paciente) {
         String sqlUsuario = "INSERT INTO Usuario (nomeUsuario, email, senha) VALUES (?, ?, ?)";
-        String sqlPaciente = "INSERT INTO paciente (cpf, nome, idade, telefonecontato, endereco, tipoplanosaude, tiposanguineo, alergias, numgestacoesanteriores, vacinas, peso, condicoespreex, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlPaciente = "INSERT INTO paciente (cpfPaciente, nome, idade, telefoneContato, endereco, tipoPlanodeSaude, tipoSanguineo, alergias, numGestacoesAnteriores, vacinas, peso, condicoesPreEx, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ConexaoPostgres.getConexao()) {
             connection.setAutoCommit(false);
@@ -107,7 +107,7 @@ public class PacienteDAO {
 
     public boolean editarPaciente(PacienteModel paciente) {
         String sqlUsuario = "UPDATE Usuario SET nomeUsuario = ?, senha = ? WHERE email = ?";
-        String sqlPaciente = "UPDATE paciente SET nome = ?, idade = ?, telefonecontato = ?, endereco = ?, tipoplanosaude = ?, tiposanguineo = ?, alergias = ?, numgestacoesanteriores = ?, vacinas = ?, peso = ?, condicoespreex = ? WHERE cpf = ?";
+        String sqlPaciente = "UPDATE paciente SET idade = ?, telefonecontato = ?, endereco = ?, tipoplanosaude = ?, alergias = ?, numgestacoesanteriores = ?, vacinas = ?, peso = ?, condicoespreex = ? WHERE cpf = ?";
     
         try (Connection connection = ConexaoPostgres.getConexao()) {
             
@@ -157,7 +157,7 @@ public class PacienteDAO {
     }
 
     public static PacienteModel buscarPaciente(String cpf) {
-        String sql = "SELECT p.cpf, p.nome, p.idade, p.telefonecontato, p.endereco, p.tipoplanosaude, p.tiposanguineo, p.alergias, p.numgestacoesanteriores, p.vacinas, p.peso, p.condicoespreex, u.email, u.senha, u.nomeUsuario " +
+        String sql = "SELECT p.cpf, p.nome, p.idade, p.telefoneContato, p.endereco, p.tipoPlanodeSaude, p.tipoSanguineo, p.alergias, p.numGestacoesAnteriores, p.vacinas, p.peso, p.condicoesPreEx, u.email, u.senha, u.nomeUsuario " +
                 "FROM paciente p JOIN Usuario u ON p.email = u.email WHERE p.cpf = ?";
     
         PacienteModel paciente = null;
@@ -174,15 +174,15 @@ public class PacienteDAO {
                     paciente.setSenha(resultSet.getString("senha"));
                     paciente.setCpf(resultSet.getString("cpf"));
                     paciente.setIdade(resultSet.getInt("idade"));
-                    paciente.setTelefoneContato(resultSet.getString("telefonecontato"));
+                    paciente.setTelefoneContato(resultSet.getString("telefoneContato"));
                     paciente.setEndereco(resultSet.getString("endereco"));
-                    paciente.setTipoPlanoSaude(resultSet.getString("tipoplanosaude"));
-                    paciente.setTipoSanguineo(resultSet.getString("tiposanguineo"));
+                    paciente.setTipoPlanoSaude(resultSet.getString("tipoPlanodeSaude"));
+                    paciente.setTipoSanguineo(resultSet.getString("tipoSanguineo"));
                     paciente.setAlergias(resultSet.getString("alergias"));
-                    paciente.setNumGestacoesAnteriores(resultSet.getInt("numgestacoesanteriores"));
+                    paciente.setNumGestacoesAnteriores(resultSet.getInt("numGestacoesAnteriores"));
                     paciente.setVacinas(resultSet.getString("vacinas"));
                     paciente.setPeso(resultSet.getFloat("peso"));
-                    paciente.setCondicoesPreEx(resultSet.getString("condicoespreex"));
+                    paciente.setCondicoesPreEx(resultSet.getString("condicoesPreEx"));
                 }
             }
 
@@ -194,7 +194,7 @@ public class PacienteDAO {
     }
 
     public static PacienteModel buscarPorEmail(String email) {
-        String sql = "SELECT p.cpf, p.nome, p.idade, p.telefonecontato, p.endereco, p.tipoplanosaude, p.tiposanguineo, p.alergias, p.numgestacoesanteriores, p.vacinas, p.peso, p.condicoespreex, u.email, u.senha, u.nomeUsuario " +
+        String sql = "SELECT p.cpf, p.nome, p.idade, p.telefoneContato, p.endereco, p.tipoPlanodeSaude, p.tipoSanguineo, p.alergias, p.numGestacoesAnteriores, p.vacinas, p.peso, p.condicoesPreEx, u.email, u.senha, u.nomeUsuario " +
                 "FROM paciente p JOIN Usuario u ON p.email = u.email WHERE u.email = ?";
         PacienteModel paciente = null;
 
@@ -210,15 +210,15 @@ public class PacienteDAO {
                     paciente.setSenha(resultSet.getString("senha"));
                     paciente.setCpf(resultSet.getString("cpf"));
                     paciente.setIdade(resultSet.getInt("idade"));
-                    paciente.setTelefoneContato(resultSet.getString("telefonecontato"));
+                    paciente.setTelefoneContato(resultSet.getString("telefoneContato"));
                     paciente.setEndereco(resultSet.getString("endereco"));
-                    paciente.setTipoPlanoSaude(resultSet.getString("tipoplanosaude"));
-                    paciente.setTipoSanguineo(resultSet.getString("tiposanguineo"));
+                    paciente.setTipoPlanoSaude(resultSet.getString("tipoPlanodeSaude"));
+                    paciente.setTipoSanguineo(resultSet.getString("tipoSanguineo"));
                     paciente.setAlergias(resultSet.getString("alergias"));
-                    paciente.setNumGestacoesAnteriores(resultSet.getInt("numgestacoesanteriores"));
+                    paciente.setNumGestacoesAnteriores(resultSet.getInt("numGestacoesAnteriores"));
                     paciente.setVacinas(resultSet.getString("vacinas"));
                     paciente.setPeso(resultSet.getFloat("peso"));
-                    paciente.setCondicoesPreEx(resultSet.getString("condicoespreex"));
+                    paciente.setCondicoesPreEx(resultSet.getString("condicoesPreEx"));
 
                 }
             }
