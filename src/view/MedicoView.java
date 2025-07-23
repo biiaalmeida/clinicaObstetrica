@@ -1,7 +1,9 @@
 package view;
 
-import controle.MedicoControle;
 import java.util.Scanner;
+
+import DAO.MedicoDAO;
+import controle.MedicoControle;
 import model.MedicoModel;
 
 public class MedicoView {
@@ -24,7 +26,7 @@ public class MedicoView {
     public void exibirMenuMedicoLogadoPorEmail(String email) {
         MedicoControle medicoControle = new MedicoControle();
         int opcao;
-            
+        MedicoModel medicoLogado = MedicoDAO.buscarMedPorEmail(email);
         do {
             System.out.println("=== BEM-VINDO, MÉDICO ===");
             System.out.println("1. Visualizar meus dados");
@@ -33,27 +35,29 @@ public class MedicoView {
             System.out.println("4. Sair");
             opcao = scanner.nextInt();
             scanner.nextLine();
-            
             switch (opcao) {
                 case 1:
-                    System.out.println(" DADOS:");
-                    medicoControle.imprimirMedicoPorEmail(email);
+                    // Recarrega os dados do banco antes de mostrar
+                    medicoLogado = MedicoDAO.buscarMedPorEmail(email);
+                    System.out.println("DADOS ATUALIZADOS:");
+                    System.out.println(medicoLogado);
                     break;
                 case 2:
                     System.out.println("ATUALIZAR DADOS:");
                     MedicoModel medico = new MedicoModel();
                     medico.setEmail(email);
-                        
                     System.out.print("Informe o novo nome: ");
                     medico.setNomeUsuario(scanner.nextLine());
                     System.out.print("Informe a nova senha: ");
                     medico.setSenha(scanner.nextLine());
                     System.out.print("Informe a nova especialidade: ");
                     medico.setEspecialidade(scanner.nextLine());
-                    
                     boolean atualizado = medicoControle.atualizarDadosMedico(medico);
                     if (atualizado) {
-                        System.out.println("Dados atualizados com sucesso!");
+                        // Recarrega os dados do banco e mostra imediatamente
+                        medicoLogado = MedicoDAO.buscarMedPorEmail(email);
+                        System.out.println("Veja abaixo seus dados atualizados:");
+                        System.out.println(medicoLogado);
                     } else {
                         System.out.println("Erro ao atualizar os dados.");
                     }
@@ -128,32 +132,80 @@ public class MedicoView {
     private void agendarConsulta(MedicoModel medico, controle.ConsultaControle consultaControle) {
         System.out.print("CPF do paciente: ");
         String cpfPaciente = scanner.nextLine().trim();
-        
-        System.out.print("Data da consulta (formato: YYYY-MM-DD): ");
-        String dataConsulta = scanner.nextLine().trim();
-        
+
         // Buscar o paciente pelo CPF usando o método correto
         model.PacienteModel paciente = DAO.PacienteDAO.buscarPaciente(cpfPaciente);
-        
+
         if (paciente == null) {
             System.out.println("Paciente não encontrado com CPF: " + cpfPaciente);
             return;
         }
-        
+
+        // Solicitar todos os campos obrigatórios da consulta com laço de validação
+        String dataConsulta = "";
+        String dataPrevistaParto = "";
+        String dataUltimaMenstruacao = "";
+        String tipoParto = "";
+        String qtdSemanas = "";
+
+        // Validação obrigatória para todos os campos
+        while (dataConsulta.isEmpty()) {
+            System.out.print("Data da consulta (formato: YYYY-MM-DD): ");
+            dataConsulta = scanner.nextLine().trim();
+            if (dataConsulta.isEmpty()) System.out.println("Campo obrigatório! Digite a data da consulta.");
+        }
+        while (dataPrevistaParto.isEmpty()) {
+            System.out.print("Data prevista do parto (formato: YYYY-MM-DD): ");
+            dataPrevistaParto = scanner.nextLine().trim();
+            if (dataPrevistaParto.isEmpty()) System.out.println("Campo obrigatório! Digite a data prevista do parto.");
+        }
+        while (dataUltimaMenstruacao.isEmpty()) {
+            System.out.print("Data da última menstruação (formato: YYYY-MM-DD): ");
+            dataUltimaMenstruacao = scanner.nextLine().trim();
+            if (dataUltimaMenstruacao.isEmpty()) System.out.println("Campo obrigatório! Digite a data da última menstruação.");
+        }
+        while (tipoParto.isEmpty()) {
+            System.out.print("Tipo de parto: ");
+            tipoParto = scanner.nextLine().trim();
+            if (tipoParto.isEmpty()) System.out.println("Campo obrigatório! Digite o tipo de parto.");
+        }
+        while (qtdSemanas.isEmpty()) {
+            System.out.print("Quantidade de semanas de gestação: ");
+            qtdSemanas = scanner.nextLine().trim();
+            if (qtdSemanas.isEmpty()) System.out.println("Campo obrigatório! Digite a quantidade de semanas de gestação.");
+        }
+
         // Criar nova consulta
         model.ConsultaModel novaConsulta = new model.ConsultaModel();
         novaConsulta.setMedico(medico);
         novaConsulta.setPaciente(paciente);
-        
-        // Converter String para LocalDate
+
+        // Converter Strings para LocalDate
         try {
             java.time.LocalDate data = java.time.LocalDate.parse(dataConsulta);
             novaConsulta.setDataConsulta(data);
         } catch (Exception e) {
-            System.out.println("Formato de data inválido! Use YYYY-MM-DD");
+            System.out.println("Formato de data da consulta inválido! Use YYYY-MM-DD");
             return;
         }
-        
+        try {
+            java.time.LocalDate dataParto = java.time.LocalDate.parse(dataPrevistaParto);
+            novaConsulta.setDataPrevistaParto(dataParto);
+        } catch (Exception e) {
+            System.out.println("Formato de data prevista do parto inválido! Use YYYY-MM-DD");
+            return;
+        }
+        try {
+            java.time.LocalDate dataMenstruacao = java.time.LocalDate.parse(dataUltimaMenstruacao);
+            novaConsulta.setDataUltimaMenstrucao(dataMenstruacao);
+        } catch (Exception e) {
+            System.out.println("Formato de data da última menstruação inválido! Use YYYY-MM-DD");
+            return;
+        }
+
+        novaConsulta.setTipoParto(tipoParto);
+        novaConsulta.setQtdSemanas(qtdSemanas);
+
         boolean sucesso = consultaControle.cadastrarConsulta(novaConsulta);
         if (sucesso) {
             System.out.println("Consulta agendada com sucesso!");

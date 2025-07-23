@@ -71,7 +71,6 @@ public class DemoClinica {
             System.out.println("Bem-vindo(a), " + usuario.getNomeUsuario() + "!");
             
             String tipoUsuario = usuarioControle.verificarTipoUsuario(email);
-            System.out.println("Tipo de usuario: " + tipoUsuario);
             
             redirecionarPorTipo(tipoUsuario, usuario);
         } else {
@@ -102,41 +101,29 @@ public class DemoClinica {
         System.out.println("\n=== CADASTRO DE USUARIO ===");
         System.out.print("Nome completo: ");
         String nome = scanner.nextLine().trim();
-        
         if (nome.isEmpty()) {
             System.out.println("Nome nao pode ser vazio!");
             return;
         }
-        
         System.out.print("Email: ");
         String email = scanner.nextLine().trim();
-        
         if (email.isEmpty()) {
             System.out.println("Email nao pode ser vazio!");
             return;
         }
-        
         System.out.print("Senha: ");
         String senha = scanner.nextLine().trim();
-        
         if (senha.isEmpty()) {
             System.out.println("Senha nao pode ser vazia!");
             return;
         }
-        
         UsuarioControle usuarioControle = new UsuarioControle();
-        
-        // Identificar automaticamente o tipo pelo email
         String tipoUsuario = usuarioControle.verificarTipoUsuario(email);
-        
         if (tipoUsuario.equals("MEDICO")) {
-            // Cadastro completo de médico
             System.out.print("CRM: ");
             String crm = scanner.nextLine().trim();
-            
             System.out.print("Especialidade: ");
             String especialidade = scanner.nextLine().trim();
-            
             boolean sucessoMedico = usuarioControle.cadastrarMedicoCompleto(nome, email, senha, crm, especialidade);
             if (sucessoMedico) {
                 System.out.println("Medico cadastrado com sucesso!");
@@ -144,18 +131,52 @@ public class DemoClinica {
                 System.out.println("Erro ao cadastrar medico!");
             }
         } else {
-            // Cadastro completo de paciente
             System.out.print("CPF (apenas numeros): ");
             String cpf = scanner.nextLine().trim();
-            
             System.out.print("Idade: ");
-            int idade = scanner.nextInt();
-            scanner.nextLine(); // limpar buffer
-            
+            int idade = 0;
+            try {
+                idade = Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Idade inválida!");
+                return;
+            }
             System.out.print("Telefone: ");
             String telefone = scanner.nextLine().trim();
-            
-            boolean sucessoPaciente = usuarioControle.cadastrarPacienteCompleto(nome, email, senha, cpf, idade, telefone);
+            System.out.print("Endereço: ");
+            String endereco = scanner.nextLine().trim();
+            System.out.print("Plano de saúde: ");
+            String tipoPlanoSaude = scanner.nextLine().trim();
+            System.out.print("Tipo sanguíneo: ");
+            String tipoSanguineo = scanner.nextLine().trim();
+            System.out.print("Alergias: ");
+            String alergias = scanner.nextLine().trim();
+            System.out.print("Número de gestações anteriores: ");
+            int numGestacoesAnteriores = 0;
+            try {
+                numGestacoesAnteriores = Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Número de gestações inválido!");
+                return;
+            }
+            System.out.print("Vacinas: ");
+            String vacinas = scanner.nextLine().trim();
+            System.out.print("Peso (kg): ");
+            float peso = 0.0f;
+            try {
+                String pesoStr = scanner.nextLine().trim();
+                if (!pesoStr.isEmpty()) {
+                    peso = Float.parseFloat(pesoStr);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Peso inválido!");
+                return;
+            }
+            System.out.print("Condições pré-existentes: ");
+            String condicoesPreEx = scanner.nextLine().trim();
+            boolean sucessoPaciente = usuarioControle.cadastrarPacienteCompleto(
+                nome, email, senha, cpf, idade, telefone, endereco, tipoPlanoSaude, tipoSanguineo, alergias, numGestacoesAnteriores, vacinas, peso, condicoesPreEx
+            );
             if (sucessoPaciente) {
                 System.out.println("Paciente cadastrado com sucesso!");
             } else {

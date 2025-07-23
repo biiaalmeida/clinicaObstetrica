@@ -68,7 +68,7 @@ public class MedicoDAO {
                     stmtMedico.setString(2, medico.getCrm());
                     stmtMedico.executeUpdate();
                 }
-                
+        
                 connection.commit();
                 System.out.println("Médico editado com sucesso!");
                 return true;

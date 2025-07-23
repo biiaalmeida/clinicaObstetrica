@@ -135,8 +135,10 @@ public class UsuarioControle {
             return false;
         }
     }
-    
-    public boolean cadastrarPacienteCompleto(String nome, String email, String senha, String cpf, int idade, String telefone) {
+
+
+    // Novo método para cadastro completo de paciente
+    public boolean cadastrarPacienteCompleto(String nome, String email, String senha, String cpf, int idade, String telefone, String endereco, String tipoPlanoSaude, String tipoSanguineo, String alergias, int numGestacoesAnteriores, String vacinas, float peso, String condicoesPreEx) {
         try {
             PacienteModel novoPaciente = new PacienteModel();
             novoPaciente.setNomeUsuario(nome);
@@ -145,27 +147,21 @@ public class UsuarioControle {
             novoPaciente.setCpf(cpf);
             novoPaciente.setIdade(idade);
             novoPaciente.setTelefoneContato(telefone);
-            
-            // Preencher campos obrigatórios com valores padrão
-            novoPaciente.setEndereco("");
-            novoPaciente.setTipoPlanoSaude("");
-            novoPaciente.setTipoSanguineo("");
-            novoPaciente.setAlergias("");
-            novoPaciente.setNumGestacoesAnteriores(0);
-            novoPaciente.setVacinas("");
-            novoPaciente.setPeso(0.0f);
-            novoPaciente.setCondicoesPreEx("");
-            
+            novoPaciente.setEndereco(endereco);
+            novoPaciente.setTipoPlanoSaude(tipoPlanoSaude);
+            novoPaciente.setTipoSanguineo(tipoSanguineo);
+            novoPaciente.setAlergias(alergias);
+            novoPaciente.setNumGestacoesAnteriores(numGestacoesAnteriores);
+            novoPaciente.setVacinas(vacinas);
+            novoPaciente.setPeso(peso);
+            novoPaciente.setCondicoesPreEx(condicoesPreEx);
             PacienteDAO pacienteDAO = new PacienteDAO();
             boolean sucesso = pacienteDAO.cadastrarPaciente(novoPaciente);
-            
-            return true;
-            
+            return sucesso;
         } catch (Exception e) {
             System.out.println("Erro no cadastro: " + e.getMessage());
             return false;
         }
-        
     }
     
     public String identificarTipoPorEmail(String email) {

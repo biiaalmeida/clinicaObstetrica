@@ -65,9 +65,7 @@ public class PacienteDAO {
         String sqlPaciente = "INSERT INTO paciente (cpf, nome, idade, telefonecontato, endereco, tipoplanosaude, tiposanguineo, alergias, numgestacoesanteriores, vacinas, peso, condicoespreex, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ConexaoPostgres.getConexao()) {
-            
             connection.setAutoCommit(false);
-            
             try {
                 try (PreparedStatement stmtUsuario = connection.prepareStatement(sqlUsuario)) {
                     stmtUsuario.setString(1, paciente.getNomeUsuario());
@@ -75,7 +73,6 @@ public class PacienteDAO {
                     stmtUsuario.setString(3, paciente.getSenha());
                     stmtUsuario.executeUpdate();
                 }
-                
                 try (PreparedStatement stmtPaciente = connection.prepareStatement(sqlPaciente)) {
                     stmtPaciente.setString(1, paciente.getCpf());
                     stmtPaciente.setString(2, paciente.getNomeUsuario());
@@ -87,27 +84,22 @@ public class PacienteDAO {
                     stmtPaciente.setString(8, paciente.getAlergias());
                     stmtPaciente.setInt(9, paciente.getNumGestacoesAnteriores());
                     stmtPaciente.setString(10, paciente.getVacinas());
-                    
                     // Tratamento para peso que pode ser null
                     if (paciente.getPeso() != null) {
                         stmtPaciente.setFloat(11, paciente.getPeso());
                     } else {
                         stmtPaciente.setNull(11, java.sql.Types.FLOAT);
                     }
-                    
                     stmtPaciente.setString(12, paciente.getCondicoesPreEx());
                     stmtPaciente.setString(13, paciente.getEmail());
                     stmtPaciente.executeUpdate();
                 }
-                
                 connection.commit();
                 return true;
-                
             } catch (SQLException e) {
                 connection.rollback();
-                throw e;
+                return false;
             }
-            
         } catch (SQLException e) {
             return false;
         }
@@ -115,7 +107,7 @@ public class PacienteDAO {
 
     public boolean editarPaciente(PacienteModel paciente) {
         String sqlUsuario = "UPDATE Usuario SET nomeUsuario = ?, senha = ? WHERE email = ?";
-        String sqlPaciente = "UPDATE paciente SET idade = ?, telefonecontato = ?, endereco = ?, tipoplanosaude = ?, alergias = ?, numgestacoesanteriores = ?, vacinas = ?, peso = ?, condicoespreex = ? WHERE cpf = ?";
+        String sqlPaciente = "UPDATE paciente SET nome = ?, idade = ?, telefonecontato = ?, endereco = ?, tipoplanosaude = ?, tiposanguineo = ?, alergias = ?, numgestacoesanteriores = ?, vacinas = ?, peso = ?, condicoespreex = ? WHERE cpf = ?";
     
         try (Connection connection = ConexaoPostgres.getConexao()) {
             
@@ -128,25 +120,24 @@ public class PacienteDAO {
                     stmtUsuario.setString(3, paciente.getEmail());
                     stmtUsuario.executeUpdate();
                 }
-                
                 try (PreparedStatement stmtPaciente = connection.prepareStatement(sqlPaciente)) {
-                    stmtPaciente.setInt(1, paciente.getIdade());
-                    stmtPaciente.setString(2, paciente.getTelefoneContato());
-                    stmtPaciente.setString(3, paciente.getEndereco());
-                    stmtPaciente.setString(4, paciente.getTipoPlanoSaude());
-                    stmtPaciente.setString(5, paciente.getAlergias());
-                    stmtPaciente.setInt(6, paciente.getNumGestacoesAnteriores());
-                    stmtPaciente.setString(7, paciente.getVacinas());
-                    
+                    stmtPaciente.setString(1, paciente.getNomeUsuario());
+                    stmtPaciente.setInt(2, paciente.getIdade());
+                    stmtPaciente.setString(3, paciente.getTelefoneContato());
+                    stmtPaciente.setString(4, paciente.getEndereco());
+                    stmtPaciente.setString(5, paciente.getTipoPlanoSaude());
+                    stmtPaciente.setString(6, paciente.getTipoSanguineo());
+                    stmtPaciente.setString(7, paciente.getAlergias());
+                    stmtPaciente.setInt(8, paciente.getNumGestacoesAnteriores());
+                    stmtPaciente.setString(9, paciente.getVacinas());
                     // Tratamento para peso que pode ser null
                     if (paciente.getPeso() != null) {
-                        stmtPaciente.setFloat(8, paciente.getPeso());
+                        stmtPaciente.setFloat(10, paciente.getPeso());
                     } else {
-                        stmtPaciente.setNull(8, java.sql.Types.FLOAT);
+                        stmtPaciente.setNull(10, java.sql.Types.FLOAT);
                     }
-                    
-                    stmtPaciente.setString(9, paciente.getCondicoesPreEx());
-                    stmtPaciente.setString(10, paciente.getCpf());
+                    stmtPaciente.setString(11, paciente.getCondicoesPreEx());
+                    stmtPaciente.setString(12, paciente.getCpf());
                     stmtPaciente.executeUpdate();
                 }
                 

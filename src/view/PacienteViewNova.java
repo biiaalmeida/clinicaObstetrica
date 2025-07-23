@@ -109,14 +109,11 @@ public class PacienteViewNova {
                     System.out.println("ATUALIZAR DADOS:");
                     PacienteModel paciente = new PacienteModel();
                     paciente.setCpf(pacienteLogado.getCpf());
-
+                    paciente.setEmail(pacienteLogado.getEmail());
                     System.out.print("Informe o novo nome: ");
                     paciente.setNomeUsuario(scanner.nextLine());
-                    System.out.print("Informe o novo email: ");
-                    paciente.setEmail(scanner.nextLine());
                     System.out.print("Informe a nova senha: ");
                     paciente.setSenha(scanner.nextLine());
-                    
                     System.out.print("Informe a nova idade: ");
                     try {
                         paciente.setIdade(scanner.nextInt());
@@ -132,9 +129,10 @@ public class PacienteViewNova {
                     paciente.setEndereco(scanner.nextLine());
                     System.out.print("Informe o novo tipo de plano de saúde: ");
                     paciente.setTipoPlanoSaude(scanner.nextLine());
+                    System.out.print("Informe o novo tipo sanguíneo: ");
+                    paciente.setTipoSanguineo(scanner.nextLine());
                     System.out.print("Informe as alergias: ");
                     paciente.setAlergias(scanner.nextLine());
-                    
                     System.out.print("Informe o número de gestações anteriores: ");
                     try {
                         paciente.setNumGestacoesAnteriores(scanner.nextInt());
@@ -144,10 +142,8 @@ public class PacienteViewNova {
                         paciente.setNumGestacoesAnteriores(0);
                         scanner.nextLine(); // limpar buffer
                     }
-                    
                     System.out.print("Informe as vacinas: ");
                     paciente.setVacinas(scanner.nextLine());
-                    
                     System.out.print("Informe o peso (kg): ");
                     try {
                         paciente.setPeso(scanner.nextFloat());
@@ -157,15 +153,12 @@ public class PacienteViewNova {
                         paciente.setPeso(0.0f);
                         scanner.nextLine(); // limpar buffer
                     }
-                    
                     System.out.print("Informe condições pré-existentes: ");
                     paciente.setCondicoesPreEx(scanner.nextLine());
-                    
                     PacienteControle pacienteControle = new PacienteControle();
                     boolean atualizado = pacienteControle.atualizarDadosPaciente(paciente);
                     if (atualizado) {
                         System.out.println("Dados atualizados com sucesso!");
-                        // Recarregar os dados do paciente do banco de dados e mostrar imediatamente
                         PacienteModel pacienteAtualizado = PacienteDAO.buscarPaciente(pacienteLogado.getCpf());
                         if (pacienteAtualizado != null) {
                             pacienteLogado = pacienteAtualizado;
