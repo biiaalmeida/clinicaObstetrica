@@ -62,7 +62,7 @@ public class PacienteDAO {
     // Método para cadastro completo
     public boolean cadastrarPaciente(PacienteModel paciente) {
         String sqlUsuario = "INSERT INTO Usuario (nomeUsuario, email, senha) VALUES (?, ?, ?)";
-        String sqlPaciente = "INSERT INTO paciente (cpfPaciente, nome, idade, telefoneContato, endereco, tipoPlanodeSaude, tipoSanguineo, alergias, numGestacoesAnteriores, vacinas, peso, condicoesPreEx, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlPaciente = "INSERT INTO paciente (cpf, idade, telefoneContato, endereco, tipoPlanodeSaude, tipoSanguineo, alergias, numGestacoesAnteriores, vacinas, peso, condicoesPreEx, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ConexaoPostgres.getConexao()) {
             connection.setAutoCommit(false);
@@ -75,53 +75,6 @@ public class PacienteDAO {
                 }
                 try (PreparedStatement stmtPaciente = connection.prepareStatement(sqlPaciente)) {
                     stmtPaciente.setString(1, paciente.getCpf());
-                    stmtPaciente.setString(2, paciente.getNomeUsuario());
-                    stmtPaciente.setInt(3, paciente.getIdade());
-                    stmtPaciente.setString(4, paciente.getTelefoneContato());
-                    stmtPaciente.setString(5, paciente.getEndereco());
-                    stmtPaciente.setString(6, paciente.getTipoPlanoSaude());
-                    stmtPaciente.setString(7, paciente.getTipoSanguineo());
-                    stmtPaciente.setString(8, paciente.getAlergias());
-                    stmtPaciente.setInt(9, paciente.getNumGestacoesAnteriores());
-                    stmtPaciente.setString(10, paciente.getVacinas());
-                    // Tratamento para peso que pode ser null
-                    if (paciente.getPeso() != null) {
-                        stmtPaciente.setFloat(11, paciente.getPeso());
-                    } else {
-                        stmtPaciente.setNull(11, java.sql.Types.FLOAT);
-                    }
-                    stmtPaciente.setString(12, paciente.getCondicoesPreEx());
-                    stmtPaciente.setString(13, paciente.getEmail());
-                    stmtPaciente.executeUpdate();
-                }
-                connection.commit();
-                return true;
-            } catch (SQLException e) {
-                connection.rollback();
-                return false;
-            }
-        } catch (SQLException e) {
-            return false;
-        }
-    }   
-
-    public boolean editarPaciente(PacienteModel paciente) {
-        String sqlUsuario = "UPDATE Usuario SET nomeUsuario = ?, senha = ? WHERE email = ?";
-        String sqlPaciente = "UPDATE paciente SET idade = ?, telefonecontato = ?, endereco = ?, tipoplanosaude = ?, alergias = ?, numgestacoesanteriores = ?, vacinas = ?, peso = ?, condicoespreex = ? WHERE cpf = ?";
-    
-        try (Connection connection = ConexaoPostgres.getConexao()) {
-            
-            connection.setAutoCommit(false);
-            
-            try {
-                try (PreparedStatement stmtUsuario = connection.prepareStatement(sqlUsuario)) {
-                    stmtUsuario.setString(1, paciente.getNomeUsuario());
-                    stmtUsuario.setString(2, paciente.getSenha());
-                    stmtUsuario.setString(3, paciente.getEmail());
-                    stmtUsuario.executeUpdate();
-                }
-                try (PreparedStatement stmtPaciente = connection.prepareStatement(sqlPaciente)) {
-                    stmtPaciente.setString(1, paciente.getNomeUsuario());
                     stmtPaciente.setInt(2, paciente.getIdade());
                     stmtPaciente.setString(3, paciente.getTelefoneContato());
                     stmtPaciente.setString(4, paciente.getEndereco());
@@ -137,7 +90,56 @@ public class PacienteDAO {
                         stmtPaciente.setNull(10, java.sql.Types.FLOAT);
                     }
                     stmtPaciente.setString(11, paciente.getCondicoesPreEx());
-                    stmtPaciente.setString(12, paciente.getCpf());
+                    stmtPaciente.setString(12, paciente.getEmail());
+                    stmtPaciente.executeUpdate();
+                }
+                connection.commit();
+                return true;
+            } catch (SQLException e) {
+                connection.rollback();
+                System.err.println("Erro SQL ao cadastrar paciente: " + e.getMessage());
+                e.printStackTrace();
+                return false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro de conexão ao cadastrar paciente: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }   
+
+    public boolean editarPaciente(PacienteModel paciente) {
+        String sqlUsuario = "UPDATE Usuario SET nomeUsuario = ?, senha = ? WHERE email = ?";
+        String sqlPaciente = "UPDATE paciente SET idade = ?, telefoneContato = ?, endereco = ?, tipoPlanodeSaude = ?, tipoSanguineo = ?, alergias = ?, numGestacoesAnteriores = ?, vacinas = ?, peso = ?, condicoesPreEx = ? WHERE cpf = ?";
+    
+        try (Connection connection = ConexaoPostgres.getConexao()) {
+            
+            connection.setAutoCommit(false);
+            
+            try {
+                try (PreparedStatement stmtUsuario = connection.prepareStatement(sqlUsuario)) {
+                    stmtUsuario.setString(1, paciente.getNomeUsuario());
+                    stmtUsuario.setString(2, paciente.getSenha());
+                    stmtUsuario.setString(3, paciente.getEmail());
+                    stmtUsuario.executeUpdate();
+                }
+                try (PreparedStatement stmtPaciente = connection.prepareStatement(sqlPaciente)) {
+                    stmtPaciente.setInt(1, paciente.getIdade());
+                    stmtPaciente.setString(2, paciente.getTelefoneContato());
+                    stmtPaciente.setString(3, paciente.getEndereco());
+                    stmtPaciente.setString(4, paciente.getTipoPlanoSaude());
+                    stmtPaciente.setString(5, paciente.getTipoSanguineo());
+                    stmtPaciente.setString(6, paciente.getAlergias());
+                    stmtPaciente.setInt(7, paciente.getNumGestacoesAnteriores());
+                    stmtPaciente.setString(8, paciente.getVacinas());
+                    // Tratamento para peso que pode ser null
+                    if (paciente.getPeso() != null) {
+                        stmtPaciente.setFloat(9, paciente.getPeso());
+                    } else {
+                        stmtPaciente.setNull(9, java.sql.Types.FLOAT);
+                    }
+                    stmtPaciente.setString(10, paciente.getCondicoesPreEx());
+                    stmtPaciente.setString(11, paciente.getCpf());
                     stmtPaciente.executeUpdate();
                 }
                 
@@ -157,7 +159,7 @@ public class PacienteDAO {
     }
 
     public static PacienteModel buscarPaciente(String cpf) {
-        String sql = "SELECT p.cpf, p.nome, p.idade, p.telefoneContato, p.endereco, p.tipoPlanodeSaude, p.tipoSanguineo, p.alergias, p.numGestacoesAnteriores, p.vacinas, p.peso, p.condicoesPreEx, u.email, u.senha, u.nomeUsuario " +
+        String sql = "SELECT p.cpf, p.idade, p.telefoneContato, p.endereco, p.tipoPlanodeSaude, p.tipoSanguineo, p.alergias, p.numGestacoesAnteriores, p.vacinas, p.peso, p.condicoesPreEx, u.email, u.senha, u.nomeUsuario " +
                 "FROM paciente p JOIN Usuario u ON p.email = u.email WHERE p.cpf = ?";
     
         PacienteModel paciente = null;
@@ -194,7 +196,7 @@ public class PacienteDAO {
     }
 
     public static PacienteModel buscarPorEmail(String email) {
-        String sql = "SELECT p.cpf, p.nome, p.idade, p.telefoneContato, p.endereco, p.tipoPlanodeSaude, p.tipoSanguineo, p.alergias, p.numGestacoesAnteriores, p.vacinas, p.peso, p.condicoesPreEx, u.email, u.senha, u.nomeUsuario " +
+        String sql = "SELECT p.cpf, p.idade, p.telefoneContato, p.endereco, p.tipoPlanodeSaude, p.tipoSanguineo, p.alergias, p.numGestacoesAnteriores, p.vacinas, p.peso, p.condicoesPreEx, u.email, u.senha, u.nomeUsuario " +
                 "FROM paciente p JOIN Usuario u ON p.email = u.email WHERE u.email = ?";
         PacienteModel paciente = null;
 

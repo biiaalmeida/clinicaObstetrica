@@ -1,9 +1,8 @@
 package view;
 
-import java.util.Scanner;
-
 import DAO.MedicoDAO;
 import controle.MedicoControle;
+import java.util.Scanner;
 import model.MedicoModel;
 
 public class MedicoView {
@@ -197,7 +196,7 @@ public class MedicoView {
         }
         try {
             java.time.LocalDate dataMenstruacao = java.time.LocalDate.parse(dataUltimaMenstruacao);
-            novaConsulta.setDataUltimaMenstrucao(dataMenstruacao);
+            novaConsulta.setDataUltimaMenstruacao(dataMenstruacao);
         } catch (Exception e) {
             System.out.println("Formato de data da última menstruação inválido! Use YYYY-MM-DD");
             return;

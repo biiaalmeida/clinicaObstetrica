@@ -66,7 +66,7 @@ public class UsuarioView {
                         break;
 
                     case 2:
-                        System.out.println("\n=== CADASTRO DE USUÁRIO ===");
+                        System.out.println("\n=== CADASTRO DE USUARIO ===");
                         System.out.print("Nome completo: ");
                         String nome = scanner.nextLine().trim();
                         System.out.print("Email: ");
