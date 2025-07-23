@@ -70,7 +70,7 @@ public class MedicoDAO {
                 }
         
                 connection.commit();
-                System.out.println("Médico editado com sucesso!");
+                System.out.println("Medico editado com sucesso!");
                 return true;
                 
             } catch (SQLException e) {

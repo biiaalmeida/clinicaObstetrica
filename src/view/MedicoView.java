@@ -27,7 +27,7 @@ public class MedicoView {
         int opcao;
         MedicoModel medicoLogado = MedicoDAO.buscarMedPorEmail(email);
         do {
-            System.out.println("=== BEM-VINDO, MÉDICO ===");
+            System.out.println("=== BEM-VINDO, MEDICO ===");
             System.out.println("1. Visualizar meus dados");
             System.out.println("2. Atualizar meus dados");
             System.out.println("3. Gerenciar consultas");
@@ -43,8 +43,16 @@ public class MedicoView {
                     break;
                 case 2:
                     System.out.println("ATUALIZAR DADOS:");
+                    // Primeiro busca os dados atuais do médico para obter o CRM
+                    MedicoModel medicoAtual = MedicoDAO.buscarMedPorEmail(email);
+                    if (medicoAtual == null) {
+                        System.out.println("Erro: Dados do medico nao encontrados!");
+                        break;
+                    }
+                    
                     MedicoModel medico = new MedicoModel();
                     medico.setEmail(email);
+                    medico.setCrm(medicoAtual.getCrm()); // Define o CRM necessário para o UPDATE
                     System.out.print("Informe o novo nome: ");
                     medico.setNomeUsuario(scanner.nextLine());
                     System.out.print("Informe a nova senha: ");
