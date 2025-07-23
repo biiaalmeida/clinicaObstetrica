@@ -74,24 +74,51 @@ public class PacienteDAO {
                     stmtUsuario.executeUpdate();
                 }
                 try (PreparedStatement stmtPaciente = connection.prepareStatement(sqlPaciente)) {
+                    System.out.println("DEBUG: Inserindo dados do paciente...");
+                    System.out.println("DEBUG: CPF = " + paciente.getCpf());
                     stmtPaciente.setString(1, paciente.getCpf());
+                    
+                    System.out.println("DEBUG: Idade = " + paciente.getIdade());
                     stmtPaciente.setInt(2, paciente.getIdade());
+                    
+                    System.out.println("DEBUG: Telefone = " + paciente.getTelefoneContato());
                     stmtPaciente.setString(3, paciente.getTelefoneContato());
+                    
+                    System.out.println("DEBUG: Endereco = " + paciente.getEndereco());
                     stmtPaciente.setString(4, paciente.getEndereco());
+                    
+                    System.out.println("DEBUG: Plano de saude = " + paciente.getTipoPlanoSaude());
                     stmtPaciente.setString(5, paciente.getTipoPlanoSaude());
+                    
+                    System.out.println("DEBUG: Tipo sanguineo = " + paciente.getTipoSanguineo());
                     stmtPaciente.setString(6, paciente.getTipoSanguineo());
+                    
+                    System.out.println("DEBUG: Alergias = " + paciente.getAlergias());
                     stmtPaciente.setString(7, paciente.getAlergias());
+                    
+                    System.out.println("DEBUG: Gestacoes anteriores = " + paciente.getNumGestacoesAnteriores());
                     stmtPaciente.setInt(8, paciente.getNumGestacoesAnteriores());
+                    
+                    System.out.println("DEBUG: Vacinas = " + paciente.getVacinas());
                     stmtPaciente.setString(9, paciente.getVacinas());
+                    
+                    System.out.println("DEBUG: Peso = " + paciente.getPeso());
                     // Tratamento para peso que pode ser null
                     if (paciente.getPeso() != null) {
                         stmtPaciente.setFloat(10, paciente.getPeso());
                     } else {
                         stmtPaciente.setNull(10, java.sql.Types.FLOAT);
                     }
+                    
+                    System.out.println("DEBUG: Condicoes pre-existentes = " + paciente.getCondicoesPreEx());
                     stmtPaciente.setString(11, paciente.getCondicoesPreEx());
+                    
+                    System.out.println("DEBUG: Email = " + paciente.getEmail());
                     stmtPaciente.setString(12, paciente.getEmail());
+                    
+                    System.out.println("DEBUG: Executando INSERT do paciente...");
                     stmtPaciente.executeUpdate();
+                    System.out.println("DEBUG: INSERT do paciente executado com sucesso!");
                 }
                 connection.commit();
                 return true;
